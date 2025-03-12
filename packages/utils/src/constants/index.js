@@ -130,6 +130,13 @@ export const ENVIRONMENTS = {
   Development: ['development']
 }
 
+export const DEFAULT_PROXY = {
+  // '/sys-api-proxy': {
+  //   target: 'http://172.31.243.56:3391',
+  //   changeOrigin: true,
+  // },
+}
+
 // 数据源默认拦截器
 export const DEFAULT_INTERCEPTOR = {
   dataHandler: {
