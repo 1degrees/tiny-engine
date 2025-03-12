@@ -70,10 +70,6 @@
     "can_associate": true,
     "data_source_global": {
       "proxy": {
-        "/znzcb": {
-          "target": "http://172.31.243.56:3391",
-          "changeOrigin": true
-        },
         "/mock": {
           "target": "https://mock.apipost.net",
           "changeOrigin": true

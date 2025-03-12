@@ -722,10 +722,6 @@
         "value": "function dataHanlder(res){\n return res;\n}"
       },
       "proxy": {
-        "/znzcb": {
-          "target": "http://172.31.243.56:3391",
-          "changeOrigin": true
-        },
         "/mock": {
           "target": "https://mock.apipost.net",
           "changeOrigin": true
