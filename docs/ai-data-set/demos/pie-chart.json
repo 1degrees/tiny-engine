@@ -1,0 +1,52 @@
+{
+  "componentName": "Page",
+  "fileName": "PieChart",
+  "css": ".page-base-style{\r\n margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  background: #FFFFFF;\r\n}\r\n",
+  "props": {
+    "className": "page-base-style"
+  },
+  "lifeCycles": {},
+  "children": [
+    {
+      "componentName": "TinyChartPie",
+      "props": {
+        "options": {
+          "type": "pie",
+          "selectedMode": "multipe",
+          "data": [
+            {
+              "value": 100,
+              "name": "VPC"
+            },
+            {
+              "value": 90,
+              "name": "IM"
+            },
+            {
+              "value": 49,
+              "name": "EIP"
+            },
+            {
+              "value": 14,
+              "name": "SG"
+            }
+          ]
+        },
+        "className": ""
+      },
+      "children": [],
+      "id": "523525be"
+    }
+  ],
+  "dataSource": {
+    "list": []
+  },
+  "methods": {},
+  "bridge": {
+    "imports": []
+  },
+  "state": {},
+  "inputs": [],
+  "outputs": [],
+  "id": "body"
+}

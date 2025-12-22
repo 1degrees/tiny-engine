@@ -1,0 +1,98 @@
+{
+  "componentName": "Page",
+  "fileName": "HistogramChart",
+  "css": ".page-base-style{\r\n margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  background: #FFFFFF;\r\n}\r\n",
+  "props": {
+    "className": "page-base-style"
+  },
+  "lifeCycles": {},
+  "children": [
+    {
+      "componentName": "TinyChartHistogram",
+      "props": {
+        "options": {
+          "data": [
+            {
+              "Month": "Jan",
+              "Domestic": 33,
+              "Abroad": 1
+            },
+            {
+              "Month": "Feb",
+              "Domestic": 27,
+              "Abroad": 39
+            },
+            {
+              "Month": "Mar",
+              "Domestic": 31,
+              "Abroad": 20
+            },
+            {
+              "Month": "Apr",
+              "Domestic": 30,
+              "Abroad": 15
+            },
+            {
+              "Month": "May",
+              "Domestic": 37,
+              "Abroad": 1
+            },
+            {
+              "Month": "Jun",
+              "Domestic": 36,
+              "Abroad": 17
+            },
+            {
+              "Month": "Jul",
+              "Domestic": 42,
+              "Abroad": 22
+            },
+            {
+              "Month": "Aug",
+              "Domestic": 22,
+              "Abroad": 12
+            },
+            {
+              "Month": "Sep",
+              "Domestic": 17,
+              "Abroad": 30
+            },
+            {
+              "Month": "Oct",
+              "Domestic": 40,
+              "Abroad": 33
+            },
+            {
+              "Month": "Nov",
+              "Domestic": 42,
+              "Abroad": 22
+            },
+            {
+              "Month": "Dec",
+              "Domestic": 32,
+              "Abroad": 1
+            }
+          ],
+          "xAxis": "Month",
+          "yAxis": {
+            "name": "Percent(%)"
+          }
+        },
+        "className": ""
+      },
+      "children": [],
+      "id": "36161624"
+    }
+  ],
+  "dataSource": {
+    "list": []
+  },
+  "methods": {},
+  "bridge": {
+    "imports": []
+  },
+  "state": {},
+  "inputs": [],
+  "outputs": [],
+  "id": "body"
+}

@@ -1,6 +1,6 @@
 {
   "componentName": "Page",
-  "fileName": "TestTabel",
+  "fileName": "TablePager",
   "css": ".page-base-style {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  background: #ffffff;\n}\n",
   "props": {
     "className": "page-base-style page-ytlek"

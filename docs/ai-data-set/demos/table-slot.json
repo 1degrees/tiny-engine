@@ -1,6 +1,6 @@
 {
   "componentName": "Page",
-  "fileName": "TestTabel",
+  "fileName": "TableSlot",
   "css": ".page-base-style {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  background: #ffffff;\n}\n.page-ytlek {\n  padding-top: 32px;\n  padding-left: 12px;\n  padding-right: 12px;\n}\n",
   "props": {
     "className": "page-base-style page-ytlek"

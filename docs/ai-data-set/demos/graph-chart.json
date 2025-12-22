@@ -1,0 +1,192 @@
+{
+  "componentName": "Page",
+  "fileName": "GraphChart",
+  "css": ".page-base-style{\r\n margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  background: #FFFFFF;\r\n}\r\n",
+  "props": {
+    "className": "page-base-style"
+  },
+  "lifeCycles": {},
+  "children": [
+    {
+      "componentName": "TinyChartGraph",
+      "props": {
+        "options": {
+          "title": {
+            "text": ""
+          },
+          "tooltip": {},
+          "animationDurationUpdate": 1500,
+          "animationEasingUpdate": "quinticInOut",
+          "label": {
+            "normal": {
+              "show": true,
+              "textStyle": {
+                "fontSize": 12
+              }
+            }
+          },
+          "series": [
+            {
+              "type": "graph",
+              "layout": "force",
+              "symbolSize": 45,
+              "focusNodeAdjacency": true,
+              "roam": true,
+              "categories": [
+                {
+                  "name": "1",
+                  "itemStyle": {
+                    "normal": {
+                      "color": "#FE7662"
+                    }
+                  }
+                },
+                {
+                  "name": "2",
+                  "itemStyle": {
+                    "normal": {
+                      "color": "#62B3FE"
+                    }
+                  }
+                }
+              ],
+              "label": {
+                "normal": {
+                  "show": true,
+                  "position": "bottom",
+                  "textStyle": {
+                    "fontSize": 12
+                  }
+                }
+              },
+              "force": {
+                "repulsion": 1000
+              },
+              "edgeSymbolSize": [
+                4,
+                50
+              ],
+              "edgeLabel": {
+                "normal": {
+                  "show": true,
+                  "textStyle": {
+                    "fontSize": 10
+                  },
+                  "formatter": "{c}"
+                }
+              },
+              "data": [
+                {
+                  "name": "徐贱云",
+                  "draggable": true
+                },
+                {
+                  "name": "冯可梁",
+                  "draggable": true
+                },
+                {
+                  "name": "邓志荣",
+                  "draggable": true
+                },
+                {
+                  "name": "李荣庆",
+                  "draggable": true
+                },
+                {
+                  "name": "郑志勇",
+                  "draggable": true
+                },
+                {
+                  "name": "赵英杰",
+                  "draggable": true
+                },
+                {
+                  "name": "王承军",
+                  "draggable": true
+                }
+              ],
+              "links": [
+                {
+                  "source": 0,
+                  "target": 1,
+                  "value": "夫妻"
+                },
+                {
+                  "source": 0,
+                  "target": 2,
+                  "value": "子女"
+                },
+                {
+                  "source": 0,
+                  "target": 3,
+                  "value": "夫妻"
+                },
+                {
+                  "source": 0,
+                  "target": 4,
+                  "value": "父母"
+                },
+                {
+                  "source": 1,
+                  "target": 2,
+                  "value": "表亲"
+                },
+                {
+                  "source": 0,
+                  "target": 5,
+                  "value": "朋友"
+                },
+                {
+                  "source": 4,
+                  "target": 5,
+                  "value": "朋友"
+                },
+                {
+                  "source": 2,
+                  "target": 8,
+                  "value": "叔叔"
+                },
+                {
+                  "source": 6,
+                  "target": 3,
+                  "value": "朋友"
+                },
+                {
+                  "source": 7,
+                  "target": 5,
+                  "value": "朋友"
+                },
+                {
+                  "source": 3,
+                  "target": 6,
+                  "value": "朋友"
+                }
+              ],
+              "lineStyle": {
+                "normal": {
+                  "opacity": 0.9,
+                  "width": 1,
+                  "curveness": 0
+                }
+              }
+            }
+          ]
+        },
+        "className": ""
+      },
+      "children": [],
+      "id": "56924525"
+    }
+  ],
+  "dataSource": {
+    "list": []
+  },
+  "methods": {},
+  "bridge": {
+    "imports": []
+  },
+  "state": {},
+  "inputs": [],
+  "outputs": [],
+  "id": "body"
+}
