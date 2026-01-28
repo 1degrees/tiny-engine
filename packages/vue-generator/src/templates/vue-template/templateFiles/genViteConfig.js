@@ -1,7 +1,6 @@
 export default (schema, options) => {
   // 避免在构建的时候，被 process. env 替换
   const processStr = ['process', 'env']
-
   const res = `
   import { defineConfig } from 'vite'
   import path from 'path'
@@ -10,6 +9,10 @@ export default (schema, options) => {
   ${options.enableTailwindCSS ? 'import tailwindcss from "@tailwindcss/vite"' : ''}
   
   export default defineConfig({
+    server: {
+      port: 8080,
+      proxy: ${JSON.stringify(schema.dataSource.proxy || {}, null, 2)},
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src')
@@ -18,6 +21,13 @@ export default (schema, options) => {
     plugins: [vue(), vueJsx(), ${options.enableTailwindCSS ? 'tailwindcss()' : ''}],
     define: {
       '${processStr.join('.')}': { }
+    },
+    css: {
+      preprocessorOptions: {
+        less: {
+          math: "always",
+        },
+      },
     },
     build: {
       minify: true,

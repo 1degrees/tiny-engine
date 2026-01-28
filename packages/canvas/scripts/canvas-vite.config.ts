@@ -9,7 +9,7 @@
  * A PARTICULAR PURPOSE. SEE THE APPLICABLE LICENSES FOR MORE DETAILS.
  *
  */
-
+import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -17,6 +17,7 @@ import nodePolyfill from 'rollup-plugin-polyfill-node'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
+  envDir: path.resolve(__dirname, '../env'),
   plugins: [
     vue(),
     vueJsx(),
@@ -50,7 +51,6 @@ export default defineConfig({
     }
   },
   build: {
-    cssCodeSplit: true,
     rollupOptions: {
       plugins: [nodePolyfill({ include: null })],
       external: [
@@ -58,8 +58,8 @@ export default defineConfig({
         'vue-i18n',
         // 以下内容由于区块和物料公用需要external
         '@opentiny/vue',
-        '@opentiny/vue-icon'
-      ]
+        '@opentiny/vue-icon',
+      ],
     },
     minify: true
   }

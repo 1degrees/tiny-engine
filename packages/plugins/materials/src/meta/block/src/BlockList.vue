@@ -71,7 +71,7 @@ export default {
     },
     gridColumns: {
       type: Number,
-      default: 2
+      default: 1
     }
   },
   emits: ['check', 'close', 'checkAll', 'cancelCheckAll'],
@@ -166,13 +166,10 @@ export default {
     const deleteBlock = ({ id: blockId, label, groupId: id, groupName: name }) => {
       const groupId = id || selectedGroup.value.groupId
       const groupName = name || selectedGroup.value.groupName
-
       const title = `移除区块${label}`
       const messageRender = {
         render: () => (
-          <span>
-            您确定将区块 <b>{label}</b> 从分组 <b>{groupName}</b> 中移除吗?
-          </span>
+          <span>您确定将区块 <b>{label}</b> 从分组 <b>{groupName}</b> 中移除吗?</span>
         )
       }
       const exec = () => {
@@ -183,11 +180,10 @@ export default {
 
             const blocks = data
               ?.filter((item) => item.id !== blockId)
-              .map((block) => ({ id: block.id, version: block.current_version }))
+              .map((block) => ({ id: block.id, version: block.current_version || block.version }))
 
-            requestUpdateGroup({ id: groupId, blocks, app: getAppId() }).then(() => {
-              isRefresh.value = true
-            })
+            requestUpdateGroup({ id: groupId, blocks, app: getAppId() })
+              .then(() => isRefresh.value = true)
           })
           .catch((error) => {
             message({ message: `移除区块失败: ${error.message || error}`, status: 'error' })

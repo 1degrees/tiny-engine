@@ -59,7 +59,7 @@ const mergeProps = (pageProps: Record<string, any> = {}, groups: Property[] = []
     return {
       ...group,
       content: (content || []).map(({ widget, ...prop }) => {
-        const { props, ...meta } = widget
+        const { props, ...meta } = (widget || {})
         const modelValue = pageProps[prop.property] === undefined ? prop.defaultValue : pageProps[prop.property]
 
         return {

@@ -185,7 +185,6 @@ export default {
     display: flex;
     flex-flow: row nowrap;
     z-index: 4;
-    position: relative;
   }
   :deep(.monaco-editor .suggest-widget) {
     border-width: 0;

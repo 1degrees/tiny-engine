@@ -24,7 +24,10 @@ const defaultConfig = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module'
-  }
+  },
+  globals: {
+    vue: 'readonly' // 'readonly' 表示允许读取，但不允许修改
+  },
 }
 
 const config = {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>K-line chart K线图</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="50.0940302%" x2="128.792906%" y2="49.7605136%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="48.7687894%" y1="86.8386573%" x2="66.4391471%" y2="-43.8247114%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.6670806%" y1="86.8386573%" x2="54.4451454%" y2="-43.8247114%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.2800187%" y1="86.8386573%" x2="59.6132037%" y2="-43.8247114%" id="linearGradient-4">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#FFCC00" offset="0%"></stop>
+            <stop stop-color="#FF9D00" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件总览" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览3" transform="translate(-696.000000, -1434.000000)">
+            <g id="编组-17备份-2" transform="translate(598.000000, 1401.000000)">
+                <g id="K-line-chart-K线图" transform="translate(98.000000, 33.000000)">
+                    <g id="编组"></g>
+                    <g id="K线图" transform="translate(32.000000, 37.000000)">
+                        <polygon id="路径" fill="url(#linearGradient-1)" points="3.44444445 49.8676267 0 49.8676267 0 53 62 53 62 49.8676267"></polygon>
+                        <polygon id="路径" fill="url(#linearGradient-2)" opacity="0.303770519" points="21.4615385 33.0639401 24.9059829 33.0639401 24.9059829 27.843318 28.3504274 27.843318 28.3504274 13.921659 24.9059829 13.921659 24.9059829 10.4412443 21.4615385 10.4412443 21.4615385 13.921659 18.0170941 13.921659 18.0170941 27.843318 21.4615385 27.843318"></polygon>
+                        <polygon id="路径" fill="url(#linearGradient-3)" points="36.9615385 43.5051844 40.4059829 43.5051844 40.4059829 27.843318 43.8504274 27.843318 43.8504274 6.9608295 40.4059829 6.9608295 40.4059829 0 36.9615385 0 36.9615385 6.9608295 33.5170941 6.9608295 33.5170941 27.843318 36.9615385 27.843318"></polygon>
+                        <polygon id="路径" fill="url(#linearGradient-4)" opacity="0.604724702" points="52.4615385 38.2845622 55.9059829 38.2845622 55.9059829 29.5835254 59.3504274 29.5835254 59.3504274 17.4020738 55.9059829 17.4020738 55.9059829 8.70103691 52.4615385 8.70103691 52.4615385 17.4020738 49.0170941 17.4020738 49.0170941 29.5835254 52.4615385 29.5835254"></polygon>
+                        <polygon id="路径备份" fill="url(#linearGradient-5)" points="5.96153846 43.1268784 9.40598291 43.1268784 9.40598291 34.4258415 12.8504274 34.4258415 12.8504274 22.2443899 9.40598291 22.2443899 9.40598291 13.5433531 5.96153846 13.5433531 5.96153846 22.2443899 2.51709407 22.2443899 2.51709407 34.4258415 5.96153846 34.4258415"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

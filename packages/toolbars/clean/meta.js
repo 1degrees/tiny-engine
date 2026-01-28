@@ -4,7 +4,7 @@ export default {
   title: 'clean',
   options: {
     icon: {
-      default: 'clear'
+      default: '页面清空'
     },
     renderType: 'icon'
   }

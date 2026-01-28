@@ -1,13 +1,13 @@
 <template>
   <div class="meta-select-icon">
-    <tiny-popover popper-class="icon-popover" placement="left">
+    <tiny-popover trigger="manual" v-model="popperShow" popper-class="icon-popover" placement="left">
       <template #reference>
-        <div aria-haspopup="true" aria-expanded="true" class="lowcode-icon">
+        <div @click="optPopper" aria-haspopup="true" aria-expanded="true" class="lowcode-icon">
           <span class="icon-box" v-if="state.icon.name">
-            <component :is="state.icon.component" />
+            <component :is="state.icon.component()" />
           </span>
           <span class="icon-text" :title="state.icon.name">{{ state.icon.name || '请选择图标' }}</span>
-          <icon-close class="icon-close" v-if="state.icon.name" @click="clearIcon($event)"></icon-close>
+          <icon-close class="icon-close" v-if="state.icon.name" @click.stop="clearIcon($event)"></icon-close>
         </div>
       </template>
       <div>
@@ -21,8 +21,8 @@
           <span class="icon-manage-clear" v-if="state.icon.name" @click="clearIcon($event)">清空</span>
         </div>
         <ul class="lowcode-icon-list lowcode-scrollbar-thin">
-          <li v-for="icon in SvgIConsList" :key="icon" @click="selectIcon(icon)">
-            <component :is="icon.component" />
+          <li v-for="icon in SvgIConsList" @click="selectIcon(icon)" :key="icon.name">
+            <component :is="icon.component()" />
           </li>
         </ul>
       </div>
@@ -32,51 +32,56 @@
 
 <script lang="ts">
 import { reactive, ref } from 'vue'
-import type { Component } from 'vue'
-import { Popover, Search } from '@opentiny/vue'
+import { TinyPopover, TinySearch, getSvgicon } from '@opentiny/vue'
 import { iconClose } from '@opentiny/vue-icon'
-import SvgICons from '@opentiny/vue-icon'
+import { ALLICONS } from './allicons'
 
 export default {
   components: {
-    TinySearch: Search,
-    TinyPopover: Popover as Component,
-    IconClose: iconClose()
+    IconClose: iconClose(),
+    TinySearch,
+    TinyPopover,
   },
   props: {
     modelValue: {
       type: String,
-      default: '' // 默认值为空
+      default: 'rocket-2-line' // 默认值为空
     }
   },
   setup(props, { emit }) {
+    const popperShow = ref(false)
     const state = reactive({
       iconSearchValue: '',
       icon: {
         name: props.modelValue,
-        component: props.modelValue && SvgICons[props.modelValue]?.()
+        component: () => getSvgicon({ name: props.modelValue || 'rocket-2-line', size: 'mini' })
       },
       defaultIcon: {
         name: props.modelValue,
-        component: props.modelValue && SvgICons[props.modelValue]?.()
+        component: () => getSvgicon({ name: props.modelValue || 'rocket-2-line', size: 'mini' })
       }
     })
+
+    const optPopper = () => {
+      popperShow.value = !popperShow.value
+    }
 
     const selectIcon = (icon) => {
       state.icon = icon
       emit('update:modelValue', icon.name)
+      optPopper()
     }
 
     const clearIcon = (e) => {
-      e.stopPropagation()
-      state.icon = state.defaultIcon
+      state.icon = ''
       emit('update:modelValue', '')
+      optPopper()
     }
 
     const getSvgs = () =>
-      Object.keys(SvgICons).map((name) => ({
-        name,
-        component: name && SvgICons[name]()
+      ALLICONS.map((item) => ({
+        name: item.name,
+        component: () => getSvgicon({ name: item.name, size: 'mini' })
       }))
 
     const SvgIConsList = ref(getSvgs())
@@ -92,6 +97,8 @@ export default {
 
     return {
       state,
+      popperShow,
+      optPopper,
       SvgIConsList,
       searchIcon,
       selectIcon,
@@ -157,6 +164,7 @@ export default {
     height: 320px;
     display: grid;
     padding: 4px;
+    grid-template-rows: repeat(7, 30px);
     grid-template-columns: repeat(8, 30px);
     gap: 15px 10px;
 

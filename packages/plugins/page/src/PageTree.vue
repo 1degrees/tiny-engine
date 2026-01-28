@@ -70,7 +70,7 @@ import {
   getOptions,
   META_SERVICE
 } from '@opentiny/tiny-engine-meta-register'
-import { isEqual } from '@opentiny/vue-renderless/common/object'
+import { isEqual } from '@opentiny/utils'
 import { getCanvasStatus } from '@opentiny/tiny-engine-common/js/canvas'
 import { handlePageUpdate } from '@opentiny/tiny-engine-common/js/http'
 import { constants } from '@opentiny/tiny-engine-utils'

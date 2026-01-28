@@ -69,7 +69,7 @@
               </div>
               <div>
                 <label>{{ '自由布局' }}</label>
-                <tiny-switch v-model="isAbsolute" @change="changeCanvasType"></tiny-switch>
+                <tiny-switch :model-value="isAbsolute" @change="changeCanvasType"></tiny-switch>
               </div>
             </div>
           </div>
@@ -117,11 +117,10 @@ export default {
     const visible = ref(false)
     const active = ref(false)
     const flag = ref(false)
-    const { getCanvasType } = useCanvas().canvasApi.value
-    const isAbsolute = ref(getCanvasType?.() === 'absolute')
-
+    const canvasApi = useCanvas().canvasApi
     const dimension = computed(() => useLayout().getDimension())
     const scale = computed(() => dimension.value.scale * 100)
+    const isAbsolute = computed(() => canvasApi?.value?.getCanvasType?.() === 'absolute')
 
     const state = reactive({
       activeIndex: 0,
@@ -356,6 +355,7 @@ export default {
     const changeCanvasType = (value) => {
       const { setCanvasType } = useCanvas().canvasApi.value
       setCanvasType(value ? 'absolute' : 'normal')
+      localStorage.setItem('canvasType', value ? 'absolute' : 'normal')
     }
 
     watch(

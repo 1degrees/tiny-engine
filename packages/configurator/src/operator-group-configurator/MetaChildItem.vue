@@ -18,7 +18,7 @@
 
 <script>
 import { computed } from 'vue'
-import { isObject } from '@opentiny/vue-renderless/grid/static'
+import { isObject } from '@opentiny/utils'
 import { ConfigItem } from '@opentiny/tiny-engine-common'
 
 export default {

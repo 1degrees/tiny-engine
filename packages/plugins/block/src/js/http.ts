@@ -14,7 +14,11 @@
 import { getMetaApi, META_SERVICE } from '@opentiny/tiny-engine-meta-register'
 
 // 区块管理 -- 获取区块列表
-export const fetchBlockList = (params) => getMetaApi(META_SERVICE.Http).get('/material-center/api/blocks', { params })
+export const fetchBlockList = (params) => {
+  delete params.app
+  delete params.appId
+  return getMetaApi(META_SERVICE.Http).get('/material-center/api/blocks', { params })
+}
 
 // 删除区块
 export const requestDeleteBlock = (blockId) =>
@@ -25,8 +29,10 @@ export const requestUpdateBlock = (blockId, params, config = {}) =>
   getMetaApi(META_SERVICE.Http).post(`/material-center/api/block/update/${blockId}`, params, config)
 
 // 区块管理 -- 发布区块
-export const requestDeployBlock = (params) =>
-  getMetaApi(META_SERVICE.Http).post('/material-center/api/block/deploy', params)
+export const requestDeployBlock = (params) => {
+  delete params.block.groupIds // 接口报错，删除groupIds字段
+  return getMetaApi(META_SERVICE.Http).post('/material-center/api/block/deploy', params)
+}
 
 // 区块管理 -- 根据关键字搜索区块
 export const requestSearchBlock = (searchKey) =>
@@ -78,9 +84,12 @@ export const deleteCategory = (id) =>
 // 当 Block 插件的 options.mergeCategoriesAndGroups 为 true 时，将分类的接口全部替换成分组的接口
 
 // 区块分组列表
-export const fetchGroups = (params) =>
-  getMetaApi(META_SERVICE.Http).get(`/material-center/api/block-groups`, { params: { ...params, from: 'block' } })
-
+export const fetchGroups = (params) => {
+  delete params.app
+  delete params.appId
+  return getMetaApi(META_SERVICE.Http).get(`/material-center/api/block-groups`, { params: { ...params, from: 'block' } })
+}
+  
 // 更新区块分组
 export const updateGroup = ({ id, ...params }) =>
   getMetaApi(META_SERVICE.Http).post(`/material-center/api/block-groups/update/${id}`, params)

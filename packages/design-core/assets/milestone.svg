@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Milestone 里程碑</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFCC00" offset="0%"></stop>
+            <stop stop-color="#FF9D00" offset="100%"></stop>
+        </linearGradient>
+        <path d="M14.3333333,1.33318717 C14.7307708,1.2562733 15.1260208,1.14571625 15.5186667,0.994970154 C15.7466042,0.907472388 16,1.07311669 16,1.32158314 L16,11.2454706 C16,11.5176552 15.8407708,11.7658453 15.5914792,11.8628856 C12.56525,13.0411832 10.1340833,12.393823 7.72883333,11.7533487 C5.839625,11.250295 3.966375,10.7515131 1.83333333,11.1449661 L1.83333333,18.8299776 C1.83333333,18.9238784 1.75871412,19 1.66666667,19 L0.166666667,19 C0.0746192084,19 0,18.9238784 0,18.8299776 L0,1.20637173 C0,0.950296774 0.140354167,0.713115556 0.370458333,0.610783337 C2.85647917,-0.494893444 5.46520833,0.120481303 8.07927083,0.73715247 C10.1808542,1.23289522 12.285875,1.72946683 14.3333333,1.33318717 Z" id="path-2"></path>
+        <filter x="-21.9%" y="-13.2%" width="143.8%" height="136.8%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.661752894   0 0 0 0 0.324547702   0 0 0 0 0.00489962574  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="44.0988019%" y1="50.4268018%" x2="128.792906%" y2="48.9129747%" id="linearGradient-4">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <path d="M76.2128736,39 C76.7651583,39 77.2128736,39.4477153 77.2128736,40 C77.2128736,40.2829303 77.0930222,40.5526192 76.8830242,40.7422251 L70.2612268,46.721006 C69.8513072,47.09112 69.2189651,47.0588511 68.8488511,46.6489314 C68.682927,46.4651622 68.5910762,46.2263731 68.5910762,45.9787808 L68.5909868,43.023 L5.08598679,43.023329 C3.98141729,43.023329 3.08598679,42.1278985 3.08598679,41.023329 C3.08598679,39.9187595 3.98141729,39.023329 5.08598679,39.023329 L68.5909868,39.023 L68.5910762,39 L76.2128736,39 Z" id="path-5"></path>
+        <filter x="-5.4%" y="-25.1%" width="110.8%" height="200.3%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.368627451   0 0 0 0 0.48627451   0 0 0 0 0.878431373  0 0 0 0.65213034 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Tiny-Vue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览1" transform="translate(-696.000000, -935.000000)">
+            <g id="组件" transform="translate(596.000000, 311.000000)">
+                <g id="编组-25备份-9" transform="translate(2.000000, 591.000000)">
+                    <g id="Milestone-里程碑" transform="translate(98.000000, 33.000000)">
+                        <g id="编组"></g>
+                        <g id="编组-6" transform="translate(23.000000, 40.000000)">
+                            <g id="编组-9">
+                                <path d="M12,16 L39,16 C40.1045695,16 41,16.8954305 41,18 C41,19.1045695 40.1045695,20 39,20 L12,20 C10.8954305,20 10,19.1045695 10,18 C10,16.8954305 10.8954305,16 12,16 Z" id="形状结合备份-4" fill="#5073E5"></path>
+                                <path d="M53,16 L74,16 C75.1045695,16 76,16.8954305 76,18 C76,19.1045695 75.1045695,20 74,20 L53,20 C51.8954305,20 51,19.1045695 51,18 C51,16.8954305 51.8954305,16 53,16 Z" id="形状结合备份-5" fill="#5073E5"></path>
+                                <circle id="椭圆形" stroke="#5073E5" stroke-width="5" fill="#5073E5" cx="13.5" cy="13.5" r="13.5"></circle>
+                                <g id="形状" transform="translate(6.000000, 4.000000)">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                                    <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                                </g>
+                                <circle id="椭圆形备份" stroke="#5073E5" stroke-width="5" fill="#FFFFFF" cx="47" cy="17.5" r="5.5"></circle>
+                                <circle id="椭圆形备份-2" stroke="#5073E5" stroke-width="5" fill="#FFFFFF" cx="73.5" cy="17.5" r="5.5"></circle>
+                            </g>
+                            <g id="形状结合备份-3" opacity="0.604724702">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                                <use fill="url(#linearGradient-4)" fill-rule="evenodd" xlink:href="#path-5"></use>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

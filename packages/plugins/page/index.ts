@@ -24,7 +24,7 @@ export default {
   options: {
     pageBaseStyle: {
       className: 'page-base-style',
-      style: 'padding: 24px;background: #FFFFFF;'
+      style: 'margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  background: #FFFFFF;'
     }
   },
   components: {

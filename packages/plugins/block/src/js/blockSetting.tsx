@@ -12,9 +12,10 @@
 
 /* metaService: engine.plugins.blockmanage.js-blockSetting */
 import { ref, reactive, readonly, onMounted } from 'vue'
-import { extend } from '@opentiny/vue-renderless/common/object'
-import { remove } from '@opentiny/vue-renderless/common/array'
+import { extend } from '@opentiny/utils'
+import { remove } from '@opentiny/utils'
 import {
+  usePage,
   useBlock,
   useModal,
   useCanvas,
@@ -381,22 +382,68 @@ export const initEditBlock = (block) => {
   setEditEvent(null)
 }
 
+
+export const uploadImg = async (file) => {
+  const params = {appId: 0, bucket: 'tiny-engine'}
+  const queryParams = new URLSearchParams(params)
+  const formData = new FormData()
+  formData.append('file', file)
+  const url = `/aip/assistant/api/v1/sketch/resource/upload?${queryParams.toString()}`
+  const data = await fetch(url, { method: 'POST', body: formData })
+    .then(res => res.json())
+  return data?.data
+}
 export const getBlockBase64 = () => {
   const iframe = document.querySelector('#canvas')
   const subDocument = iframe.contentWindow.document
   const container = subDocument.querySelector('#app')
 
   return html2canvas(container, { useCORS: true })
-    .then((canvas) => canvas.toDataURL('image/webp'))
-    .catch((err) => {
-      useNotify({
-        type: 'error',
-        title: '生成区块截图错误',
-        message: JSON.stringify(err)
+    .then(el => {
+      canvas = el
+      return new Promise((resolve) => {
+        canvas.toBlob((b) => resolve(b), 'image/webp')
       })
-
+    })
+    .then(async (file) => {
+      const base64 = await uploadImg(file)
+      return base64 || canvas.toDataURL('image/webp')
+    })
+    .catch((err) => {
+      useNotify({ type: 'error', title: '区块截图上传错误', message: JSON.stringify(err) })
       return ''
     })
+}
+
+export const fileToBase64 = (file, quality = 0.6) => {
+  return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      const img = new Image();
+
+      reader.onload = (e) => {
+          img.src = e.target.result;
+      };
+
+      img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const base64 = canvas.toDataURL('image/webp', quality);
+          resolve(base64);
+      };
+
+      img.onerror = () => {
+          reject(new Error('图片加载失败'));
+      };
+
+      reader.onerror = () => {
+          reject(new Error('文件读取失败'));
+      };
+
+      reader.readAsDataURL(file);
+  });
 }
 
 export const updateBlockList = () => {
@@ -427,6 +474,9 @@ export const delBlock = (closePanel) => () => {
         message({ message: '删除区块成功！', status: 'success' })
         updateBlockList()
         useBlock().isRefresh.value = true
+        usePage().switchPage(
+          usePage().pageSettingState?.pages?.[0]?.data?.[0]?.id
+        )
         closePanel()
       })
       .catch((error) => {
@@ -544,7 +594,7 @@ export const publishBlock = (params) => {
   }
 }
 
-const getCategories = () => {
+export const getCategories = () => {
   const appId = getAppId()
   const fetchData = useBlock().shouldReplaceCategoryWithGroup() ? fetchGroups : fetchCategories
 

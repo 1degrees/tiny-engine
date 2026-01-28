@@ -9,7 +9,7 @@
  * A PARTICULAR PURPOSE. SEE THE APPLICABLE LICENSES FOR MORE DETAILS.
  *
  */
-
+import { useCanvas } from '@opentiny/tiny-engine-meta-register'
 /* metaService: engine.plugins.state.js-common */
 /**
  * 校验monaco编辑器必填与是否有语法错误
@@ -46,4 +46,15 @@ export const validateMonacoEditorData = (editor, name, { required, language = 'j
   }
 
   return { success: true }
+}
+
+
+export function addState(name: string, value: any) {
+  const { getSchema, updateSchema } = useCanvas()
+  const schema = getSchema()
+  const pageState = { state: { ...(schema.state || {}), [name]: value } }
+  updateSchema(pageState)
+}
+// TODO: 待确认是否需要添加store
+export function addStore(name: string, storeState: any, getters: any, actions: any) {
 }

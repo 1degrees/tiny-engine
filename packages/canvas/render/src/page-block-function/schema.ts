@@ -6,7 +6,7 @@ import { useProps } from './props'
 import { useMethods } from './methods'
 import { nextTick } from 'vue'
 import { globalNotify } from '../canvas-function'
-import { setPageCss } from './css'
+import { setPageCss, setGlobalCss } from './css'
 import type { IPageSchema, ISchemaChildrenItem } from '@opentiny/tiny-engine-dsl-vue'
 export { IPageSchema, ISchemaChildrenItem }
 
@@ -143,6 +143,7 @@ export function useSchema(
     ...{
       getContext
     },
-    setPageCss
+    setPageCss,
+    setGlobalCss
   }
 }

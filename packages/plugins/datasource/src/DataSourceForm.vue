@@ -24,18 +24,18 @@
         <!-- dataSource settings -->
       </tiny-form>
       <data-source-settings
-        v-model="state.dataSource"
-        :editable="editable"
         ref="settingRef"
-        @renderRemoteData="renderRemoteData"
+        :editable="editable"
         :activeTabName="state.activeTabName"
+        v-model="state.dataSource"
+        @renderRemoteData="renderRemoteData"
         @activeTab="activeTabChange"
       ></data-source-settings>
     </template>
   </plugin-setting>
 </template>
 
-<script lang="tsx">
+<script lang="ts">
 /* metaService: engine.plugins.collections.DataSourceForm */
 import { reactive, ref, watch, computed } from 'vue'
 import { Form, Button } from '@opentiny/vue'
@@ -63,9 +63,9 @@ import {
   META_SERVICE,
   useCanvas
 } from '@opentiny/tiny-engine-meta-register'
-import { extend } from '@opentiny/vue-renderless/common/object'
+import { extend } from '@opentiny/utils'
 
-const isOpen = ref(false)
+export const isOpen = ref(false)
 
 export const open = () => {
   isOpen.value = true
@@ -160,7 +160,7 @@ export default {
           format
         }))
 
-        dataSourceState.dataSourceColumn = { name, type: type || 'remote', columns: filterColumns }
+        dataSourceState.dataSourceColumn = { name, type: type || 'object', columns: filterColumns }
         dataSourceState.dataSourceColumnCopies = extend(true, {}, dataSourceState.dataSourceColumn)
       },
       { immediate: true }
@@ -233,18 +233,19 @@ export default {
 
           try {
             // await validate() 如果验证不通过会抛出异常，而不是返回 false
-            await getRecordGrid().fullValidate()
+            await getRecordGrid()?.fullValidate?.()
           } catch (error) {
             activeTabChange('record')
             return
           }
 
-          settingRef.value.saveRecord().then((record) => {
+          settingRef.value.saveRecord().then((rss) => {
+            const [ record, remoteConfig ] = rss
             const editRequestData = {
               name: state.dataSource.name,
               data: Object.assign(state.dataSource.data, {
                 columns,
-                ...dataSourceState.remoteConfig,
+                ...remoteConfig,
                 data: record ? record.requestData.data.data : state.dataSource.data.data
               })
             }
@@ -252,7 +253,7 @@ export default {
               columns,
               data: record ? record.requestData.data.data : [],
               type: state.dataSource.data.type ? state.dataSource.data.type : 'remote',
-              ...dataSourceState.remoteConfig
+              ...remoteConfig
             }
             if (props.editable) {
               requestUpdateDataSource(state.dataSource.id, editRequestData).then(() => {
@@ -272,6 +273,7 @@ export default {
                   type: 'success'
                 })
                 emit('save')
+                close()
                 dataSourceState.dataSourceColumn = {}
                 dataSourceState.dataSourceColumnCopies = {}
                 dataSourceState.remoteConfig = {}
@@ -325,7 +327,11 @@ export default {
     watch(
       () => state.dataSource.data?.type,
       (value) => {
-        activeTabChange(value)
+        if (!state.dataSource.data || ['remote', 'object', 'array'].includes(state.dataSource.data?.type)) {
+          activeTabChange('remote')
+        } else {
+          activeTabChange('field')
+        }
       }
     )
 
@@ -347,6 +353,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.data-source-form {
+  width: 460px;
+}
 .datasource-form-footer {
   padding: 12px;
   .tiny-svg {

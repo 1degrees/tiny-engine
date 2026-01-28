@@ -11,7 +11,7 @@ import {
   fetchPageHistory,
   fetchPageList
 } from './http'
-import generateMetaFiles, { processAppJsCode } from './generate'
+import generateMetaFiles, { processAppJsCode, processConstant } from './generate'
 import srcFiles from './srcFiles'
 
 const { COMPONENT_NAME } = constants
@@ -34,11 +34,13 @@ export const previewState: {
   ancestors: IPage[]
   importMap: Record<string, string>
   appData: Record<string, any> | null
+  showToolbar: boolean
 } = reactive({
   currentPage: null,
   ancestors: [],
   importMap: {},
-  appData: null
+  appData: null,
+  showToolbar: false
 })
 
 const updateUrl = (params: IPage) => {
@@ -256,7 +258,6 @@ const getMaterialDeps = async () => {
   const materials = await Promise.allSettled(
     bundleUrls.map((url: any) => (typeof url === 'string' ? getMetaApi(META_SERVICE.Http).get(url) : url))
   )
-
   const scripts = new Map<string, string>()
   const styles = new Set<string>()
   const appData = await getAppData()
@@ -340,6 +341,9 @@ interface IUsePreviewData {
   setImportMap: (importMap: Record<string, string>) => void
 }
 
+export const updateShowToolbar = (flag: boolean) => {
+  previewState.showToolbar = flag
+}
 export const usePreviewData = ({ setFiles, store, setImportMap }: IUsePreviewData) => {
   const basicFiles = setFiles(srcFiles, 'src/Main.vue')
 
@@ -361,7 +365,6 @@ export const usePreviewData = ({ setFiles, store, setImportMap }: IUsePreviewDat
     const searchParams = new URLSearchParams(location.search)
     const previewType = searchParams.get('previewType')
     const { appData, metaData, importMapData } = await getBasicData(basicFiles, params.scripts)
-
     if (previewType === 'page') {
       previewState.currentPage = params.currentPage
       previewState.ancestors = params.ancestors
@@ -390,6 +393,7 @@ export const usePreviewData = ({ setFiles, store, setImportMap }: IUsePreviewDat
         blockSet
       )
       blocks = blocks.concat(currentPageBlocks)
+      
       const pageCode = [
         ...getPageAncestryFiles(appData, params),
         ...(blocks || []).map((blockSchema) => {
@@ -402,20 +406,29 @@ export const usePreviewData = ({ setFiles, store, setImportMap }: IUsePreviewDat
       ]
 
       const newFiles = store.getFiles()
+
+      const { dataSource: { proxy = {} }} = metaData
+
+      const info = { proxy, app: searchParams.get('id') }
+
+      const code = `export const APP_INFO = ${JSON.stringify(info, null, 2)}`
+
+      newFiles['constant.js'] = processConstant(newFiles['constant.js'], code)
+
       const enableTailwindCSS = getMergeMeta('engine.config')?.enableTailwindCSS
       const appJsCode = processAppJsCode(newFiles['app.js'] || '', params.styles, enableTailwindCSS)
 
       newFiles['app.js'] = appJsCode
       pageCode.forEach((item) => assignFiles(item, newFiles))
 
-      const metaFiles = generateMetaFiles(metaData)
+      const metaFiles = generateMetaFiles({...metaData, globalStyle: appData?.css})
       Object.assign(newFiles, metaFiles)
       setFiles(newFiles, 'App.vue')
     } else if (previewType === 'app') {
       const appId = searchParams.get('id')
       const { getAllNestedBlocksSchema, generateAppCode } = getMetaApi('engine.service.generateCode')
 
-      let appSchema
+      let appSchema: any
 
       const getPreGenerateInfo = async () => {
         const promises = [

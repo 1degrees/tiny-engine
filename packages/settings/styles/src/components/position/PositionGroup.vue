@@ -222,7 +222,7 @@
 import { reactive, watchEffect } from 'vue'
 import { Tooltip } from '@opentiny/vue'
 import { SelectConfigurator } from '@opentiny/tiny-engine-configurator'
-import { push } from '@opentiny/vue-renderless/common/array'
+import { push } from '@opentiny/utils'
 import ModalMask, { useModal } from '../inputs/ModalMask.vue'
 import SpacingSetting from '../spacing/SpacingSetting.vue'
 import ResetButton from '../inputs/ResetButton.vue'

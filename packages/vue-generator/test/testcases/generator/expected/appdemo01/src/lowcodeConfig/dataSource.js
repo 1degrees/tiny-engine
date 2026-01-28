@@ -32,11 +32,11 @@ const globalDataHandle = dataSources.dataHandler
 const load = (http, options, dataSource, shouldFetch) => (params, customUrl) => {
   // 如果没有配置远程请求，则直接返回静态数据，返回前可能会有全局数据处理
   if (!options) {
-    return globalDataHandle(dataSource.config.data)
+    return Promise.resolve(globalDataHandle(dataSource.config.data))
   }
 
   if (!shouldFetch()) {
-    return
+    return Promise.resolve(undefined)
   }
 
   dataSource.status = 'loading'

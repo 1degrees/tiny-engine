@@ -80,7 +80,7 @@ export default {
           .then((data = []) => {
             const blocks = data
               .filter((item) => item.id !== blockId)
-              .map((item) => ({ id: item.id, version: item.current_version }))
+              .map((item) => ({ id: item.id, version: item.current_version || item.version }))
 
             const appId = getMetaApi(META_SERVICE.GlobalService).getBaseInfo().id
             requestUpdateGroup({ id: groupId, blocks, app: appId }).then(() => {

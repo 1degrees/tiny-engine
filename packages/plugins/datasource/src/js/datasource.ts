@@ -12,34 +12,48 @@
 
 /* metaService: engine.plugins.collections.js-datasource */
 import axios from 'axios'
+import { read, utils, writeFileXLSX } from 'xlsx'
 import { useResource } from '@opentiny/tiny-engine-meta-register'
+import { isEmptyObject } from '@opentiny/utils'
 import { isMock } from '@opentiny/tiny-engine-common/js/environments'
 import { utils as commonUtils, constants } from '@opentiny/tiny-engine-utils'
-import { read, utils, writeFileXLSX } from 'xlsx'
 
 const { DEFAULT_INTERCEPTOR } = constants
 const { parseFunction: generateFunction } = commonUtils
-
-const load = (http, options, dataSource, shouldFetch) => (params, customUrl) => {
+function  execProxy(config) {
+  const { appSchemaState: { dataSource: source, proxy } } = useResource()
+  if (!isEmptyObject(proxy)) {
+    const isProxy = Object.keys(proxy).reduce((acc, cur) => acc || config.url.startsWith(cur), false)
+    if (isProxy) {
+      config.url = `/proxy/api${config.url}`
+      config.headers = {
+        ...config.headers,
+        proxy_app_id: source?.[0]?.app || 918
+      }
+    }
+  }
+}
+const load = (http, options, dataSource, shouldFetch) => (params, path, customConfig) => {
   if (!shouldFetch()) {
-    return undefined
+    return Promise.resolve(undefined)
   }
 
   dataSource.status = 'loading'
 
   const { method, uri: url, params: defaultParams, timeout, headers } = options
-  const config = { method, url, headers, timeout }
+  const config = { method, url, headers, timeout, ...customConfig }
 
   const data = params || defaultParams
 
-  config.url = customUrl || config.url
-
-  if (method.toLowerCase() === 'get') {
+  config.url = path ? `${config.url}/${path}` : config.url
+  
+  if (['get', 'delete'].includes(method.toLowerCase())) {
     config.params = data
   } else {
     config.data = data
   }
 
+  execProxy(config)
   return http.request(config)
 }
 
@@ -69,8 +83,6 @@ export const getRequest = (config) => {
 
   const http = axios.create()
 
-  http.interceptors.response.use(globalDataHandle, globalErrorHandler)
-
   const dataSource = { config }
   const shouldFetch = createFn(config.shouldFetch.value)
   const willFetch = createFn(config.willFetch.value)
@@ -93,6 +105,8 @@ export const getRequest = (config) => {
   http.interceptors.request.use(globalWillFetch, globalErrorHandler) // axios对于request拦截器是后注册先执行
 
   http.interceptors.response.use(dataHandler, errorHandler)
+  http.interceptors.response.use(globalDataHandle, globalErrorHandler)
+
 
   if (isMock) {
     http.mock([

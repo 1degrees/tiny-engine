@@ -380,9 +380,150 @@
           }
         },
         {
+          "icon": "iframe",
+          "name": {
+            "zh_CN": "iframe"
+          },
+          "component": "iframe",
+          "schema": {
+            "properties": [
+              {
+                "label": {
+                  "zh_CN": "基础信息"
+                },
+                "description": {
+                  "zh_CN": "基础信息"
+                },
+                "collapse": {
+                  "number": 6,
+                  "text": {
+                    "zh_CN": "显示更多"
+                  }
+                },
+                "content": [
+                  {
+                    "property": "src",
+                    "type": "string",
+                    "defaultValue": "",
+                    "label": {
+                      "text": {
+                        "zh_CN": "系统链接"
+                      }
+                    },
+                    "cols": 12,
+                    "rules": [],
+                    "widget": {
+                      "component": "InputConfigurator",
+                      "props": {
+                        "type": "text",
+                        "autosize": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "events": {
+              "onMessage": {
+                "label": {
+                  "zh_CN": "消息接收"
+                },
+                "description": {
+                  "zh_CN": "点消息接收的回调函数"
+                },
+                "type": "event",
+                "functionInfo": {
+                  "params": [],
+                  "returns": {}
+                },
+                "defaultValue": ""
+              }
+            },
+            "shortcuts": {
+              "properties": ["text"]
+            },
+            "contentMenu": {
+              "actions": []
+            }
+          },
+          "configure": {
+            "loop": true,
+            "condition": true,
+            "styles": true,
+            "isContainer": false,
+            "isModal": false,
+            "isNullNode": false,
+            "isLayout": false,
+            "nestingRule": {
+              "childWhitelist": [],
+              "parentWhitelist": "",
+              "descendantBlacklist": "",
+              "ancestorWhitelist": ""
+            },
+            "rootSelector": "",
+            "shortcuts": {
+              "properties": []
+            },
+            "contextMenu": {
+              "actions": [],
+              "disable": []
+            }
+          }
+        },
+        {
+          "icon": "span",
+          "name": {
+            "zh_CN": "span"
+          },
+          "component": "span",
+          "schema": {
+            "properties": [
+              {
+                "label": {
+                  "zh_CN": "基础信息"
+                },
+                "description": {
+                  "zh_CN": "基础信息"
+                },
+                "collapse": {
+                  "number": 6,
+                  "text": {
+                    "zh_CN": "显示更多"
+                  }
+                }
+              }
+            ],
+            "events": {
+              "onClick": {
+                "label": {
+                  "zh_CN": "点击事件"
+                },
+                "description": {
+                  "zh_CN": "点击时触发的回调函数"
+                },
+                "type": "event",
+                "functionInfo": {
+                  "params": [],
+                  "returns": {}
+                },
+                "defaultValue": ""
+              }
+            },
+            "shortcuts": {
+              "properties": ["text"]
+            },
+            "contentMenu": {
+              "actions": []
+            }
+          },
+          "configure": {
+            "loop": true
+          }
+        },
+        {
           "icon": "icon",
           "name": {
-            "zh_CN": "Icon"
+            "zh_CN": "数码图标"
           },
           "component": "Icon",
           "container": false,
@@ -405,7 +546,7 @@
                   {
                     "property": "name",
                     "type": "string",
-                    "defaultValue": "IconDel",
+                    "defaultValue": "wechat-fill",
                     "bindState": true,
                     "label": {
                       "text": {
@@ -417,6 +558,51 @@
                     "widget": {
                       "component": "SelectIconConfigurator",
                       "props": {}
+                    }
+                  },
+                  {
+                    "property": "size",
+                    "type": "string",
+                    "defaultValue": "",
+                    "label": {
+                      "text": {
+                        "zh_CN": "尺寸"
+                      }
+                    },
+                    "required": false,
+                    "readOnly": false,
+                    "disabled": false,
+                    "cols": 12,
+                    "description": {
+                      "zh_CN": "输入框尺寸",
+                      "en_US": "Text box size; The values of this attribute are medium, small, and mini"
+                    },
+                    "labelPosition": "left",
+                    "rules": [],
+                    "hidden": false,
+                    "device": "pc",
+                    "widget": {
+                      "component": "SelectConfigurator",
+                      "props": {
+                        "options": [
+                          {
+                            "label": "large",
+                            "value": "large"
+                          },
+                          {
+                            "label": "medium",
+                            "value": "medium"
+                          },
+                          {
+                            "label": "small",
+                            "value": "small"
+                          },
+                          {
+                            "label": "mini",
+                            "value": "mini"
+                          }
+                        ]
+                      }
                     }
                   }
                 ]
@@ -573,7 +759,7 @@
               "schema": {
                 "componentName": "Icon",
                 "props": {
-                  "name": "IconDel"
+                  "name": "wechat-fill"
                 }
               }
             },
@@ -588,6 +774,20 @@
                 "componentName": "Img",
                 "props": {
                   "src": "https://tinyengine-assets.obs.cn-north-4.myhuaweicloud.com/files/designer-default-icon.jpg"
+                }
+              }
+            },
+            {
+              "name": {
+                "zh_CN": "内嵌网页"
+              },
+              "screenshot": "",
+              "snippetName": "iframe",
+              "icon": "iframe",
+              "schema": {
+                "componentName": "iframe",
+                "props": {
+                  "src": "http://172.31.243.56:7122/design-kx/zh-CN/os-theme/overview"
                 }
               }
             }

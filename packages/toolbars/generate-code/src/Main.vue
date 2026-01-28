@@ -1,6 +1,6 @@
 <template>
   <div class="toolbar-helpGuid">
-    <toolbar-base content="出码" :icon="options.icon.default || options.icon" :options="options" @click-api="generate">
+    <toolbar-base content="部署" :icon="options.icon.default || options.icon" :options="options" @click-api="generate">
       <template #default>
         <generate-file-selector
           :visible="state.showDialogbox"
@@ -47,6 +47,7 @@ export default {
     const { getCurrentBlock } = useBlock()
 
     const state = reactive({
+      appName: '',
       dirHandle: null,
       generating: false,
       showDialogbox: false,
@@ -135,6 +136,8 @@ export default {
       const [appData, metaData, pageList, dirHandle] = await Promise.all(promises)
       const pageDetailList = await getAllPageDetails(pageList)
 
+      state.appName = appData?.meta?.name || 'tiny-engine-generate-code'
+
       // 这里需要手动传入 blockSet 的原因是多页面可能会存在重复的区块
       const blockSet = new Set()
       const list = pageDetailList.map((page) => getAllNestedBlocksSchema(page.page_content, fetchBlockSchema, blockSet))
@@ -159,6 +162,8 @@ export default {
       const appSchema = {
         // metaData 包含dataSource、utils、i18n、globalState
         ...metaData,
+        // i18n 信息丢失，保存与国际化资源面板，同一数据源
+        i18n: appData.i18n,
         // 页面 schema
         pageSchema: pageDetailList.map((item) => {
           const { page_content, ...meta } = item
@@ -176,9 +181,10 @@ export default {
         componentsMap: [...(appData.componentsMap || [])],
         // 物料依赖
         packages: [...(appData.packages || [])],
+        globalStyle: appData?.css || appData?.meta?.css,
         meta: {
           ...(appData.meta || {})
-        }
+        },
       }
 
       const res = await generateAppCode(appSchema)
@@ -210,7 +216,7 @@ export default {
 
     const saveCodeToLocal = async (filesInfo) => {
       if (filesInfo.length && state.dirHandle) {
-        await fs.writeFiles(state.dirHandle, filesInfo)
+        await fs.writeFiles(state.dirHandle, filesInfo, state.appName)
       }
     }
 

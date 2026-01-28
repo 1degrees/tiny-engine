@@ -12,6 +12,7 @@ const defaultOptions = {
     dataSource: {},
     dependencies: {},
     globalState: {},
+    globalStyle: {},
     i18n: {},
     router: {},
     utils: {},
@@ -30,7 +31,7 @@ const generateAppCode = async (appSchema: IAppSchema, options = {}) => {
     ...defaultOptions,
     pluginConfig: {
       ...defaultOptions.pluginConfig,
-      template: { ...defaultOptions.pluginConfig.template, enableTailwindCSS }
+      globalStyle: { enableTailwindCSS },
     },
     ...options
   })

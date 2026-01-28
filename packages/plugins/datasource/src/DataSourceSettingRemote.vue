@@ -80,8 +80,8 @@ export default {
     watch(
       () => props.modelValue,
       (value) => {
-        const { willFetch, dataHandler, shouldFetch, errorHandler, columns } = value
-        state.remoteData.options = { ...value?.options } || {}
+        const { willFetch, dataHandler, shouldFetch, errorHandler, columns, options } = value
+        state.remoteData.options = options || {}
         state.remoteData.options.params = obj2String(value?.options?.params)
         state.responseData.willFetch = willFetch?.value || ''
         state.responseData.dataHandler = dataHandler?.value || ''
@@ -104,7 +104,7 @@ export default {
 
       const options = { ...state.remoteData.options }
 
-      if (options.params) {
+      if (options.params && typeof options.params === 'string') {
         options.params = string2Obj(options.params)
       }
 
@@ -141,10 +141,23 @@ export default {
         })
     }
 
+    const getRemoteConfig = async () => {
+      const options = { ...state.remoteData.options }
+      if (options.params && typeof options.params === 'string') {
+        options.params = string2Obj(options.params)
+      }
+      const remoteData = { ...state.remoteData, options }
+      return {
+        ...remoteData,
+        ...state.responseData
+      }
+    }
+
     return {
       state,
       dataSourceRemoteAdapteRef,
       sendRequest,
+      getRemoteConfig,
       closePanel: close
     }
   }

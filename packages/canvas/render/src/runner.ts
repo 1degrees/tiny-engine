@@ -11,8 +11,8 @@
  */
 
 import { createApp } from 'vue'
-import { addScript, addStyle, getComponents } from '../../common'
 import TinyI18nHost, { I18nInjectionKey } from '@opentiny/tiny-engine-common/js/i18n'
+import { addScript, addStyle, getComponents } from '../../common'
 import Main, { api } from './RenderMain'
 import lowcode from './lowcode'
 

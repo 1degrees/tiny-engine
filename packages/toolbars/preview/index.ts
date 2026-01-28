@@ -11,7 +11,7 @@
  */
 
 import entry from './src/Main.vue'
-import metaData from './meta'
+import metaData from './meta.js'
 
 export default {
   ...metaData,

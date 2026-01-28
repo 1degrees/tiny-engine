@@ -21,7 +21,7 @@
               </ul>
             </div>
           </div>
-          <template #reference>
+          <!-- <template #reference>
             <tiny-popover
               class="toolbar-right-user"
               trigger="hover"
@@ -39,7 +39,7 @@
                 </span>
               </template>
             </tiny-popover>
-          </template>
+          </template> -->
         </tiny-popover>
       </span>
     </template>

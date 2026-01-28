@@ -113,4 +113,5 @@ declare module '@opentiny/tiny-engine-toolbar-redoundo' {
 declare module '@opentiny/tiny-engine-common' {
   export const Modal: Record<string, any>
   export const Notify: (...args: any[]) => any
+  export const ToolbarBase: any
 }

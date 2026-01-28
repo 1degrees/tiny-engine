@@ -21,6 +21,11 @@ import { Modal } from '@opentiny/vue'
 export const lowcodeWrap = (props, context) => {
   const global = {}
   const instance = getCurrentInstance()
+  const searchParams = new URLSearchParams(window.parent?.location?.search)
+  const route = {
+    path: window.parent?.location?.pathname,
+    query: Object.fromEntries(searchParams.entries())
+  }
   const router = new Proxy(
     {},
     {
@@ -51,6 +56,7 @@ export const lowcodeWrap = (props, context) => {
     props: { get: () => props },
     emit: { get: () => emit },
     setState: { get: () => setState },
+    route: { get: () => route },
     router: { get: () => router },
     i18n: { get: () => t },
     getLocale: { get: () => getLocale },

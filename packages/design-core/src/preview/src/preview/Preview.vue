@@ -1,24 +1,17 @@
 <template>
-  <div :class="['vue-repl-container', debugSwitch ? 'preview-debug-mode' : '']">
-    <Repl
-      :editor="editorComponent"
-      :store="store"
-      :showCompileOutput="false"
-      :showTsConfig="false"
-      :showImportMap="true"
-      :clearConsole="false"
-      :autoResize="false"
-    />
+  <div :class="['vue-repl-container', isShow ? 'active' : '', debugSwitch ? 'preview-debug-mode' : '']">
+    <Repl :editor="editorComponent" :store="store" :showCompileOutput="false" :showTsConfig="false"
+      :showImportMap="true" :clearConsole="false" :autoResize="false" />
   </div>
 </template>
 
 <script>
-import { defineComponent, computed, defineAsyncComponent, onMounted, onBeforeUnmount, ref } from 'vue'
+import { defineComponent, computed, defineAsyncComponent, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { Repl, useStore, useVueImportMap } from '@vue/repl'
 import { getMergeMeta } from '@opentiny/tiny-engine-meta-register'
 import { injectDebugSwitch } from './debugSwitch'
 import { usePreviewCommunication } from './usePreviewCommunication'
-import { usePreviewData } from './usePreviewData'
+import { previewState, usePreviewData } from './usePreviewData'
 import '@vue/repl/style.css'
 
 const Monaco = defineAsyncComponent(() => import('@vue/repl/monaco-editor')) // 异步组件实现懒加载，打开debug后再加载
@@ -36,6 +29,7 @@ export default {
   setup() {
     const debugSwitch = injectDebugSwitch()
     const editorComponent = computed(() => (debugSwitch?.value ? Monaco : EmptyEditor))
+    const isShow = ref(false)
     const sfcOptions = ref({
       script: {
         // scirpt setup 编译后注入 import { * } from "vue"
@@ -93,8 +87,16 @@ export default {
     onMounted(initCommunication)
     onBeforeUnmount(cleanupCommunication)
 
+    watch(
+      () => previewState.showToolbar,
+      (newVal) => {
+        isShow.value = newVal
+      }
+    )
+
     return {
       store,
+      isShow,
       sfcOptions,
       editorComponent,
       debugSwitch
@@ -129,13 +131,21 @@ export default {
     }
   }
 }
+
 .vue-repl-container {
-  height: calc(100vh - 48px);
+  height: 100vh;
+
+  &.active {
+    height: calc(100vh - 40px);
+  }
+
   &.preview-debug-mode .vue-repl .split-pane {
+
     .left,
     .right .tab-buttons {
       display: block;
     }
+
     .right .output-container {
       height: calc(100% - 38px);
     }

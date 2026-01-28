@@ -69,6 +69,28 @@ export default {
 
     const getModelMarkers = () => vueMonaco.monaco.editor.getModelMarkers()
 
+    const validate = (language = 'json') => {
+      const editor = getModifiedEditor()
+      const model = editor.getModel()
+      const uri = model.uri._formatted
+      const markers = getMonaco()
+        .editor
+        .getModelMarkers({
+          owner: props.language || props.options.language || language
+        })
+        .filter(({ resource: { _formatted } }) => _formatted === uri)
+      const messages = markers.map(
+        ({ startLineNumber, startColumn, message }) => `错误: line: ${startLineNumber} column: ${startColumn} ${message}`
+      )
+      if (messages.length) {
+        return {
+          success: false,
+          message: `${messages.join('\n')}`
+        }
+      }
+      return { success: true }
+    }
+
     const initMonaco = (monaco: any) => {
       emit('editorWillMount', vueMonaco.monaco)
 
@@ -188,7 +210,7 @@ export default {
     )
 
     watch(
-      () => props.language,
+      () => [props.language],
       (newVal) => {
         if (vueMonaco.editor) {
           const editor = getModifiedEditor()
@@ -208,6 +230,7 @@ export default {
       getEditor,
       getModifiedEditor,
       getOriginalEditor,
+      validate,
       initMonaco,
       focus,
       monacoRef,

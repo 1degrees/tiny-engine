@@ -1,9 +1,10 @@
 // @ts-ignore
 import {
   createApp,
+  defineComponent,
   defineAsyncComponent,
   h
-} from 'https://registry.npmmirror.com/vue/3.4.23/files/dist/vue.runtime.esm-browser.js'
+} from 'vue'
 import { compile } from './index'
 import BlockFileName from '../test/sample/BlockFileName.vue?raw'
 import BlockHead from '../test/sample/BlockHead.vue?raw'
@@ -11,7 +12,7 @@ import BlockMenu from '../test/sample/BlockMenu.vue?raw'
 import BlockTest from '../test/sample/BlockTest.vue?raw'
 import BlockJsxTest from '../test/sample/slotModelValueTest.vue?raw'
 
-const RenderMain = {
+const RenderMain = defineComponent({
   setup() {
     const componentMap = compile(
       [
@@ -39,7 +40,7 @@ const RenderMain = {
       {}
     )
 
-    const blockComponents: { [key: string]: unknown } = {}
+    const blockComponents: { [key: string]: any } = {}
 
     // @ts-ignore
     window.getBlockComponentBlobUrl = (name) => {
@@ -75,7 +76,7 @@ const RenderMain = {
         h('span', {}, 'testtest')
       ])
   }
-}
+})
 
 const App = createApp(RenderMain)
 

@@ -29,15 +29,15 @@ export function useDataSourceMap() {
   const setDataSourceMap = (list) => {
     dataSourceMap.value = list.reduce((dMap, config) => {
       const dataSource: IDataSource = { config: config.data }
-
-      const result = {
-        code: '',
-        msg: 'success',
-        data: {}
+      let result = { code: '200', msg: 'success', data: {} }
+      if (dataSource?.config?.type !== 'array') {
+        result = dataSource.config as unknown as typeof result;
+      } else {
+        result.data = { items: dataSource?.config?.data ?? [], total: dataSource?.config?.data?.length }
       }
-      result.data = { items: dataSource?.config?.data ?? [], total: dataSource?.config?.data?.length }
 
       dataSource.load = () => Promise.resolve(result)
+
       dMap[config.name] = dataSource
 
       return dMap

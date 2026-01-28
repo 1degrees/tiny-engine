@@ -49,7 +49,18 @@
               ></life-cycles>
             </div>
           </tiny-collapse-item>
-
+          <tiny-collapse-item
+            class="input-output"
+            v-if="pageSettingState.currentPageData.group !== 'public'"
+            title="自动化生成页面(可选)"
+            :name="PAGE_SETTING_SESSION.lifeCycles"
+          >
+          <tiny-file-upload :data="{appId: pageSettingState.currentPageData?.app || '1'}" @success="genSchame" action="/aip/assistant/api/v1/sketch/parse/upload">
+            <template #trigger>
+              <tiny-button>上传设计稿</tiny-button>
+            </template>
+          </tiny-file-upload>
+          </tiny-collapse-item>
           <tiny-collapse-item class="history-source" title="历史备份" :name="PAGE_SETTING_SESSION.history">
             <page-history @restorePage="restorePage"></page-history>
           </tiny-collapse-item>
@@ -62,7 +73,7 @@
 <script lang="jsx">
 /* metaService: engine.plugins.appmanage.PageSetting */
 import { reactive, ref, computed, onActivated, onDeactivated } from 'vue'
-import { Button, Collapse, CollapseItem, Input } from '@opentiny/vue'
+import { Button, Collapse, CollapseItem, Input, FileUpload } from '@opentiny/vue'
 import { PluginSetting, ButtonGroup, SvgButton, LifeCycles } from '@opentiny/tiny-engine-common'
 import {
   useLayout,
@@ -75,7 +86,7 @@ import {
   META_SERVICE,
   useMessage
 } from '@opentiny/tiny-engine-meta-register'
-import { extend, isEqual } from '@opentiny/vue-renderless/common/object'
+import { extend, isEqual } from '@opentiny/utils'
 import { constants } from '@opentiny/tiny-engine-utils'
 import { isVsCodeEnv } from '@opentiny/tiny-engine-common/js/environments'
 import { handlePageUpdate } from '@opentiny/tiny-engine-common/js/http'
@@ -112,6 +123,7 @@ export default {
     TinyButton: Button,
     TinyCollapse: Collapse,
     TinyCollapseItem: CollapseItem,
+    TinyFileUpload: FileUpload,
     PageInputOutput,
     LifeCycles,
     PageHistory,
@@ -173,7 +185,8 @@ export default {
     const state = reactive({
       activeName: Object.values(PAGE_SETTING_SESSION),
       title: '页面设置',
-      historyMessage: ''
+      historyMessage: '',
+      pageSchame: {},
     })
 
     const cancelPageSetting = () => {
@@ -203,6 +216,7 @@ export default {
         page_content: {
           ...page_content,
           ...page_content_state,
+          ...state.pageSchame,
           fileName: pageSettingState.currentPageData.name
         },
         app: getMetaApi(META_SERVICE.GlobalService).getBaseInfo().id,
@@ -287,13 +301,18 @@ export default {
         ...pageSettingState.currentPageData,
         page_content: {
           ...page_content,
+          ...state.pageSchame,
           fileName: name
         }
       }
 
       const res = await updatePage(id, params)
-
       initCurrentPageData(res)
+      pageSettingState.updateTreeData()
+      emit('openNewPage', res)
+      closePageSettingPanel()
+      useLayout().closePlugin()
+      useNotify({ type: 'success', message: '页面更新成功!' })
     }
 
     const updatePageLifeCycles = (val) => {
@@ -439,11 +458,14 @@ export default {
       })
     }
 
+    const genSchame = (res)  => (state.pageSchame = { ...res.data?.[0], id: undefined })
+
     return {
       align,
       PLUGIN_NAME,
       state,
       isShow,
+      genSchame,
       savePageSetting,
       copyPage,
       pageSettingState,

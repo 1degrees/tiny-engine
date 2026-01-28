@@ -9,7 +9,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useLayout, useCanvas } from '@opentiny/tiny-engine-meta-register'
 import { canvasState } from '../container'
@@ -115,8 +115,6 @@ export default {
     )
 
     watch(() => useLayout().rightFixedPanelsStorage.value, setScale, { flush: 'post' })
-
-    watch(() => useLayout().layoutState.toolbars.render, setScale, { flush: 'post' })
 
     watch(
       () => useLayout().getSettingState().render,

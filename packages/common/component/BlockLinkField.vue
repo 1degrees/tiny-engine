@@ -33,7 +33,7 @@
 <script lang="tsx">
 import { reactive, computed } from 'vue'
 import type { Component } from 'vue'
-import { extend } from '@opentiny/vue-renderless/common/object'
+import { extend } from '@opentiny/utils'
 import { Input as TinyInput, Popover as TinyPopover } from '@opentiny/vue'
 import { useLayout, useModal, useCanvas, useBlock, useHistory } from '@opentiny/tiny-engine-meta-register'
 

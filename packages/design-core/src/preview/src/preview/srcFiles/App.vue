@@ -14,6 +14,7 @@ import lowcode from './lowcode.js'
 import messages from './locales.js'
 import Main from './Main.vue'
 import locale from '@opentiny/vue-locale'
+import SvgICons from "@opentiny/vue-icon";
 
 const customCreateI18n = ({ locale, messages }) => {
   const newMessages = {}
@@ -58,6 +59,12 @@ const { data } = useBroadcastChannel({ name: BROADCAST_CHANNEL.PreviewLang })
 watch(data, () => {
   i18n.global.locale.value = data.value
 })
+
+console.log('---兼容旧版本-待废弃----icons-start', Date.now())
+Object.keys(SvgICons).forEach((name) => {
+  window.__app__.component(name, SvgICons[name]())
+});
+console.log('---兼容旧版本-待废弃----icons-end', Date.now())
 
 window.__app__.use(createPinia())
 </script>

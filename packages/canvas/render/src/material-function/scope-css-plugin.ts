@@ -83,10 +83,10 @@ function rewriteSelector(id: string, selector: selectorParser.Selector, selector
     if (n.type === 'combinator' && (n.value === '>>>' || n.value === '/deep/')) {
       n.value = ' '
       n.spaces.before = n.spaces.after = ''
-      // warn(
-      //   `the >>> and /deep/ combinators have been deprecated. ` +
-      //     `Use :deep() instead.`
-      // )
+      warn(
+        `the >>> and /deep/ combinators have been deprecated. ` +
+          `Use ::v-deep instead.`
+      )
       return false
     }
 
@@ -129,23 +129,6 @@ function rewriteSelector(id: string, selector: selectorParser.Selector, selector
         }
         return false
       }
-
-      // !!! Vue 2 does not have :slotted support
-      // ::v-slotted(.foo) -> .foo[xxxxxxx-s]
-      // if (value === ':slotted' || value === '::v-slotted') {
-      //   rewriteSelector(id, n.nodes[0], selectorRoot, true /* slotted */)
-      //   let last: selectorParser.Selector['nodes'][0] = n
-      //   n.nodes[0].each(ss => {
-      //     selector.insertAfter(last, ss)
-      //     last = ss
-      //   })
-      //   // selector.insertAfter(n, n.nodes[0])
-      //   selector.removeChild(n)
-      //   // since slotted attribute already scopes the selector there's no
-      //   // need for the non-slot attribute.
-      //   shouldInject = false
-      //   return false
-      // }
 
       // global: replace with inner selector and do not inject [id].
       // ::v-global(.foo) -> .foo

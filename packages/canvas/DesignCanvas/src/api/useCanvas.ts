@@ -72,6 +72,7 @@ const nodesMap = ref(new Map<string | number, { node: any; parent: any }>())
 const initCanvasApi = (newCanvasApi: typeof CanvasApi) => {
   canvasApi.value = newCanvasApi
   isCanvasApiReady.value = true
+  // getDocument().body.className = type === 'absolute' ? 'canvas-grid-bg' : ''
 }
 
 const pageState = reactive({ ...defaultPageState, loading: true })
@@ -240,15 +241,12 @@ const setSaved = (flag = false) => {
 // 清空画布
 const clearCanvas = () => {
   pageState.properties = null
-
-  const { currentPage: page } = pageState
+  const { currentPage: page } =  pageState;
   const { fileName, componentName } = pageState.pageSchema || {}
   const pageSchema = { ...deepClone(getDefaultSchema(componentName, fileName)) }
-  const currentPage = page ? { ...page, page_content: pageSchema } : null
+  const currentPage = page ? {...page, page_content: pageSchema } : null;
   resetCanvasState({ currentPage, pageSchema })
-
   setSaved(false)
-
   canvasApi.value?.clearSelect?.()
   canvasApi.value?.updateRect?.()
 }
@@ -572,14 +570,13 @@ const operateNode = async (operation: NodeOperation) => {
   operationTypeMap[operation.type](operation)
 
   lastUpdateType.value = operation.type
-
   publish({ topic: 'schemaChange', data: { operation } })
 
   if (operation.type !== 'insert') {
     // 这里 setTimeout 延时是需要等画布更新渲染完成，然后再更新，才能得到正确的组件 offset
     setTimeout(() => {
       canvasApi.value.updateRect?.()
-    }, 0)
+    }, 200)
   }
 }
 

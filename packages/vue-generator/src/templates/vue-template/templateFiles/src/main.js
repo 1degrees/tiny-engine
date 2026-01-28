@@ -16,11 +16,12 @@ import { createApp } from 'vue'
 import router from '@/router/index.js'
 import { createPinia } from 'pinia'
 import App from '@/App.vue'
-
-${options.enableTailwindCSS ? 'import "./style.css"' : ''}
+import { setKxDesignConfig } from '@opentiny/vue-common-kx'
+import './styles/index.css'
 
 const pinia = createPinia()
-
 createApp(App).use(pinia).use(router).mount('#app')
-  `
+setKxDesignConfig()
+console.log('---重置页面主题---', Date.now())
+`
 }

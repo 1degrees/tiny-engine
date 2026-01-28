@@ -17,10 +17,7 @@ async function fetchPageSchema(pageId: string) {
 // https://tailwindcss.com/docs/functions-and-directives
 // 所以原来 new CSSStyleSheet 的方式改成了 document.createElement('style') 的方式
 export function initStyle(key: string, content: string) {
-  if (!content) {
-    return
-  }
-
+  if (!content) return
   let styleSheet = document.querySelector(`#${key}`)
 
   if (!styleSheet) {
@@ -31,8 +28,8 @@ export function initStyle(key: string, content: string) {
     }
     document.head.appendChild(styleSheet)
   }
-
-  handleScopedCss(key, content).then((scopedCss) => {
+  const id = { [key]: key, 'app-global-css': '' }[key]
+  handleScopedCss(id, content).then((scopedCss) => {
     styleSheet.textContent = scopedCss.css
   })
 }
@@ -87,6 +84,6 @@ export async function getPageAncestors(pageId?: string) {
     // 如果不支持查询祖先 则返回自己
     return [pageId]
   }
-  const pageChain = await getController().getPageAncestors(pageId)
+  const pageChain = await getController().getPageAncestors(pageId) || []
   return [...pageChain.map((id: number | string) => String(id)), pageId]
 }

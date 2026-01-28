@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>4全宽居中</title>
+    <defs>
+        <linearGradient x1="49.6311751%" y1="86.8386574%" x2="54.9245566%" y2="-43.8247111%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.170144%" y1="87.0192388%" x2="61.0802524%" y2="-44.2846353%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4全宽居中" fill-rule="nonzero">
+            <g transform="translate(31, 31)" id="矩形">
+                <rect fill="url(#linearGradient-1)" opacity="0.204287574" x="0" y="0" width="15.75" height="63" rx="2"></rect>
+                <rect fill="url(#linearGradient-1)" opacity="0.204287574" x="47.25" y="0" width="15.75" height="63" rx="2"></rect>
+                <rect fill="url(#linearGradient-2)" opacity="0.604724702" x="19.6875" y="0" width="23.625" height="63" rx="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

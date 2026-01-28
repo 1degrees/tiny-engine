@@ -20,12 +20,11 @@ import generateComment from '@opentiny/tiny-engine-vite-plugin-meta-comments'
 export default defineConfig({
   plugins: [generateComment(), vue(), vueJsx()],
   publicDir: false,
-  resolve: {},
   build: {
     sourcemap: true,
     lib: {
-      entry: path.resolve(__dirname, './index.ts'),
       name: 'setting-events',
+      entry: path.resolve(__dirname, './index.ts'),
       fileName: (_format, entryName) => `${entryName}.js`,
       formats: ['es']
     },

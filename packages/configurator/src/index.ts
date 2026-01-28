@@ -23,6 +23,7 @@ import RelatedEditorConfigurator from './related-editor-configurator/RelatedEdit
 import RouterSelectConfigurator from './router-select-configurator/RouterSelectConfigurator.vue'
 import SelectConfigurator from './select-configurator/SelectConfigurator.vue'
 import SelectIconConfigurator from './select-icon-configurator/SelectIconConfigurator.vue'
+import SelectImgConfigurator from './select-img-configurator/SelectImgConfigurator.vue'
 import SliderConfigurator from './slider-configurator/SliderConfigurator.vue'
 import SlotConfigurator from './slot-configurator/SlotConfigurator.vue'
 import SwitchConfigurator from './switch-configurator/SwitchConfigurator.vue'
@@ -67,6 +68,7 @@ export {
   RouterSelectConfigurator,
   SelectConfigurator,
   SelectIconConfigurator,
+  SelectImgConfigurator,
   SliderConfigurator,
   SlotConfigurator,
   SwitchConfigurator,
@@ -102,6 +104,7 @@ export {
   RadioConfigurator as MetaRadio,
   SelectConfigurator as MetaSelect,
   SelectIconConfigurator as MetaSelectIcon,
+  SelectImgConfigurator as MetaSelectImg,
   SliderConfigurator as MetaSlider,
   SwitchConfigurator as MetaSwitch,
   CollectionConfigurator as MetaCollection,

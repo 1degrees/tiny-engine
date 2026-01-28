@@ -81,11 +81,12 @@ const handleCheck = (v: any) => {
 }
 
 .item-image {
-  width: 84px;
-  height: 48px;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  overflow: hidden;
 }
+
 .item-default-img {
   width: 84px;
   height: 50px;

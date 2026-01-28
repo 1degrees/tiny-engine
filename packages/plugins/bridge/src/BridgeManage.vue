@@ -34,6 +34,9 @@ import { ref, reactive, watch } from 'vue'
 import { Search } from '@opentiny/vue'
 import { iconSearch } from '@opentiny/vue-icon'
 import { SearchEmpty, SvgButton } from '@opentiny/tiny-engine-common'
+import { DEFAULT_UTIL_LIBS } from '@opentiny/tiny-engine-common/js/constants'
+
+
 import {
   RESOURCE_TYPE,
   ACTION_TYPE,
@@ -75,6 +78,11 @@ export default {
 
     const refresh = async (name) => {
       state.resourceList = await getResourcesByType(name)
+      if (name === RESOURCE_TYPE.Util) {
+        state.resourceList.push(
+          ...DEFAULT_UTIL_LIBS.filter((e) => !state.resourceList.some(lib => lib.name === e.name))
+        )
+      }
       setResourceNamesByType(
         name,
         Array.isArray(state.resourceList) ? state.resourceList.map((resource) => resource.name) : []

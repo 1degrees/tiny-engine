@@ -112,7 +112,7 @@
 import { reactive, ref, computed, nextTick, watchEffect } from 'vue'
 import { Input, Tag, Button, Form, FormItem, Radio, Select, Option } from '@opentiny/vue'
 import { constants } from '@opentiny/tiny-engine-utils'
-import { remove } from '@opentiny/vue-renderless/common/array'
+import { remove } from '@opentiny/utils'
 import { getEditBlock } from './js/blockSetting'
 import { useBlock, getMetaApi, META_SERVICE } from '@opentiny/tiny-engine-meta-register'
 import { isVsCodeEnv } from '@opentiny/tiny-engine-common/js/environments'

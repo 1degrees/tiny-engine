@@ -247,7 +247,10 @@ export default {
         requestUpdateGroup({ id: state.currentEditId, name: state.groupNameModel.value, app: appId })
           .then(() => fetchGroups(appId))
           .catch((error) => {
-            message({ message: `更新区块分组失败: ${error.message || error}`, status: 'error' })
+            message({
+              message: `更新区块分组失败: ${error.message || error}`,
+              status: 'error'
+            })
           })
           .then((groups) => {
             state.groups = addDefaultGroup(groups)

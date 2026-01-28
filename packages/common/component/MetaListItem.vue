@@ -56,6 +56,7 @@
     v-if="isShow"
     :append-to-body="true"
     :visible="isShow"
+    top="20vh"
     title="提示"
     width="20%"
     @update:visible="isShow = $event"

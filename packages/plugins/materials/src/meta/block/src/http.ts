@@ -29,10 +29,6 @@ const getParams = (obj) => {
   return result ? `?${result.slice(1)}` : result
 }
 
-// 区块消费侧 -- 获取区块分组列表
-export const fetchGroups = (appId) =>
-  getMetaApi(META_SERVICE.Http).get(`/material-center/api/block-groups?app=${appId}`)
-
 // 根据区块分组ID获取该分组下的区块
 export const fetchGroupBlocks = ({ groupId, value }) =>
   getMetaApi(META_SERVICE.Http).get(
@@ -42,6 +38,10 @@ export const fetchGroupBlocks = ({ groupId, value }) =>
       label_contains: value
     })}`
   )
+
+// 区块消费侧 -- 获取区块分组列表
+export const fetchGroups = () =>
+  getMetaApi(META_SERVICE.Http).get(`/material-center/api/block-groups`)
 
 export const fetchGroupBlocksByIds = async ({ groupIds }) => {
   const blockGroups = await getMetaApi(META_SERVICE.Http).get(
@@ -99,7 +99,7 @@ export const requestGroupBlockVersion = async ({ groupId, blockId, blockVersion 
 
   blocks = blocks.map((block) => ({
     id: block.id,
-    version: block.id === blockId ? blockVersion : block.current_version
+    version: block.id === blockId ? blockVersion : block.version
   }))
 
   return requestUpdateGroup({ id: groupId, app, blocks })

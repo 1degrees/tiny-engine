@@ -15,7 +15,7 @@ import axios from 'axios'
 export default (config) => {
   const instance = axios.create(config)
   const defaults = {}
-
+  let mock
   return {
     request(config) {
       return instance(config)

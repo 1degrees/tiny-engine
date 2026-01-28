@@ -26,7 +26,7 @@ import { isVsCodeEnv } from '@opentiny/tiny-engine-common/js/environments'
 import Builtin from '../../render/src/builtin/builtin.json' //TODO 画布内外应该分开
 import { useMultiSelect } from './composables/useMultiSelect'
 import type { Node, RootNode } from '../../types'
-
+import { useGuideLine } from './composables/useGuideLine'
 export interface DragOffset {
   offsetX: number
   offsetY: number
@@ -61,8 +61,10 @@ export const initialDragState = {
   timer: 0
 }
 
+const canvasType = localStorage.getItem('canvasType')
+
 export const canvasState = shallowReactive({
-  type: 'normal',
+  type: canvasType || 'normal',
   schema: null,
   renderer: null as any, // 存放画布内的api
   iframe: {} as HTMLIFrameElement,
@@ -179,46 +181,6 @@ const smoothScroll = {
     clearTimeout(this.timmer)
     this.timmer = undefined
   }
-}
-
-export const dragStart = (
-  data: Node,
-  element: Element,
-  { offsetX = 0, offsetY = 0, horizontal, vertical, width, height, x, y } = {} as DragOffset
-) => {
-  // 表示鼠标按下开始拖拽
-  dragState.keydown = true
-  dragState.data = data || {}
-
-  // 记录上次一开始拖拽的时间
-  dragState.timer = Date.now()
-
-  // 如果element存在表示在iframe内部拖拽
-  dragState.element = element
-  dragState.offset = { offsetX, offsetY, horizontal, vertical, width, height, x, y }
-  clearHover()
-}
-
-export const clearLineState = () => {
-  Object.assign(lineState, initialLineState)
-}
-
-export const dragEnd = () => {
-  const { element, data } = dragState
-
-  if (element && canvasState.type === 'absolute') {
-    data!.props = data!.props || {}
-    data!.props.style = element.style.cssText
-
-    getController().addHistory()
-  }
-
-  // 重置拖拽状态
-  Object.assign(dragState, initialDragState)
-
-  // 重置拖拽插入位置状态
-  clearLineState()
-  smoothScroll.stop()
 }
 
 export const getOffset = (element: Element) => {
@@ -439,7 +401,6 @@ const setSelectRect = (
   element?: Element | null,
   options?: { type?: string; schema: any; isMultiple: boolean }
 ) => {
-  clearHover()
 
   const { type, isMultiple = false } = options || {}
   const schema = options?.schema || (useCanvas().getNodeWithParentById(id) || {}).node
@@ -494,13 +455,13 @@ const getElementDurationTime = (elementId?: string) => {
   return delayTime
 }
 
-export const updateRect = (id?: string) => {
+export const updateRect = (id?: string, noClear?: boolean) => {
   id = (typeof id === 'string' && id) || getCurrent().schema?.id
-  clearHover()
-
+  if (!noClear) {
+    clearHover()
+  }
   // 多选场景直接调用 refreshSelectionState
   if (multiSelectedStates.value.length > 1) {
-    refreshSelectionState()
     setTimeout(() => refreshSelectionState())
     return
   }
@@ -616,7 +577,7 @@ const getPosLine = (rect: Rect, configure: { isContainer: any }) => {
 const isBodyEl = (element: Element) => element.nodeName === 'BODY'
 
 const setHoverRect = (element?: Element, data?: Node | null) => {
-  if (!element) {
+  if (!element || getIsResize()) {
     return clearHover()
   }
   const componentName = element.getAttribute(NODE_TAG)!
@@ -659,7 +620,7 @@ const setHoverRect = (element?: Element, data?: Node | null) => {
         height,
         top,
         left,
-        position: canvasState.type === 'absolute' || posLine.type,
+        position: posLine.type,
         forbidden: posLine.forbidden
       })
     } else {
@@ -669,7 +630,7 @@ const setHoverRect = (element?: Element, data?: Node | null) => {
         height,
         top,
         left,
-        position: canvasState.type === 'absolute' || posLine.type,
+        position: posLine.type,
         forbidden: posLine.forbidden
       })
     }
@@ -742,17 +703,26 @@ let moveUpdateTimer: ReturnType<typeof setTimeout> | undefined = undefined
 const absoluteMove = (event: DragEvent, element: HTMLElement) => {
   const { clientX, clientY } = event
   const { offsetX, offsetY, horizontal, vertical, height, width, x, y } = dragState.offset
-
   element.style.position = 'absolute'
-
+  element.style.zIndex = '5'
+  const { getNodeWithParentById } = useCanvas()
+  const id = element.getAttribute(NODE_UID)
+  let rect = getDocument().body.getBoundingClientRect()
+  if (id) {
+    const { parent } = getNodeWithParentById(id) as { parent: Node | null }
+    if (parent?.id && parent.id !== 'body') {
+      rect = querySelectById(parent.id)!.getBoundingClientRect()
+    }
+  }
+  
   if (!horizontal) {
     // 未传方向信息时判断为移动元素位置
-    element.style.top = `${clientY - offsetY}px`
-    element.style.left = `${clientX - offsetX}px`
+    element.style.top = `${clientY - offsetY - rect.top}px`
+    element.style.left = `${clientX - offsetX - rect.left}px`
   } else {
     // 调整元素大小
     if (horizontal === 'start') {
-      element.style.left = `${clientX}px`
+      element.style.left = `${clientX - rect.left}px`
       element.style.width = `${width + (x - clientX)}px`
     }
 
@@ -761,7 +731,7 @@ const absoluteMove = (event: DragEvent, element: HTMLElement) => {
     }
 
     if (vertical === 'start') {
-      element.style.top = `${clientY}px`
+      element.style.top = `${clientY - rect.top}px`
       element.style.height = `${height + (y - clientY)}px`
     }
 
@@ -770,19 +740,23 @@ const absoluteMove = (event: DragEvent, element: HTMLElement) => {
     }
   }
 
+  useGuideLine().genGuideLineAndAdsorb(element)
+
   clearTimeout(moveUpdateTimer)
 
-  const data = dragState.data!
-  data.props = data.props || {}
+  if (!dragState?.data?.props) {
+    dragState!.data!.props = {}
+  }
 
   // 防抖更新位置信息到 schema
   moveUpdateTimer = setTimeout(() => {
-    data.props.style = element.style.cssText
-
+    if (dragState?.data?.props)
+      dragState.data.props.style = element.style.cssText
     getController().addHistory()
   }, 100)
 
-  updateRect()
+  // 无损刷新选中框
+  updateRect(undefined, true)
 }
 
 interface SetDragPositionOptions {
@@ -808,6 +782,24 @@ const setDragPosition = ({ clientX, x, clientY, y, offsetBottom, offsetTop }: Se
   dragState.position = { left, top }
 }
 
+export const dragStart = (
+  data: Node,
+  element: Element,
+  { offsetX = 0, offsetY = 0, horizontal, vertical, width, height, x, y } = {} as DragOffset
+) => {
+  // 表示鼠标按下开始拖拽
+  dragState.keydown = true
+  dragState.data = data || {}
+
+  // 记录上次一开始拖拽的时间
+  dragState.timer = Date.now()
+
+  // 如果element存在表示在iframe内部拖拽
+  dragState.element = element
+  dragState.offset = { offsetX, offsetY, horizontal, vertical, width, height, x, y }
+  clearHover()
+}
+
 export const dragMove = (event: DragEvent, isHover: boolean) => {
   if (!dragState.draging && dragState.keydown && new Date().getTime() - dragState.timer < 200) {
     return
@@ -818,7 +810,7 @@ export const dragMove = (event: DragEvent, isHover: boolean) => {
   const { x, y, bottom: offsetBottom, top: offsetTop } = getOffset(eventTarget)
   const { clientX, clientY } = event
   const { element } = dragState
-  const absolute = canvasState.type === 'absolute'
+  const isAbsolute = canvasState.type === 'absolute'
 
   dragState.draging = dragState.keydown
 
@@ -836,17 +828,56 @@ export const dragMove = (event: DragEvent, isHover: boolean) => {
 
   if (dragState.draging) {
     // 绝对布局时走的逻辑
-    if (element && absolute) {
+    if (element && isAbsolute) {
       absoluteMove(event, element as HTMLElement)
     }
     setDragPosition({ clientX, x, clientY, y, offsetBottom, offsetTop })
   }
 }
 
+export const clearLineState = () => {
+  Object.assign(lineState, initialLineState)
+}
+
+export const clearDragState = () => {
+  Object.assign(dragState, initialDragState)
+}
+
+export const dragEnd = () => {
+  const { element, data } = dragState
+  if (canvasState.type === 'absolute' && element && data?.id) {
+    const el = element as HTMLElement
+    el.style.zIndex = '6'
+    const { id } = data as Node;
+    const { style: { cssText} } = el
+    const isModal = useMaterial().getMaterial(data.componentName)?.configure?.isModal
+    if (isModal) return
+    if (id && cssText) {
+      useCanvas().operateNode({
+        id,
+        type: 'changeProps',
+        value: {
+          props: { style: cssText }
+        }
+      })
+    }
+    getController().addHistory()
+    // 清除辅助线
+    useGuideLine().clearGuideLineAndAdsorb()
+  }
+  // 重置拖拽状态
+  clearDragState()
+  // 重置拖拽插入位置状态
+  clearLineState()
+  smoothScroll.stop()
+}
+
 // type == clickTree, 为点击大纲; type == loop-id=xxx ,为点击循环数据
 export const selectNode = async (id: string, type?: string, isMultiple = false) => {
   const { node } = useCanvas().getNodeWithParentById(id) || {}
   let element = querySelectById(id)
+
+  clearHover()
 
   if (element && node) {
     const { rootSelector } = getConfigure(node.componentName)
@@ -936,7 +967,7 @@ export const insertNode = (
 export const addComponent = (data: Node, position: string) => {
   const { schema, parent } = getCurrent()
 
-  insertNode({ node: schema, parent, data }, position)
+  insertNode({ node: schema, parent, data }, position as PositionType)
 }
 
 export const copyNode = (id: string) => {
@@ -951,17 +982,16 @@ export const copyNode = (id: string) => {
 }
 
 export const onMouseUp = () => {
+  let offset = { y: 0, x: 0 }
   const { draging } = dragState
   const { position, forbidden } = lineState
   const absolute = canvasState.type === 'absolute'
   const lineId = lineState.id
   const { getNodeWithParentById, getSchema } = useCanvas()
-
-  if (draging && !forbidden) {
+  if (draging && !forbidden && !getIsResize()) {
     const { parent, node } = getNodeWithParentById(lineId) || {} // target
     const data = dragState.data!
     const sourceId = data.id
-
     const insertData = toRaw(data)
     const targetNode = { parent, node, data: { ...insertData, children: insertData.children || [] } }
 
@@ -969,22 +999,58 @@ export const onMouseUp = () => {
       // 内部拖拽
       if (sourceId !== lineId && !absolute) {
         removeNode(sourceId)
-        insertNode(targetNode, position)
+        insertNode(targetNode, position as PositionType)
+      } else if (sourceId !== lineId && absolute) {
+        try {
+          const rect = getParentReact(position as PositionType, targetNode)
+          offset = { y: dragState.mouse.y - rect.top, x: dragState.mouse.x - rect.left }
+          targetNode.data.props = targetNode.data.props || {}
+          targetNode.data.props.style = `position: absolute; top: ${offset.y}px; left: ${offset.x}px;`
+          removeNode(sourceId)
+          insertNode(targetNode, position as PositionType)
+        } catch (_err) {
+          console.log('absolute 位置插入失败')
+        }
       }
     } else {
       // 从外部拖拽进来的无ID，insert
       if (absolute) {
+        // 弹出框类型、限制位置移动
         targetNode.node = getSchema()
-        data.props = data.props || {}
-        data.props.style = `position: absolute; top: ${dragState.mouse.y}px; left: ${dragState.mouse.x}px`
+        targetNode.parent = undefined
+        const rect = getParentReact(position as PositionType, targetNode)
+        offset = { y: dragState.mouse.y - rect.top, x: dragState.mouse.x - rect.left }
+        targetNode.data.props = targetNode.data.props || {}
+        targetNode.data.props.style = `position: absolute; top: ${offset.y}px; left: ${offset.x}px;`
       }
-
-      insertNode(targetNode, position)
+      insertNode(targetNode, position as PositionType)
     }
   }
-
   // 重置拖拽状态
   dragEnd()
+}
+
+export const getIsResize = () => !!(dragState?.offset?.horizontal && dragState?.offset?.vertical)
+
+export const getParentReact = (position: PositionType, targetNode: { parent: Node; node: Node }) => {
+  const { parent, node } = targetNode
+  let pEl = null
+  switch (position) {
+    case POSITION.TOP:
+    case POSITION.LEFT:
+    case POSITION.BOTTOM:
+    case POSITION.RIGHT:
+    case POSITION.OUT:
+    case POSITION.REPLACE:
+      pEl = querySelectById(parent?.id) || getDocument().body
+      break
+    case POSITION.IN:
+    default:
+      pEl = querySelectById(node?.id) || getDocument().body
+      break
+  }
+  const rect = pEl!.getBoundingClientRect()
+  return rect
 }
 
 export const addStyle = (href: string) => appendStyle(href, getDocument())
@@ -1071,7 +1137,8 @@ export const canvasApi = {
   updateCanvas: (...args: any[]) => {
     return canvasState.renderer.updateCanvas(...args)
   },
-  dragEnd
+  dragEnd,
+  getContext: () => canvasState.renderer.getContext()
 }
 
 export const initCanvas = ({ renderer, iframe, emit, controller }: any) => {
@@ -1091,4 +1158,5 @@ export const initCanvas = ({ renderer, iframe, emit, controller }: any) => {
 
   setConfigure(useMaterial().getConfigureMap())
   canvasState.loading = false
+  getDocument().body.className = canvasState.type === 'absolute' ? 'canvas-grid-bg' : ''
 }

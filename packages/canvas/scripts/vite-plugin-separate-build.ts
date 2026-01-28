@@ -1,4 +1,4 @@
-import { build } from 'vite'
+import { build, loadEnv } from 'vite'
 
 const buildRE = /(?:\?|&)build=(?<name>.*?)(?:&|$)/
 const queryRE = /[?#].*$/
@@ -14,6 +14,7 @@ function saveEmitBundleAssets(config, asset) {
 }
 
 async function bundleBuildEntry(config, options) {
+  const { VITE_SWITCH_CHUNK } = options
   const viteConfigFile = options.customBuildConfig[options.buildConfig]
   const {
     output: [outputChunk, ...outputChunks]
@@ -26,8 +27,15 @@ async function bundleBuildEntry(config, options) {
     }
   })
 
+  const { map: sourcemap, fileName: chunkFileName, code } = outputChunk
+  if (VITE_SWITCH_CHUNK === 'true') {
+    saveEmitBundleAssets(config, {
+      fileName: 'canvas.js',
+      source: code
+    })
+  }
+
   // handle sourceMap
-  const { map: sourcemap, fileName: chunkFileName } = outputChunk
   if (sourcemap) {
     if (config.build.sourcemap === 'hidden' || config.build.sourcemap === true) {
       saveEmitBundleAssets(config, {
@@ -83,12 +91,16 @@ export async function vitePluginBuildEntry(customBuildConfig) {
         return
       }
       const file = cleanUrl(id)
+      const { VITE_SWITCH_CHUNK } = loadEnv(config.mode, config.envDir)
       const { code } = await bundleBuildEntry(config, {
         customBuildConfig,
         buildConfig: match.groups.name,
-        entries: [file]
+        entries: [file],
+        VITE_SWITCH_CHUNK
       })
-
+      if (VITE_SWITCH_CHUNK === 'true') {
+        return `export default ${JSON.stringify('./assets/canvas.js')}\n`
+      }
       return `export default ${JSON.stringify(code)}`
     },
     generateBundle(opts, bundle) {

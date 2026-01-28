@@ -89,16 +89,26 @@
         </tiny-search>
       </div>
       <div class="plugin-block-list">
-        <plugin-block-list
-          :data="state.blockList"
-          :isBlockManage="true"
-          :showBlockShot="true"
-          :blockStyle="state.layout"
-          default-icon-tip="查看区块"
-          :externalBlock="externalBlock"
-          @editBlock="editBlock"
-          @iconClick="openSettingPanel"
-        ></plugin-block-list>
+        <tiny-collapse v-model="state.activeName" class="lowcode-scrollbar">
+          <tiny-collapse-item
+            v-for="item in groupBlocks"
+            :key="item.id"
+            :title="item.name"
+            :name="item.id"
+          >
+            <plugin-block-list
+              :data="item.blocks"
+              :isBlockManage="true"
+              :showBlockShot="true"
+              :blockStyle="state.layout"
+              default-icon-tip="查看区块"
+              :externalBlock="externalBlock"
+              @editBlock="editBlock"
+              @iconClick="openSettingPanel"
+              :grid-columns="1"
+            ></plugin-block-list>
+          </tiny-collapse-item>
+        </tiny-collapse>
       </div>
       <block-setting></block-setting>
       <div class="block-footer">
@@ -132,7 +142,9 @@ import {
   Dropdown as TinyDropdown,
   DropdownMenu as TinyDropdownMenu,
   Popover as TinyPopover,
-  Button as TinyButton
+  Button as TinyButton,
+  Collapse as TinyCollapse, 
+  CollapseItem as TinyCollapseItem,
 } from '@opentiny/vue'
 import { IconSearch } from '@opentiny/vue-icon'
 import { PluginPanel, PluginBlockList, SvgButton } from '@opentiny/tiny-engine-common'
@@ -159,6 +171,7 @@ import {
   getBlockById,
   getBlockContentByLabel,
   getBlockBase64,
+  getCategories,
   updateBlockList,
   delCategory,
   getEditBlock,
@@ -211,6 +224,8 @@ export default {
     PluginPanel,
     SaveNewBlock,
     BlockSetting,
+    TinyCollapse,
+    TinyCollapseItem,
     BlockGroupArrange,
     CategoryEdit,
     PluginBlockList,
@@ -228,7 +243,7 @@ export default {
     const docsUrl = useHelp().getDocsUrl('block')
     const docsContent =
       '区块类似于前端开发中的 Component，我们可以将页面中一样的结构（比如Header），构建到区块中，发布后直接拖入页面使用。'
-    const { getBlockList, sort } = useBlock()
+    const { getBlockList, getGroupList, sort } = useBlock()
     const { isSaved } = useCanvas()
     const { confirm } = useModal()
     const formData = reactive({
@@ -240,6 +255,7 @@ export default {
     const state = reactive({
       searchKey: '',
       categoryId: '',
+      activeName: [],
       groupValueCache: '',
       sortTypeLabel: '按时间倒序',
       sortType: 'timeDesc',
@@ -272,6 +288,8 @@ export default {
       currentDeleteGroupId: null
     })
 
+    const categoryList = computed(() => useBlock().getCategoryList())
+    
     const groupSelect = ref(null)
 
     const { PLUGIN_NAME } = useLayout()
@@ -282,38 +300,43 @@ export default {
 
     provide('panelState', panelState)
 
-    watch(
-      () => [getBlockList(), state.searchKey, state.publishFilterType],
-      () => {
-        const blockList = getBlockList()
-        state.blockList = blockList.filter((item) => {
-          let publishFilterFlag = true
-          switch (state.publishFilterType) {
-            case 'published':
-              publishFilterFlag = item.is_published
-              break
-            case 'draft':
-              publishFilterFlag = !item.is_published
-              break
-            default:
-              break
-          }
-
-          if (!publishFilterFlag) {
-            return false
-          }
-
-          const pattern = new RegExp(state.searchKey, 'i')
-
-          return pattern.test(item?.name_cn) || pattern.test(item?.label) || pattern.test(item?.description)
-        })
-        state.blockList = sort(state.blockList, state.sortType)
+    const setBlocks = (data, groups = []) => {
+      const defaultGroup = {
+        id: 'default',
+        name: '默认分组',
+        blocks: []
       }
-    )
-
-    const categoryList = computed(() => useBlock().getCategoryList())
+      data.forEach((block) => {
+        let isGroup = false;
+        groups.forEach((item) => {
+          if (block.groupIds?.includes(item.id)) {
+            item.blocks.push(block)
+            isGroup = true;
+          }
+        })
+        if(!isGroup) {
+          defaultGroup.blocks.push(block)
+        }
+      })
+      const rs = groups.filter((item) => item.blocks.length > 0)
+      if (defaultGroup.blocks.length > 0) {
+        rs.push(defaultGroup)
+      }
+      return rs
+    }
+    const groupBlocks = computed(() => {
+      const groups = categoryList.value.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          blocks: []
+        }
+      })
+      return setBlocks(state.blockList, groups) 
+    })
 
     mountedHook()
+    
     const boxVisibility = ref(false)
     const openBlockAdd = () => {
       boxVisibility.value = true
@@ -437,9 +460,44 @@ export default {
       handleChangeDeletePopoverVisible(visible)
     }
 
+    watch(
+      () => [getBlockList(), state.searchKey, state.publishFilterType],
+      () => {
+        const blockList = getBlockList()
+        state.blockList = blockList.filter((item) => {
+          let publishFilterFlag = true
+          switch (state.publishFilterType) {
+            case 'published':
+              publishFilterFlag = item.is_published
+              break
+            case 'draft':
+              publishFilterFlag = !item.is_published
+              break
+            default:
+              break
+          }
+
+          if (!publishFilterFlag) {
+            return false
+          }
+
+          const pattern = new RegExp(state.searchKey, 'i')
+
+          return pattern.test(item?.name_cn) || pattern.test(item?.label) || pattern.test(item?.description)
+        })
+        state.blockList = sort(state.blockList, state.sortType)
+      }
+    )
+    watch(() => [getGroupList()], () => getCategories())
+    watch(() => categoryList.value, (list) => {
+      const as = (list.map((item) => item.id) || [])
+      as.push('default')
+      state.activeName = as
+    })
     return {
       PLUGIN_NAME,
       state,
+      groupBlocks,
       groupSelect,
       categoryList,
       editBlock,
@@ -509,8 +567,14 @@ export default {
 }
 .plugin-block-list {
   margin-bottom: 40px;
-  padding: 12px;
+  padding: 0;
   overflow-y: auto;
+  :deep(.tiny-collapse.tiny-collapse .tiny-collapse-item) {
+    border-top-color: transparent;
+  }
+  :deep(.tiny-collapse-item__content) {
+    padding: 0 var(--te-common-vertical-form-label-spacing) 4px;
+  }
 }
 .block-footer {
   position: absolute;

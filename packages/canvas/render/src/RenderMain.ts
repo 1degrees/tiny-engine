@@ -22,7 +22,7 @@ import {
 } from './canvas-function'
 import { removeBlockCompsCache, setConfigure } from './material-function'
 import { useUtils, useBridge, useDataSourceMap, useGlobalState } from './application-function'
-import { type IPageSchema, useContext, usePageContext, useSchema } from './page-block-function'
+import { type IPageSchema, setGlobalCss, useContext, usePageContext, useSchema } from './page-block-function'
 import { api, setCurrentApi } from './canvas-function/canvas-api'
 import { getPageAncestors } from './material-function/page-getter'
 import CanvasEmpty from './canvas-function/CanvasEmpty.vue'
@@ -33,9 +33,9 @@ import { useRouterPreview } from './canvas-function/router-preview'
 // global-context singleton
 const { context: globalContext, setContext: setGlobalContext } = useContext()
 const { refreshKey, utils, getUtils, setUtils } = useUtils(globalContext)
-const { bridge } = useBridge()
 const { getDataSourceMap, setDataSourceMap } = useDataSourceMap()
 const { setGlobalState, stores } = useGlobalState()
+const { bridge } = useBridge()
 const updateGlobalContext = () => {
   const context = {
     utils,
@@ -50,6 +50,7 @@ const updateGlobalContext = () => {
   setGlobalContext(context, true)
 }
 updateGlobalContext()
+
 export const activePageContext = usePageContext()
 
 const {
@@ -63,7 +64,7 @@ const {
   getDataSourceMap
 })
 const { getRenderer, setRenderer } = useCustomRenderer()
-const { setCondition, getConditions } = activePageContext
+const { setCondition, getConditions, getContext } = activePageContext
 const updateCanvas = () => {
   refreshKey.value++
 }
@@ -78,11 +79,12 @@ setCurrentApi({
   getController,
   getConditions,
   getRenderer,
+  getContext,
   setRenderer,
   getDesignMode,
   setDesignMode,
   removeBlockCompsCache,
-  updateCanvas
+  updateCanvas,
 })
 
 const throttleUpdateSchema = useThrottleFn(
@@ -138,7 +140,10 @@ export default defineComponent({
     if (props.entry) {
       provide('page-ancestors', pageAncestors)
       provide('page-preview', useRouterPreview().previewPath)
-      const updatePageAncestor = () => {
+      const updatePageAncestor = (force = false) => {
+        if (force) {
+          pageAncestors.value = []
+        }
         if (routerViewSetting.viewMode === 'standalone') {
           pageAncestors.value = []
           return
@@ -172,6 +177,16 @@ export default defineComponent({
         () => activeSchema.css,
         (value) => {
           setPageCss(value)
+        }
+      )
+
+      const styledWatchCanceler = window.host.watch(
+        () => window.host.appSchema?.globalStyle,
+        (val) => {
+          setGlobalCss(val)
+        },
+        {
+          immediate: true,
         }
       )
 
@@ -218,7 +233,12 @@ export default defineComponent({
         topic: 'schemaImport',
         subscriber: 'canvasRenderer',
         callback: () => {
-          setSchema(window.host.getSchema())
+          const schema = window.host.getSchema();
+          if (schema.componentName === 'Block') {
+            pageContext.pageId = ''
+            updatePageAncestor()
+          }
+          setSchema(schema)
         }
       })
 
@@ -234,6 +254,7 @@ export default defineComponent({
         })
 
         utilsWatchCanceler()
+        styledWatchCanceler()
         dataSourceWatchCanceler()
         globalStateWatchCanceler()
       })

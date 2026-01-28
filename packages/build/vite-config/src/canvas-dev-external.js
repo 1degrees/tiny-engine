@@ -1,37 +1,39 @@
 import vitePluginExternalize from 'vite-plugin-externalize-dependencies'
 import { genImportMapPlugin } from './vite-plugins/genImportMapOnly.js'
-export function canvasDevExternal(override = {}) {
-  const prefix = '/node_modules/@opentiny/tiny-engine'
+import { replaceOrigins } from './localCdnFile/importMapLocalPlugin.js'
 
-  // 以下内容由于区块WebComponent加载需要补充
-  const blockRequire = {
-    externals: [/^@opentiny\/vue$/, /^@opentiny\/vue-icon$/],
+export const dependencies = {
+  base:{
+    externals: [/^vue$/, /^vue-i18n$/],
     imports: {
-      '@opentiny/vue': `${prefix}/node_modules/@opentiny/vue-runtime/dist3/tiny-vue-pc.mjs`,
-      '@opentiny/vue-icon': `${prefix}/node_modules/@opentiny/vue-runtime/dist3/tiny-vue-icon.mjs`
-    },
-    importStyles: [`${prefix}/node_modules/@opentiny/vue-theme/index.css`]
-  }
-  // 以下内容由于物料协议不支持声明子依赖而@opentiny/vue需要依赖所以需要补充
-  const tinyVueRequire = {
-    imports: {
-      '@opentiny/vue-common': `${prefix}/node_modules/@opentiny/vue-runtime/dist3/tiny-vue-common.mjs`,
-      '@opentiny/vue-locale': `${prefix}/node_modules/@opentiny/vue-runtime/dist3/tiny-vue-locale.mjs`
+      "vue": "http://172.31.243.56:8866/npmlibs/vue/vue.runtime.esm-browser.js",
+      "vue-i18n": "http://172.31.243.56:8866/npmlibs/vue-i18n/vue-i18n.esm-browser.js",
     }
+  },
+  ui: {
+    externals: [/^@opentiny\/vue$/, /^@opentiny\/vue-icon$/, /^@opentiny\/vue-common$/, /^@opentiny\/vue-locale$/, /^echarts$/],
+    imports: {
+      'echarts': 'http://172.31.243.56:8866/npmlibs/echarts/echarts.esm.js',
+      '@opentiny/vue': 'http://172.31.243.56:8866/npmlibs/@opentiny/vue/3.37.0/tiny-vue-pc.mjs',
+      '@opentiny/vue-icon': 'http://172.31.243.56:8866/npmlibs/@opentiny/vue/3.37.0/tiny-vue-icon.mjs',
+      '@opentiny/vue-common': 'http://172.31.243.56:8866/npmlibs/@opentiny/vue/3.37.0/tiny-vue-common.mjs',
+      '@opentiny/vue-locale': 'http://172.31.243.56:8866/npmlibs/@opentiny/vue/3.37.0/tiny-vue-locale.mjs',
+    },
+    importStyles: [
+      'http://172.31.243.56:8866/npmlibs/@opentiny/vue/3.37.0/style.css',
+    ]
   }
+}
+export function canvasDevExternal(override = {}) {
+  const _styles = [...dependencies.ui.importStyles]
+  const _scripts = { ...dependencies.base.imports, ...dependencies.ui.imports, ...override }
+  const [scripts, styles] = replaceOrigins(_scripts, _styles)
+  console.warn(scripts, styles, '------')
   return [
-    vitePluginExternalize({ externals: [/^vue$/, /^vue-i18n$/, ...blockRequire.externals] }),
+    vitePluginExternalize({ externals: [...dependencies.base.externals, ...dependencies.ui.externals] }),
     genImportMapPlugin(
-      {
-        imports: {
-          vue: `${prefix}/node_modules/vue/dist/vue.runtime.esm-browser.js`,
-          'vue-i18n': `${prefix}/node_modules/vue-i18n/dist/vue-i18n.esm-browser.js`,
-          ...blockRequire.imports,
-          ...tinyVueRequire.imports,
-          ...override
-        }
-      },
-      [...blockRequire.importStyles]
+      { imports: { ...scripts } },
+      [...styles]
     )
   ]
 }

@@ -8,7 +8,7 @@ import type { setController, getController } from './controller'
 export interface IApplicationFunctionAPI
   extends Pick<ReturnType<typeof useUtils>, 'getUtils'>,
     Pick<ReturnType<typeof useDataSourceMap>, 'getDataSourceMap'> {}
-export type IPageContextAPI = Pick<IPageContext, 'setCondition' | 'getConditions'>
+export type IPageContextAPI = Pick<IPageContext, 'setCondition' | 'getConditions'| 'getContext'>
 export interface ICanvasFunctionAPI extends ReturnType<typeof useCustomRenderer> {
   getDesignMode: typeof getDesignMode
   setDesignMode: typeof setDesignMode
@@ -34,6 +34,7 @@ export const api: IInnerCanvasAPI = {
   setController: (...args) => currentApi?.setController(...args),
   getController: (...args) => currentApi?.getController(...args),
   setConfigure: (...args) => currentApi?.setConfigure(...args),
+  getContext: (...args) => currentApi?.getContext(...args),
   setCondition: (...args) => currentApi?.setCondition(...args),
   getConditions: (...args) => currentApi?.getConditions(...args),
   getDataSourceMap: (...args) => currentApi?.getDataSourceMap(...args),
@@ -42,5 +43,5 @@ export const api: IInnerCanvasAPI = {
   getDesignMode: (...args) => currentApi?.getDesignMode(...args),
   setDesignMode: (...args) => currentApi?.setDesignMode(...args),
   removeBlockCompsCache: (...args) => currentApi?.removeBlockCompsCache(...args),
-  updateCanvas: (...args) => currentApi?.updateCanvas(...args)
+  updateCanvas: (...args) => currentApi?.updateCanvas(...args),
 }

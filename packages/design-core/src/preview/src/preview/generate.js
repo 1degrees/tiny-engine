@@ -9,9 +9,32 @@
  * A PARTICULAR PURPOSE. SEE THE APPLICABLE LICENSES FOR MORE DETAILS.
  *
  */
+import { DEFAULT_UTIL_LIBS } from '@opentiny/tiny-engine-common/js/constants'
 
-const generateDefaultExport = (data) =>
-  data && typeof data === 'object' ? `export default ${JSON.stringify(data, null, 2)}`.trim() : 'export default {}'
+const generateDefaultExport = (data) => data && typeof data === 'object' ?
+  `export default ${JSON.stringify(data, null, 2)}`.trim() : 'export default {}'
+
+const generateDataSource = (source) => {
+  const dataSource = source || {}
+  const { dataHandler, errorHandler, willFetch, list } = dataSource
+
+  const data = {
+    list: list.map(({ id, name, data }) => ({ id, name, ...data }))
+  }
+
+  if (dataHandler) {
+    data.dataHandler = dataHandler
+  }
+
+  if (errorHandler) {
+    data.errorHandler = errorHandler
+  }
+
+  if (willFetch) {
+    data.willFetch = willFetch
+  }
+  return generateDefaultExport(data);
+}
 
 const generateStores = (globalState) => {
   if (!Array.isArray(globalState)) {
@@ -41,6 +64,10 @@ const generateStores = (globalState) => {
   })
 
   return result.join('\n')
+}
+
+const generateGlobalStyle = (globalStyle) => {
+  return globalStyle || '* {\n  box-sizing: border-box;\n}\nbody, html {\n  margin: 0;\n  padding: 0;\n}'
 }
 
 const generateBridge = () => 'export default {}'
@@ -117,6 +144,7 @@ function generateStrsFromImports({ imports, strs, functionStrs, exportNames }) {
 }
 
 const generateUtils = (list) => {
+  list.push(...DEFAULT_UTIL_LIBS.filter((e) => !list.some(lib => lib.name === e.name)))
   const strs = []
 
   if (Array.isArray(list)) {
@@ -130,7 +158,6 @@ const generateUtils = (list) => {
 
     generateStrsFromImports({ imports, strs, functionStrs, exportNames })
   }
-
   return strs.join('\n')
 }
 
@@ -162,25 +189,35 @@ export const processAppJsCode = (code, cssList, enableTailwindCSS) => {
   }
 
   if (enableTailwindCSS && !code.includes('@tailwindcss/browser')) {
-    res += `\nimport('@tailwindcss/browser')\n`
+    res = `import('@tailwindcss/browser')\n` + res
     res += `\nenableTailwindCSS()\n`
   }
 
   return res
 }
 
+export const processConstant = (code, addCode) => {
+  if (code.includes(addCode)) {
+    return code
+  }
+  let res = `${code}\n`
+  res += addCode
+  return res
+}
 export default (data) => {
   const locales = generateDefaultExport(compatibleI18n(data.i18n))
-  const dataSource = generateDefaultExport(data.dataSource)
-  const stores = generateStores(data.globalState)
+  const dataSource = generateDataSource(data.dataSource)
+  const stores = generateStores(data.globalState || data?.meta?.globalState)
   const bridge = generateBridge(data.bridge)
   const utils = generateUtils(data.utils)
+  const style = generateGlobalStyle(data.globalStyle || data.css)
 
   return {
     'locales.js': locales,
     'dataSource.js': dataSource,
     'stores.js': stores,
     'bridge.js': bridge,
-    'utils.js': utils
+    'utils.js': utils,
+    'style.css': style
   }
 }

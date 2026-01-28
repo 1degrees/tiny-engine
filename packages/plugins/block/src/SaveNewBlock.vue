@@ -13,10 +13,11 @@
         :model="formData"
         :rules="rules"
         ref="formRef"
-        label-width="64px"
+        label-width="80px"
         :label-align="true"
         label-position="left"
         validate-type="text"
+        class="block-create-form"
       >
         <tiny-form-item label="区块名称" prop="name_cn">
           <TinyInput v-model="formData.name_cn" placeholder="请输入区块名称"></TinyInput>
@@ -74,9 +75,12 @@ export default {
     const { isSaved } = useCanvas()
     const { confirm } = useModal()
     const formRef = ref(null)
-
     const categoryList = computed(() =>
-      getCategoryList().map((item) => ({ ...item, value: item.id, label: item.name }))
+      getCategoryList().map((item, index) => {
+        if (index === 0 && props.boxVisibility)
+          formData.group = item.id
+        return { ...item, value: item.id, label: item.name }
+      })
     )
 
     const cancel = () => {
@@ -121,7 +125,8 @@ export default {
       label: [
         { pattern: REGEXP_BLOCK_NAME, message: '两个单词以上, 且是大写开头驼峰格式' },
         { required: true, message: '必填', trigger: 'blur' }
-      ]
+      ],
+      group: [{ required: true, message: '分组为必填项，数据表主键', trigger: 'blur' }],
     }
 
     return {
@@ -142,5 +147,13 @@ export default {
 <style scoped lang="less">
 .block-tip {
   color: var(--te-block-tip-color-error);
+}
+
+.block-create-form {
+  :deep(&.tiny-form--label-left.label-align .tiny-form-item.is-required .tiny-form-item__label:before) {
+    position: static;
+    left: 0;
+    width: 4px;
+  }
 }
 </style>

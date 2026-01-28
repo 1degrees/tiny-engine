@@ -4,10 +4,9 @@ export default {
   title: 'preview',
   options: {
     icon: {
-      default: 'preview'
+      default: '页面预览'
     },
-    renderType: 'button',
-    showTitle: false,
+    renderType: 'icon',
     previewUrl: ''
   }
 }

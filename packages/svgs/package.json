@@ -1,6 +1,6 @@
 {
   "name": "@opentiny/tiny-engine-svgs",
-  "version": "2.9.0",
+  "version": "2.8.0",
   "publishConfig": {
     "access": "public"
   },
@@ -33,8 +33,8 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "peerDependencies": {
-    "@opentiny/vue": "^3.20.0",
-    "@opentiny/vue-icon": "^3.20.0",
+    "@opentiny/vue": "~3.37.0",
+    "@opentiny/vue-icon": "~3.37.0",
     "vue": "^3.4.15"
   }
 }

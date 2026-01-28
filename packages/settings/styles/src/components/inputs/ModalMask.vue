@@ -2,7 +2,6 @@
   <teleport :to="targetClass">
     <div class="modal-wrapper">
       <div :class="[isAlignBody ? '' : 'modal-mask']" @click="$emit('close')"></div>
-
       <div
         ref="modalContent"
         :style="{ top: `${topStyle}px` }"

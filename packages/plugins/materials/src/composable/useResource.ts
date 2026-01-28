@@ -27,7 +27,7 @@ import {
   META_SERVICE
 } from '@opentiny/tiny-engine-meta-register'
 
-const { COMPONENT_NAME, DEFAULT_INTERCEPTOR } = constants
+const { COMPONENT_NAME, DEFAULT_INTERCEPTOR, DEFAULT_PROXY } = constants
 
 interface AppSchemaState {
   dataSource: any[]
@@ -45,6 +45,7 @@ interface AppSchemaState {
     styles: Set<unknown>
   }
   componentsMap?: any
+  proxy?: any
   dataHandler?: any
   willFetch?: any
   errorHandler?: any
@@ -78,7 +79,7 @@ interface PageInfo {
   props: any
 }
 
-const initPage = (pageInfo: PageInfo) => {
+const initPage = async (pageInfo: PageInfo) => {
   try {
     // 有id，说明不是临时的页面
     if (pageInfo?.id || typeof pageInfo?.id === 'number') {
@@ -89,6 +90,12 @@ const initPage = (pageInfo: PageInfo) => {
         state: 'empty',
         data: {}
       }
+      // 画布传递 schema ，多余的数据不能传递
+      useCanvas().initData(pageSchema, {
+        id,
+        name: pageInfo?.fileName
+      })
+      useBreadcrumb().setBreadcrumbPage([pageInfo.fileName])
     }
   } catch (error) {
     console.log(error) // eslint-disable-line
@@ -189,13 +196,14 @@ const fetchAppState = async () => {
   const appData = await getMetaApi(META_SERVICE.Http).get(`/app-center/v1/api/apps/schema/${id}`)
   appSchemaState.pageTree = appData.componentsTree
   appSchemaState.componentsMap = appData.componentsMap
-  appSchemaState.dataSource = appData.dataSource?.list
-  appSchemaState.dataHandler = appData.dataSource?.dataHandler || DEFAULT_INTERCEPTOR.dataHandler
   appSchemaState.willFetch = appData.dataSource?.willFetch || DEFAULT_INTERCEPTOR.willFetch
+  appSchemaState.dataHandler = appData.dataSource?.dataHandler || DEFAULT_INTERCEPTOR.globalDataHandler
   appSchemaState.errorHandler = appData.dataSource?.errorHandler || DEFAULT_INTERCEPTOR.errorHandler
-
+  appSchemaState.proxy = appData.dataSource?.proxy || DEFAULT_PROXY
+  appSchemaState.dataSource = appData.dataSource?.list || []
   appSchemaState.bridge = appData.bridge
   appSchemaState.utils = appData.utils
+  appSchemaState.globalStyle = appData?.css || '* {\n  box-sizing: border-box;\n}\nbody, html {\n  margin: 0;\n  padding: 0;\n}'
   appSchemaState.isDemo = appData?.meta?.isDemo || appData?.meta?.is_demo
   appSchemaState.globalState = appData?.meta?.globalState || appData?.meta?.global_state
 

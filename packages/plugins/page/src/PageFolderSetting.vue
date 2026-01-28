@@ -46,8 +46,7 @@ import {
   getMetaApi,
   META_SERVICE
 } from '@opentiny/tiny-engine-meta-register'
-import { isEqual } from '@opentiny/vue-renderless/common/object'
-import throttle from '@opentiny/vue-renderless/common/deps/throttle'
+import { isEqual, throttle } from '@opentiny/utils'
 import meta from '../meta'
 import http from './http'
 

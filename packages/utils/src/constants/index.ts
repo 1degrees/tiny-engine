@@ -132,8 +132,20 @@ export const ENVIRONMENTS = {
   Development: ['development']
 }
 
+// 数据源默认代理
+export const DEFAULT_PROXY = {
+  '/znzcb': {
+    'target': 'http://172.31.243.56:3391',
+    'changeOrigin': true
+  }
+}
+
 // 数据源默认拦截器
 export const DEFAULT_INTERCEPTOR = {
+  globalDataHandler: {
+    type: 'JSFunction',
+    value: 'function dataHandler(res){\n  return res && res.data\n}'
+  },
   dataHandler: {
     type: 'JSFunction',
     value: 'function dataHandler(res){\n  return res\n}'

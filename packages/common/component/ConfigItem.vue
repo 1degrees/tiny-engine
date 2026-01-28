@@ -82,9 +82,10 @@
             @update:modelValue="onModelUpdate"
           >
             <template #default>
-              <tiny-tooltip class="item" effect="light" content="源码编辑" placement="left">
+              <span />
+              <!-- <tiny-tooltip class="item" effect="light" content="源码编辑" placement="left">
                 <icon-writing class="code-icon" @click="editorModalRef?.open && editorModalRef.open()"></icon-writing>
-              </tiny-tooltip>
+              </tiny-tooltip> -->
             </template>
           </component>
           <component
@@ -105,7 +106,7 @@ import { inject, computed, watch, ref, reactive, provide } from 'vue'
 import type { Component } from 'vue'
 import { Popover, Tooltip } from '@opentiny/vue'
 import { IconWriting, IconHelpCircle, IconPlusCircle } from '@opentiny/vue-icon'
-import { typeOf } from '@opentiny/vue-renderless/common/type'
+import { typeOf } from '@opentiny/utils'
 import {
   useHistory,
   useProperties,
@@ -635,6 +636,11 @@ export default {
       &:hover {
         border-bottom: 1px dashed;
       }
+      > span {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
     &.multiType {
       border-bottom: 1px solid var(--te-component-common-border-color-transparent);
@@ -656,6 +662,21 @@ export default {
       align-items: center;
       .item-label {
         width: 30%;
+        min-width: 0;
+
+        span {
+          display: inline-block;
+          width: 100%;
+
+          :deep(span) {
+            display: inline-block;
+            width: 100%;
+          }
+
+          :deep(.tiny-popover__reference) {
+            width: 100%;
+          }
+        }
       }
       .item-input {
         width: calc(70% - 8px);

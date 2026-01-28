@@ -201,6 +201,7 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
+  top: var(--base-top-panel-height);
   right: var(--base-nav-panel-width);
   z-index: 999;
 

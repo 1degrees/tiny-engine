@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
-import { format } from '@opentiny/vue-renderless/common/date'
+import { formatDateByPattern as format } from '@opentiny/utils'
 import { Grid as TinyGrid, GridColumn as TinyGridColumn } from '@opentiny/vue'
 
 defineProps({

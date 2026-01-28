@@ -53,7 +53,7 @@ export default {
     SearchEmpty
   },
   setup() {
-    const COMPONENT_PANEL_COLUMNS = '1fr 1fr 1fr'
+    const COMPONENT_PANEL_COLUMNS = '1fr 1fr 1fr 1fr'
     const SHORTCUT_PANEL_COLUMNS = '1fr 1fr 1fr 1fr 1fr 1fr'
     const { generateNode, materialState, getComponentsByGroup } = useMaterial()
     const gridTemplateColumns = ref(COMPONENT_PANEL_COLUMNS)
@@ -85,6 +85,7 @@ export default {
 
         if (children.length > 0) {
           result.push({
+            label: component.label,
             // @ts-ignore 数据类型兼容
             groupId: component.groupId,
             group: component.group,
@@ -172,7 +173,12 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-
+  :deep(.tiny-collapse.tiny-collapse .tiny-collapse-item) {
+    border-top-color: transparent;
+  }
+  .tiny-collapse.tiny-collapse .tiny-collapse-item:first-child {
+    border-top-color: var(--te-common-border-bg-divider);
+  }
   .tiny-search {
     padding: 12px;
   }
@@ -187,27 +193,28 @@ export default {
     color: var(--te-materials-component-list-text-color);
 
     .component-item {
-      padding: var(--te-common-vertical-form-label-spacing) 0 var(--te-common-vertical-form-label-spacing);
-      margin-bottom: var(--te-common-vertical-form-label-spacing);
+      padding: 8px 0 8px;
+      margin-bottom: 4px;
       text-align: center;
       user-select: none;
       cursor: move;
       background: var(--te-materials-component-list-item-bg-color);
 
-      &:hover {
-        background: var(--te-materials-component-list-item-bg-color-hover);
-        border-radius: 4px;
-      }
-
       .component-item-component {
-        margin-bottom: 8px;
-
+        margin-bottom: 7px;
         svg {
-          font-size: 40px;
+          width: 48px;
+          height: 40px;
+          border: 1px solid rgba(215,222,244,1);
+          border-radius: 6px;
           vertical-align: middle;
-          color: var(--te-materials-component-list-item-icon-color);
+          color: #5275e4;
           overflow: hidden;
         }
+      }
+
+      &:hover .component-item-component svg {
+        border-color: rgba(78,110,242,1);
       }
 
       .component-item-name {

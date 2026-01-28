@@ -1,8 +1,8 @@
 <template>
   <div class="className-container">
     <h6 class="title">
-      <span>全局样式</span>
-      <link-button :href="docsUrl" :tips="docsContent" class="help-link"></link-button>
+      <span>页面样式(scope)</span>
+      <link-button :href="docsUrl" class="help-link"></link-button>
     </h6>
     <div class="selector-container">
       <code-configurator
@@ -13,7 +13,7 @@
         single
         @save="save"
       >
-        <div class="edit-global-css" title="编辑全局样式" @click="scope.open">
+        <div class="edit-global-css" title="编辑页面样式" @click="scope.open">
           <svg-icon name="to-edit"></svg-icon>
         </div>
       </code-configurator>
@@ -69,7 +69,7 @@
         </div>
         <div v-if="classNameState.showDropdownList" class="selector-drop-down-list lowcode-scrollbar-thin">
           <span class="selector-dropdown-list-tips">输入并回车创建新选择器</span>
-          <span v-if="currentSelectorList.length" class="selector-dropdown-list-tips">选择已有选择器编辑</span>
+          <span v-if="currentSelectorList.length" class="selector-dropdown-list-tips">选择已有选择器</span>
           <ul class="exist-class-list">
             <li
               v-for="item in currentSelectorList"
@@ -82,11 +82,25 @@
             </li>
           </ul>
           <span v-if="state.selectors.length" class="selector-dropdown-list-tips add-global-class-tips">
-            添加全局类到当前组件并编辑
+            添加页面类到当前组件
           </span>
           <ul class="exist-class-list">
             <li
               v-for="item in state.selectors"
+              :key="item"
+              :title="item"
+              class="exist-class-item"
+              @mousedown="handleSelectExistingClass(item)"
+            >
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+          <span v-if="state.globalSelectors.length" class="selector-dropdown-list-tips add-global-class-tips">
+            添加全局类到当前组件
+          </span>
+          <ul class="exist-class-list">
+            <li
+              v-for="item in state.globalSelectors"
               :key="item"
               :title="item"
               class="exist-class-item"
@@ -312,11 +326,12 @@ const selectorValidator = (selector) => {
 }
 
 // 添加现有 class 或者 id 到选中的组件中
-const handleSelectExistingClass = (selector) => {
+const handleSelectExistingClass = (selector = '') => {
+  selector = selector.trim().split(' ').pop()
+  if (!selector || selector === "*") return
   if (!state.selectorOptionLists.find(({ value }) => value === selector)) {
     editClassName(selector, OPTION_TYPE.ADD)
   }
-
   state.className.classNameList = selector
   state.className.mouseState = ''
 }
@@ -411,7 +426,7 @@ const handleCompleteEditCurSelector = () => {
   // 修改替换类名
   editClassName(curValue, OPTION_TYPE.EDIT, classNameState.preSelector)
 
-  // 全局样式中包含该类名的，替换之（不包含写在复杂选择器中的类名）
+  // 页面样式中包含该类名的，替换之（不包含写在复杂选择器中的类名）
   const newStyleStr = stringify(state.cssParseList, state.styleObject, {
     originSelector: classNameState.preSelector,
     newSelector: curValue
@@ -422,7 +437,7 @@ const handleCompleteEditCurSelector = () => {
 
 const handleDelSelector = () => {
   // 删除选择器，仅从当前选中组件中删除类名, 不删除全局 css 中的 css 类名和样式
-  // 后期需要可以拿到全局组件的类名，如果只有当前组件使用该类名，从全局样式中删除之
+  // 后期需要可以拿到全局组件的类名，如果只有当前组件使用该类名，从页面样式中删除之
   editClassName(classNameState.curSelector, OPTION_TYPE.REMOVE)
   state.className.classNameList = ''
   state.className.mouseState = ''
@@ -531,6 +546,7 @@ const handleDeleteCurSelector = () => {
 
   .className-selector-container {
     display: flex;
+    flex: 1;
     row-gap: 2px;
     align-items: center;
     max-width: 180px;
@@ -676,7 +692,7 @@ const handleDeleteCurSelector = () => {
   }
 
   .state-selector {
-    flex: 4;
+    flex: 0;
     min-width: 84px;
     border: 1px solid var(--te-styles-common-border-color);
     border-radius: var(--te-base-border-radius-1);

@@ -1,66 +1,13 @@
 <template>
   <div class="datasource-record-list">
-    <div class="actions">
-      <tiny-button plain :disabled="!allowCreate" @click.stop="insertNewData"
-        ><svg-icon name="add" class="btn-icon"></svg-icon>新增静态数据</tiny-button
-      >
-      <tiny-button plain :disabled="state.isBatchDeleteDisable" @click.stop="batchDelete"
-        ><svg-icon class="btn-icon" name="delete"></svg-icon>删除</tiny-button
-      >
-      <tiny-button plain :disabled="!allowCreate" @click.stop="showImportModal(true)"
-        ><svg-icon class="btn-icon" name="upload"></svg-icon>批量导入</tiny-button
-      >
-      <tiny-link type="primary" class="download" :underline="false" @click="download">下载导入模板</tiny-link>
-    </div>
-    <div class="record-list-data">
-      <tiny-grid
-        ref="grid"
-        highlight-current-row
-        show-overflow
-        :show-icon="false"
-        :auto-resize="true"
-        :edit-config="{ trigger: 'click', mode: 'row', showStatus: false }"
-        :edit-rules="state.validRules"
-        :data="state.tableData"
-        :columns="state.columns"
-        column-min-width="150px"
-        @edit-closed="editClosed"
-        @select-change="handleSelectChange"
-        @select-all="handleSelectChange"
-      >
-        <template #empty>
-          <div class="empty-container">
-            <svg-icon class="empty-icon" name="empty"></svg-icon>
-            <p>
-              <span>暂无数据</span>
-              <span v-if="isEmptyColumn">
-                <span>，请先</span>
-                <span class="add-column" @click="$emit('edit')">新增字段</span>
-              </span>
-            </p>
-          </div>
-        </template>
-      </tiny-grid>
-      <tiny-pager
-        v-if="state.totalData.length > state.pagerConfig.pageSize"
-        class="data-source-list-pager"
-        layout="prev, pager, next"
-        is-before-page-change
-        :current-page="state.pagerConfig.currentPage"
-        :page-size="state.pagerConfig.pageSize"
-        :total="state.pagerConfig.total"
-        @before-page-change="handleBeforeChange"
-        @current-change="handleCurrentChange"
-        @size-change="handleSizeChange"
-      >
-      </tiny-pager>
-    </div>
-    <data-source-record-upload
-      :showImportModal="state.showImportModal"
-      @override="overrideData"
-      @merge="mergeData"
-      @close="showImportModal(false)"
-    ></data-source-record-upload>
+    <p class="title-text">mock接口数据的数据，用于页面设计时绑定数据源。</p>
+    <monaco-editor
+      ref="editor"
+      class="monaco-editor"
+      :value="state.jsonValue"
+      :options="state.options"
+      @change="handleChange"
+    />
   </div>
 </template>
 
@@ -68,10 +15,11 @@
 import { reactive, ref, watchEffect, watch, computed } from 'vue'
 import { Grid, Pager, Input, Numeric, DatePicker, Switch, Slider, Link, Button } from '@opentiny/vue'
 import { utils } from '@opentiny/tiny-engine-utils'
-import { useModal, useLayout } from '@opentiny/tiny-engine-meta-register'
+import { useModal, useLayout, useNotify } from '@opentiny/tiny-engine-meta-register'
 import { fetchDataSourceDetail } from './js/http'
 import { downloadFn, handleImportedData, overrideOrMergeData, getDataAfterPage } from './js/datasource'
 import DataSourceRecordUpload from './DataSourceRecordUpload.vue'
+import { VueMonaco as MonacoEditor } from '@opentiny/tiny-engine-common'
 
 const grid = ref(null)
 
@@ -85,7 +33,8 @@ export default {
     TinyPager: Pager,
     DataSourceRecordUpload,
     TinyLink: Link,
-    TinyButton: Button
+    TinyButton: Button,
+    MonacoEditor
   },
   props: {
     // 数据源对象
@@ -96,6 +45,8 @@ export default {
   },
   emits: ['edit'],
   setup(props, { emit }) {
+    const noRoteTypes = ['array', 'tree']
+    const grid = ref(null)
     const { confirm } = useModal()
     const { PLUGIN_NAME, getPluginByLayout } = useLayout()
     const align = computed(() => getPluginByLayout(PLUGIN_NAME.Collections))
@@ -117,7 +68,12 @@ export default {
         total: 0
       },
       showImportModal: false,
-      validRules: {}
+      validRules: {},
+      jsonValue: '',
+      options: {
+        language: 'json',
+        minimap: { enabled: true }
+      },
     })
 
     const allowCreate = computed(() => state.columns?.length > 0)
@@ -174,29 +130,21 @@ export default {
     const getMockPageData = async (offset, pageSize) => {
       if (!props.data.id) return
       const res = await fetchDataSourceDetail(props.data.id)
-      const columns = res?.data?.columns
-
-      if (Array.isArray(columns) && columns.length > 0) {
-        state.validRules = genValidateRules(columns || [])
+      if (!noRoteTypes.includes(res.data.type)) {
+        return res.data?.data;
+      } else {
+        const columns = res?.data?.columns
+        if (Array.isArray(columns) && columns.length > 0) {
+          state.validRules = genValidateRules(columns || [])
+        }
+        // 兼容旧版本 唯一key 为 id 的场景
+        const result = res.data?.data?.map((item) => {
+          return item._id ? item : { ...item, _id: item.id }
+        })
+        state.totalData = result
+        const data = result.slice(offset, offset + pageSize)
+        return data
       }
-
-      // 兼容旧版本 唯一key 为 id 的场景
-      const result = res.data.data.map((item) => {
-        if (item._id) {
-          return item
-        }
-
-        return {
-          ...item,
-          _id: item.id
-        }
-      })
-
-      state.totalData = result
-
-      const data = result.slice(offset, offset + pageSize)
-
-      return data
     }
 
     const getGridData = ({ page, forceUseRemoteData }) => {
@@ -213,6 +161,7 @@ export default {
 
           resolve({
             result: state.totalData.slice(newOffset, newOffset + pageSize),
+            json: !noRoteTypes.includes(props.data.data.type) ? state.jsonValue : '',
             page: {
               total: state.totalData.length
             }
@@ -224,6 +173,7 @@ export default {
           .then((data) => {
             resolve({
               result: data,
+              json: !noRoteTypes.includes(props.data.data.type) ? data : '',
               page: { total: state.totalData.length }
             })
           })
@@ -234,12 +184,17 @@ export default {
     }
 
     const fetchData = (forceUseRemoteData = false) => {
-      return getGridData({ page: state.pagerConfig, forceUseRemoteData }).then(({ result, page }) => {
+      return getGridData({ page: state.pagerConfig, forceUseRemoteData }).then(({ result, json, page }) => {
+        state.jsonValue = JSON.stringify(json, null, 2)
         state.tableData = result
         state.pagerConfig.total = page.total
         // 通知刷新mock数据到 appSchemaState
         emit('refresh')
       })
+    }
+
+    const handleChange = (val) => {
+      state.jsonValue = val
     }
 
     const handleCopy = (rowData) => {
@@ -351,22 +306,30 @@ export default {
 
     const saveRecordList = () => {
       return new Promise((resolve) => {
-        grid.value.validate((valid) => {
-          if (!valid) {
-            return
+        if (!noRoteTypes.includes(props.data.data.type)) {
+          try {
+            const data = JSON.parse(state.jsonValue || null);
+            resolve(saveRecordFormData(data))
+          } catch(err){
+            useNotify({ type: 'warning', message: '录入数据格式异常，数据非完整JSON格式' })
           }
-          if (!state.totalData?.length) {
-            resolve(null)
-            return
-          }
-          const totalData = state.totalData
-          const columnsKeys = state.columns.map(({ name }) => name)
-          const data = totalData.map((item) =>
-            Object.fromEntries(Object.entries(item).filter(([key]) => columnsKeys.includes(key) || key === '_id'))
-          )
-
-          resolve(saveRecordFormData(data))
-        })
+        } else {
+          grid.value.validate((valid) => {
+            if (!valid) {
+              return
+            }
+            if (!state.totalData?.length) {
+              resolve(null)
+              return
+            }
+            const totalData = state.totalData
+            const columnsKeys = state.columns.map(({ name }) => name)
+            const data = totalData.map((item) =>
+              Object.fromEntries(Object.entries(item).filter(([key]) => columnsKeys.includes(key) || key === '_id'))
+            )
+            resolve(saveRecordFormData(data))
+          })
+        }
       })
     }
 
@@ -472,6 +435,7 @@ export default {
       saveRecordFormData,
       getGridData,
       saveRecordList,
+      handleChange,
       download,
       showImportModal,
       batchDelete,
@@ -490,6 +454,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.title-text {
+  font-size: var(--te-base-font-size-base);
+  color: var(--te-datasource-common-tip-text-color);
+  padding: 0 20px;
+}
+
+.monaco-editor {
+  height: calc(100vh - 200px);
+}
+
 .actions {
   display: flex;
   justify-content: left;

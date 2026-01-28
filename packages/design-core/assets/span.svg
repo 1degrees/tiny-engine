@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>7span</title>
+    <defs>
+        <linearGradient x1="47.9394577%" y1="86.8386574%" x2="77.512399%" y2="-43.8247111%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.7102362%" y1="87.0192388%" x2="53.8689311%" y2="-44.2846353%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.7102362%" y1="86.8386553%" x2="53.8689311%" y2="-43.8247102%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="7span" fill-rule="nonzero">
+            <g id="span" transform="translate(30, 35)">
+                <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.204287574" x="16.25" y="0" width="32.5" height="55" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-2)" opacity="0.604724702" x="0" y="0" width="12.1875" height="55" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-3)" x="52.8125" y="0" width="12.1875" height="55" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

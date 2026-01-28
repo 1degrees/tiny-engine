@@ -354,6 +354,9 @@ export default {
   }
 }
 .bind-event-list {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   color: var(--te-events-bind-event-list-text-color);
 }
 .bind-event-list-item-notallow {

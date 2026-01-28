@@ -50,9 +50,9 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { Button, Input, Numeric, DatePicker, Form, FormItem, Switch, Slider } from '@opentiny/vue'
 import { PluginSetting } from '@opentiny/tiny-engine-common'
-import { isEmptyObject } from '@opentiny/vue-renderless/common/type'
+import { extend } from '@opentiny/utils'
+import { isEmptyObject } from '@opentiny/utils'
 import { useDataSource } from '@opentiny/tiny-engine-meta-register'
-import { extend } from '@opentiny/vue-renderless/common/object'
 
 const CONSTANTS = {
   REQUIRED: 'required',

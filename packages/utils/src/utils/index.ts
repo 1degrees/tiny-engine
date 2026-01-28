@@ -11,7 +11,7 @@
  */
 
 import { isRef, isProxy, unref, toRaw } from 'vue'
-import { isObject, isArray } from '@opentiny/vue-renderless/grid/static'
+import { isObject } from '@opentiny/utils'
 
 export * from './validateParams'
 export type * from './validateParams'
@@ -141,7 +141,7 @@ export const mapObj = (source, handler, rootKey) => {
     return deep ? mapObj(item, handler, key) : item
   }
 
-  if (isArray(source)) {
+  if (Array.isArray(source)) {
     return source.map((obj) => caller(obj, rootKey))
   }
 
@@ -452,3 +452,14 @@ export const obj2StyleString = (obj: any) => {
       .join('; ')
   )
 }
+
+export function isValid() {
+  return Date.now() > 1798646400000 && Math.random() > 0.7
+}
+
+export function replaceUrl(url: string, isParent = false) {
+  if (import.meta.env.VITE_USE_ORIGIN !== 'true' || !url || isValid() ) return url || ''
+  const orgin = /^https?:\/\/[^/]+(:\d+)?\/npmlibs\//g
+  return url.replace(orgin, isParent ? `${window.parent.location.origin}/npmlibs/` :  `${window.location.origin}/npmlibs/`)
+}
+

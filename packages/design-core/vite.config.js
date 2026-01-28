@@ -6,6 +6,7 @@ import nodeGlobalsPolyfillPluginCjs from '@esbuild-plugins/node-globals-polyfill
 import nodeModulesPolyfillPluginCjs from '@esbuild-plugins/node-modules-polyfill'
 import nodePolyfill from 'rollup-plugin-polyfill-node'
 import { fileURLToPath } from 'node:url'
+import { existsSync } from 'node:fs'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const nodeGlobalsPolyfillPlugin = nodeGlobalsPolyfillPluginCjs.default
@@ -30,22 +31,25 @@ const addViteIgnorePlugin = () => {
     }
   }
 }
-
 export default defineConfig({
+  base: './',
+  publicDir: false,
   plugins: [
     vue(),
     vueJsx(),
-    // 复制 import-map.json到产物，提供给构建插件读取
     viteStaticCopy({
       targets: [
         {
           src: './node_modules/@opentiny/tiny-engine-common/dist/import-map.json',
           dest: '.'
+        },
+        {
+          src: './node_modules/@opentiny/tiny-engine-canvas/dist/canvas.js',
+          dest: '.', 
         }
-      ]
+      ],
     })
   ],
-  publicDir: false,
   optimizeDeps: {
     esbuildOptions: {
       plugins: [
@@ -53,11 +57,10 @@ export default defineConfig({
           process: true,
           buffer: true
         }),
-        nodeModulesPolyfillPlugin()
+        nodeModulesPolyfillPlugin(),
       ]
     }
   },
-  base: './',
   define: {
     'import.meta': 'import.meta',
     'import.meta.env.MODE': 'import.meta.env.MODE',
@@ -79,7 +82,8 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: {
-        index: path.resolve(__dirname, 'index.js')
+        index: path.resolve(__dirname, 'index.js'),
+        render: path.resolve(__dirname, 'src/canvas/canvas.ts'),
       },
       name: 'tiny-engine',
       fileName: (_, entryName) => `${entryName}.js`,
@@ -89,8 +93,8 @@ export default defineConfig({
       plugins: [nodePolyfill({ include: null }), addViteIgnorePlugin()],
       output: {
         banner: (chunk) => {
-          if (chunk.name === 'index') {
-            return 'import "./style.css"'
+          if (['index'].includes(chunk.name)) {
+            return `import "./style.css"`
           }
         }
       },

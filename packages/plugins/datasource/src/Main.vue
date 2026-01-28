@@ -31,6 +31,7 @@
     </template>
   </plugin-panel>
   <data-source-form
+    ref="sourceForm"
     v-model="state.currentDataSource"
     :editable="state.editable"
     :activeTabName="state.activeTabName"
@@ -49,11 +50,10 @@
 </template>
 
 <script lang="ts">
-/* metaService: engine.plugins.collections.Main */
-import { reactive, watch, provide } from 'vue'
+import { ref, reactive, watch, provide } from 'vue'
 import { Button } from '@opentiny/vue'
-import DataSourceList, { refresh as refreshDataSourceList, clearActive } from './DataSourceList.vue'
 import { PluginPanel, SvgButton } from '@opentiny/tiny-engine-common'
+import DataSourceList, { refresh as refreshDataSourceList, clearActive } from './DataSourceList.vue'
 import DataSourceForm, { open as openDataSourceForm, close as closeDataSourceForm } from './DataSourceForm.vue'
 import { close as closeRecordForm } from './DataSourceRecordForm.vue'
 import DataSourceSettingRemoteResult, {
@@ -118,9 +118,12 @@ export default {
         state.currentDataSource = { id, name, data: { ...data, type, columns: [...columns, ...value] } }
       }
     )
-
-    const getRomoteReponseData = (data) => {
+    const sourceForm = ref(null)
+    const getRomoteReponseData = ({
+      data, openMap
+    }) => {
       state.remoteResponData = data
+      !openMap && sourceForm.value?.save(false)
     }
 
     const activeTabChange = (name) => {
@@ -128,7 +131,7 @@ export default {
     }
 
     const openDataSourceFormPanel = (data) => {
-      if (!data || data?.data?.type === 'remote') {
+      if (!data || ['remote', 'object', 'array'].includes(data?.data?.type)) {
         activeTabChange('remote')
       } else {
         activeTabChange('field')
@@ -173,6 +176,7 @@ export default {
       open,
       openDataSourceFormPanel,
       getRomoteReponseData,
+      refreshDataSourceList,
       refreshDataSource,
       openGlobalDataHanderPanel,
       docsUrl,

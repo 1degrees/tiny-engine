@@ -39,20 +39,20 @@
   </tiny-popover>
 </template>
 
-<script>
+<script lang="ts">
 import { getMetaApi, META_SERVICE, useCanvas, usePage, useMessage } from '@opentiny/tiny-engine-meta-register'
 import { constants } from '@opentiny/tiny-engine-utils'
 import { Popover } from '@opentiny/vue'
 import { useBroadcastChannel } from '@vueuse/core'
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch, type DefineComponent } from 'vue'
 
 const { BROADCAST_CHANNEL, CANVAS_ROUTER_VIEW_SETTING_VIEW_MODE_KEY } = constants
 
 const COMPONENT_WHITELIST = ['RouterView']
-
+const TinyPopover = Popover as unknown as DefineComponent<any>
 export default {
   components: {
-    TinyPopover: Popover
+    TinyPopover
   },
   props: {
     hoverState: {

@@ -1,6 +1,6 @@
 import { mergeOptions } from '../utils/mergeOptions'
 import { generateImportStatement } from '../utils/generateImportStatement'
-
+import { DEFAULT_UTIL_LIBS } from '../constant/index.js'
 const defaultOption = {
   fileName: 'utils.js',
   path: './src'
@@ -53,7 +53,7 @@ function genUtilsPlugin(options = {}) {
      */
     run(schema) {
       const { utils } = schema
-
+      utils.push(...DEFAULT_UTIL_LIBS.filter((e) => !utils.some(lib => lib.name === e.name)))
       if (!Array.isArray(utils)) {
         return
       }
@@ -78,12 +78,11 @@ function genUtilsPlugin(options = {}) {
 
         exportVariables.push(exportName)
       }
-
       const fileContent = `
-${importStatements.join('\n')}
-${variableStatements.join('\n')}
-export { ${exportVariables.join(',')} }
-`
+        ${importStatements.join('\n')}
+        ${variableStatements.join('\n')}
+        export { ${exportVariables.join(',')} }
+        `
 
       return {
         fileType: 'js',

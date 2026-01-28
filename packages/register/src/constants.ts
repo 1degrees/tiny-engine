@@ -21,7 +21,6 @@ export const META_SERVICE = {
   Style: 'engine.service.style',
   McpService: 'engine.service.mcpService',
   UseUtils: 'engine.service.useUtils',
-  Robot: 'engine.service.robot',
   GlobalStateService: 'engine.service.globalStateService'
 }
 
@@ -64,6 +63,8 @@ export const META_APP = {
   I18n: 'engine.plugins.i18n',
   // 页面 JS 插件
   Page: 'engine.plugins.pagecontroller',
+  // 全局css 插件
+  Styled: 'engine.plugins.globalcsscontroller',
   // 状态管理插件
   State: 'engine.plugins.state',
   // 页面 schema 插件

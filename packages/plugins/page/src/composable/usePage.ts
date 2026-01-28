@@ -12,7 +12,7 @@
 
 /* metaService: engine.service.page.usePage */
 import { reactive, ref } from 'vue'
-import { extend, isEqual as isValuesEqual } from '@opentiny/vue-renderless/common/object'
+import { extend, isEqual as isValuesEqual } from '@opentiny/utils'
 import { constants } from '@opentiny/tiny-engine-utils'
 import { getCanvasStatus } from '@opentiny/tiny-engine-common/js/canvas'
 import {

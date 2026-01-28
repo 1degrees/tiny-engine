@@ -205,7 +205,7 @@ export default {
     }
 
     watch(
-      () => getCurrentSchema(),
+      () => getCurrentSchema()?.props?.style?.value,
       (val) => {
         if (val?.props?.style?.value) {
           state.lineStyleDisable = false
@@ -218,7 +218,7 @@ export default {
         }
       },
       {
-        deep: true
+        immediate: true
       }
     )
 

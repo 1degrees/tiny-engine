@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Ring diagram 环图</title>
+    <defs>
+        <linearGradient x1="46.5403065%" y1="86.8386573%" x2="96.1938916%" y2="-43.8247114%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="46.5403065%" y1="86.8386573%" x2="96.1938916%" y2="-43.8247114%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="63.7066298%" x2="128.792906%" y2="15.0904598%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="46.3944299%" y1="86.8386573%" x2="98.1416386%" y2="-43.8247114%" id="linearGradient-4">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="46.4298892%" y1="86.8386573%" x2="97.6681852%" y2="-43.8247114%" id="linearGradient-5">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="46.4298892%" y1="86.8386573%" x2="97.6681852%" y2="-43.8247114%" id="linearGradient-6">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件总览" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览3" transform="translate(-696.000000, -884.000000)">
+            <g id="编组-25备份-9" transform="translate(598.000000, 851.000000)">
+                <g id="Ring-diagram-环图" transform="translate(98.000000, 33.000000)">
+                    <g id="编组"></g>
+                    <g id="NBcharts-PIE" transform="translate(36.000000, 35.000000)">
+                        <path d="M11.9432141,13.1541593 C15.2567071,10.6884796 19.2867415,9.35567349 23.4284757,9.35567349 L23.4284757,14.1752629 C20.3376858,14.1752279 17.3302465,15.1698405 14.8575089,17.0098308 L11.9432141,13.1541593 L11.9432141,13.1541593 Z" id="路径" fill="#F9BE47" fill-rule="nonzero"></path>
+                        <path d="M23.4284757,0 C32.6124471,0 41.2365283,4.38073519 46.6065533,11.7734888 C51.9765784,19.1662424 53.4378291,28.6697482 50.5338102,37.3151074 L36.981143,32.8333011 C38.4333472,28.510561 37.7028167,23.7586548 35.0177803,20.0621489 C32.3327438,16.3656431 28.0205809,14.1752432 23.4284757,14.1752629 L23.4284757,0 Z" id="路径" stroke="url(#linearGradient-2)" fill="url(#linearGradient-1)"></path>
+                        <path d="M48.90792,36.7771743 C46.5155207,43.897816 41.2081509,49.6874238 34.2900479,52.7232546 C27.3721388,55.7589151 19.4848127,55.7589151 12.5669035,52.7232546 L17.6511684,41.3151969 C21.3310457,42.9297305 25.526468,42.9296017 29.2062446,41.3148419 C32.8860211,39.7000822 35.7089348,36.6204245 36.981143,32.8328165 L48.90792,36.7776589 L48.90792,36.7771743 Z" id="路径" fill="url(#linearGradient-3)" opacity="0.604724702"></path>
+                        <path d="M13.9534768,49.6119661 C5.02836498,45.69523 -0.515458345,36.6993376 0.0379268453,27.0313782 L9.16616035,27.5460493 C8.82857721,33.4409061 12.2087553,38.9260598 17.65068,41.3142276 L13.9534768,49.6124508 L13.9534768,49.6119661 Z" id="路径" fill="url(#linearGradient-4)" opacity="0.303770519"></path>
+                        <path d="M2.60496775,27.1762809 C2.95390564,21.0838076 5.99469965,15.4546596 10.9146395,11.7933341 L14.8575089,17.0103154 C11.4876321,19.5178249 9.40478155,23.3732337 9.1656719,27.5460493 L2.60496775,27.1762809 L2.60496775,27.1762809 Z" id="路径" stroke="url(#linearGradient-6)" fill="url(#linearGradient-5)"></path>
+                    </g>
+                    <g id="编组-6" transform="translate(68.500000, 58.500000)"></g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -11,8 +11,9 @@
  */
 
 import entry from './src/Main.vue'
-import metaData from './meta'
+import { addState } from './src/js/common'
 import globalStateService from './src/js/globalStateService'
+import metaData from './meta'
 import mcp from './src/mcp'
 import './src/styles/vars.less'
 
@@ -20,6 +21,7 @@ export default {
   ...metaData,
   entry,
   metas: [globalStateService],
+  apis: { addState },
   mcp
 }
 

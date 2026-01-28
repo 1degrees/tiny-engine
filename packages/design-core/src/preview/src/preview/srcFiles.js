@@ -24,6 +24,7 @@ import bridgeJS from './srcFiles/bridge.js?raw'
 import localesJS from './srcFiles/locales.js?raw'
 import storesJS from './srcFiles/stores.js?raw'
 import storesHelperJS from './srcFiles/storesHelper.js?raw'
+import http from './srcFiles/http.js?raw'
 
 const srcFiles = {}
 const isLocalBundle = import.meta.env.VITE_LOCAL_IMPORT_MAPS === 'true'
@@ -47,6 +48,7 @@ srcFiles['injectGlobal.js'] = injectGlobalJS
 srcFiles['lowcode.js'] = lowcodeJS
 srcFiles['dataSourceMap.js'] = dataSourceMapJS
 srcFiles['dataSource.js'] = dataSourceJS
+srcFiles['http.js'] = http
 srcFiles['utils.js'] = utilsJS
 srcFiles['bridge.js'] = bridgeJS
 srcFiles['locales.js'] = localesJS

@@ -1,4 +1,5 @@
 import readmeFile from './templateFiles/README.md?raw'
+import npmrc from './templateFiles/.npmrc?raw'
 import genViteConfig from './templateFiles/genViteConfig'
 import getPackageJson from './templateFiles/packageJson'
 import gitIgnoreFile from './templateFiles/.gitignore?raw'
@@ -13,7 +14,6 @@ import lowcodeStoreFile from './templateFiles/src/lowcodeConfig/store.js?raw'
 import axiosFile from './templateFiles/src/http/axios.js?raw'
 import axiosConfigFile from './templateFiles/src/http/config.js?raw'
 import httpEntryFile from './templateFiles/src/http/index.js?raw'
-import styleCSSFile from './templateFiles/src/style.css?raw'
 
 /**
  * 模板写入动态内容
@@ -87,6 +87,12 @@ export function generateTemplate(schema, options) {
       fileName: 'README.md',
       path: '.',
       fileContent: getTemplate(schema, readmeFile)
+    },
+    {
+      fileType: 'npmrc',
+      fileName: '.npmrc',
+      path: '.',
+      fileContent: npmrc
     },
     {
       fileType: 'js',
@@ -166,15 +172,6 @@ export function generateTemplate(schema, options) {
       fileContent: httpEntryFile
     }
   ]
-
-  if (options?.enableTailwindCSS) {
-    res.push({
-      fileType: 'css',
-      fileName: 'style.css',
-      path: './src',
-      fileContent: styleCSSFile
-    })
-  }
 
   try {
     const faviconData = base64ToBlob(logoImage)

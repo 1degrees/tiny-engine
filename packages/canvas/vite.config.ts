@@ -10,17 +10,15 @@
  *
  */
 
-import { defineConfig } from 'vite'
 import path from 'path'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import generateComments from '@opentiny/tiny-engine-vite-plugin-meta-comments'
 import { vitePluginBuildEntry } from './scripts/vite-plugin-separate-build'
-
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
-
   plugins: [
     vue(),
     vueJsx(),
@@ -30,7 +28,9 @@ export default defineConfig({
     })
   ],
   publicDir: false,
+  envDir: './env',
   build: {
+    assetsDir: '',
     sourcemap: true,
     cssCodeSplit: true,
     lib: {
@@ -46,7 +46,7 @@ export default defineConfig({
         chunkFileNames: '[name].js',
         assetFileNames: '[name].[ext]',
         banner: (chunk) => {
-          if (['index', 'render'].includes(chunk.name)) {
+          if (['index','render'].includes(chunk.name)) {
             return `import "./${chunk.name}.css"`
           }
           return ''
@@ -55,5 +55,5 @@ export default defineConfig({
       external: ['vue', '@vueuse/core', 'vue-i18n', /@opentiny\/tiny-engine.*/, /@opentiny\/vue.*/]
     },
     minify: true
-  }
+  },
 })

@@ -1,5 +1,5 @@
 <template>
-  <plugin-panel
+  <PluginPanel
     id="data-source"
     title="状态管理"
     class="plugin-state"
@@ -48,7 +48,7 @@
           <span>{{ addDataSource }}</span>
           <span class="options-wrap">
             <tiny-button type="primary" @click="confirm">保存</tiny-button>
-            <close-icon @close="cancel"></close-icon>
+            <CloseIcon @close="cancel"></CloseIcon>
           </span>
         </div>
         <create-variable
@@ -75,14 +75,14 @@
         />
       </div>
     </template>
-  </plugin-panel>
+  </PluginPanel>
 </template>
 
 <script lang="ts">
 /* metaService: engine.plugins.state.Main */
-import { reactive, ref, computed, onActivated, watch, provide } from 'vue'
 import type { Component } from 'vue'
-import { Button, Search, Tabs, TabItem } from '@opentiny/vue'
+import { reactive, ref, computed, onActivated, watch, provide } from 'vue'
+import CreateStore from './CreateStore.vue'
 import {
   useCanvas,
   useHistory,
@@ -93,14 +93,14 @@ import {
   META_APP,
   META_SERVICE
 } from '@opentiny/tiny-engine-meta-register'
-import { getCommentByKey } from '@opentiny/tiny-engine-common/js/comment'
 import { iconSearch } from '@opentiny/vue-icon'
-import { CloseIcon, PluginPanel } from '@opentiny/tiny-engine-common'
 import DataSourceList from './DataSourceList.vue'
 import CreateVariable from './CreateVariable.vue'
-import CreateStore from './CreateStore.vue'
 import { STATE, OPTION_TYPE } from './js/constants'
 import { validateMonacoEditorData } from './js/common'
+import { Button, Search, Tabs, TabItem } from '@opentiny/vue'
+import { CloseIcon, PluginPanel } from '@opentiny/tiny-engine-common'
+import { getCommentByKey } from '@opentiny/tiny-engine-common/js/comment'
 
 type StoreRefInstance = InstanceType<typeof CreateStore>
 type VariableRefInstance = InstanceType<typeof CreateVariable>
@@ -360,7 +360,7 @@ export default {
       const { lifeCycles } = schema
       const { [key]: deletedKey, ...restState } = schema.state
 
-      if (key.startsWith('datasource')) {
+      if (key.startsWith('datasource') && lifeCycles?.setup?.value) {
         const pageSchema = getSchema()
         const { start, end } = getCommentByKey(key)
 
@@ -370,18 +370,18 @@ export default {
          * "任意换行或空白字符 /** start-key *\/ 任意字符 /** end-key *\/"，该字符串会被匹配
          */
         const pattern = new RegExp(`([\\s\\n]*\\/\\*\\* ${start} \\*\\/[\\s\\S]*\\/\\*\\* ${end} \\*\\/)`)
-
         lifeCycles.setup.value = pageSchema.lifeCycles.setup.value.replace(pattern, '')
       }
 
+      setSaved(false)
       updateSchema({ state: restState, lifeCycles })
-
+      useHistory().addHistory()
+      openCommon()
+      
       // 如果删除的是当前编辑的状态变量，则需要关闭二级面板
       if (state.createData.name === key) {
         isPanelShow.value = false
       }
-
-      setSaved(false)
     }
 
     const closePanel = () => {
@@ -478,6 +478,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style lang="less" scoped>

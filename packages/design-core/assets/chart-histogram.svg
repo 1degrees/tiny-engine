@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>chart-histogram 柱状图</title>
+    <defs>
+        <linearGradient x1="49.2449784%" y1="86.8386573%" x2="60.0810628%" y2="-43.8247114%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.8050884%" y1="86.8386573%" x2="52.6024637%" y2="-43.8247114%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.64056%" y1="86.8386573%" x2="54.7992497%" y2="-43.8247114%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.7468289%" y1="86.8386573%" x2="53.3803447%" y2="-43.8247114%" id="linearGradient-4">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="50.1136996%" x2="128.792906%" y2="49.7104176%" id="linearGradient-5">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件总览" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览3" transform="translate(-1088.000000, -609.000000)">
+            <g id="编组-25备份-4" transform="translate(989.000000, 576.000000)">
+                <g id="chart-histogram-柱状图" transform="translate(99.000000, 33.000000)">
+                    <g id="编组"></g>
+                    <g id="图表-(3)" transform="translate(26.000000, 46.189995)">
+                        <path d="M17.5769231,19.8699645 C19.5524031,19.8699645 21.1538462,21.4714075 21.1538462,23.4468875 L21.1538462,39.8699645 L21.1538462,39.8699645 L14,39.8699645 L14,23.4468875 C14,21.4714075 15.601443,19.8699645 17.5769231,19.8699645 Z" id="矩形" fill="url(#linearGradient-1)" opacity="0.303770519"></path>
+                        <path d="M40.5769231,19.8699645 C42.5524031,19.8699645 44.1538462,21.4714075 44.1538462,23.4468875 L44.1538462,39.8699645 L44.1538462,39.8699645 L37,39.8699645 L37,23.4468875 C37,21.4714075 38.601443,19.8699645 40.5769231,19.8699645 Z" id="矩形备份-12" fill="url(#linearGradient-1)" opacity="0.204287574"></path>
+                        <path d="M63.5769231,19.8699645 C65.5524031,19.8699645 67.1538462,21.4714075 67.1538462,23.4468875 L67.1538462,39.8699645 L67.1538462,39.8699645 L60,39.8699645 L60,23.4468875 C60,21.4714075 61.601443,19.8699645 63.5769231,19.8699645 Z" id="矩形备份-13" fill="url(#linearGradient-1)" opacity="0.204287574"></path>
+                        <path d="M8.57692308,0 C10.5524031,-3.62889801e-16 12.1538462,1.60144301 12.1538462,3.57692308 L12.1538462,39.3632379 L12.1538462,39.3632379 L5,39.3632379 L5,3.57692308 C5,1.60144301 6.60144301,3.62889801e-16 8.57692308,0 Z" id="矩形备份-10" fill="url(#linearGradient-2)" opacity="0.604724702"></path>
+                        <path d="M31.5769231,10.8699645 C33.5524031,10.8699645 35.1538462,12.4714075 35.1538462,14.4468875 L35.1538462,39.8565113 L35.1538462,39.8565113 L28,39.8565113 L28,14.4468875 C28,12.4714075 29.601443,10.8699645 31.5769231,10.8699645 Z" id="矩形备份-11" fill="url(#linearGradient-3)" opacity="0.604724702"></path>
+                        <path d="M54.5769231,4.86996447 C56.5524031,4.86996447 58.1538462,6.47140748 58.1538462,8.44688754 L58.1538462,39.4083998 L58.1538462,39.4083998 L51,39.4083998 L51,8.44688754 C51,6.47140748 52.601443,4.86996447 54.5769231,4.86996447 Z" id="矩形备份-14" fill="url(#linearGradient-4)" opacity="0.604724702"></path>
+                        <rect id="矩形" fill="url(#linearGradient-5)" x="0" y="35.8699645" width="72" height="4" rx="2"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

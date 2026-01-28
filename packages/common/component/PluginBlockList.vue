@@ -27,6 +27,7 @@
       :draggable="!isBlockManage && showSettingIcon"
       :class="[
         'block-item',
+        { 'block-item-6': gridColumns === 6 },
         { 'is-disabled': showBlockDetail },
         { 'block-item-small-list': blockStyle === BlockStyles.Mini }
       ]"
@@ -87,7 +88,7 @@
         </div>
       </slot>
     </li>
-    <div v-if="showBlockShot && state.hover && state.currentBlock.screenshot" class="block-shortcut">
+    <!-- <div v-if="showBlockShot && state.hover && state.currentBlock.screenshot" class="block-shortcut">
       <div class="block-shortcut-title">{{ state.currentBlock.label }}预览图</div>
       <div v-if="state.currentBlock.description" class="block-shortcut-description">
         {{ state.currentBlock.description }}
@@ -99,7 +100,7 @@
           @error="$event.target.src = defaultImg"
         />
       </div>
-    </div>
+    </div> -->
   </ul>
   <search-empty :isShow="!state.data.length && !showAddButton" />
 </template>
@@ -107,7 +108,7 @@
 <script lang="ts">
 import { computed, watch, inject, reactive } from 'vue'
 import type { Component } from 'vue'
-import { format } from '@opentiny/vue-renderless/common/date'
+import { formatDateByPattern as format } from '@opentiny/utils'
 import { Tooltip } from '@opentiny/vue'
 import PluginBlockItemImg from './PluginBlockItemImg.vue'
 import SearchEmpty from './SearchEmpty.vue'
@@ -444,17 +445,23 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     position: relative;
-    height: 110px;
+    height: 142px;
     user-select: none;
     gap: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
+    border-radius: 8px;
+    border: 0.5px solid #52649a21;
+    &.block-item-6 {
+      height: 58px;
+    }
 
     .publish-flag {
       position: absolute;
       left: 4px;
-      top: 4px;
+      top: 20px;
       text-align: center;
       display: block;
       color: var(--te-component-common-text-color-primary);
@@ -541,7 +548,7 @@ export default {
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 86px;
+        height: 100%;
         border: 1px dashed var(--te-component-common-border-color-hover);
         border-radius: 4px;
       }
@@ -566,8 +573,10 @@ export default {
     }
 
     .item-text {
-      color: var(--te-component-common-text-color-secondary);
-      text-align: center;
+      position: absolute;
+      top: 2px;
+      left: 6px;
+      color: rgb(109 116 119);
       font-size: 12px;
       line-height: 1.5;
       overflow: hidden;

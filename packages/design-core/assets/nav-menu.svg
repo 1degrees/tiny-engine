@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>NavMenu 导航菜单</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="64.7306828%" x2="128.792906%" y2="12.4822899%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="50.5098776%" x2="128.792906%" y2="48.7013881%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="52.3653494%" x2="128.792906%" y2="43.9756701%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <path d="M2,0 L74,0 C75.1045695,-2.02906125e-16 76,0.8954305 76,2 L76,18 C76,19.1045695 75.1045695,20 74,20 L2,20 C0.8954305,20 1.3527075e-16,19.1045695 0,18 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 Z" id="path-4"></path>
+        <filter x="-5.3%" y="-10.0%" width="110.5%" height="140.0%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.368627451   0 0 0 0 0.48627451   0 0 0 0 0.878431373  0 0 0 0.349865467 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Tiny-Vue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览1" transform="translate(-1087.000000, -935.000000)">
+            <g id="组件" transform="translate(596.000000, 311.000000)">
+                <g id="编组-25备份-10" transform="translate(393.000000, 591.000000)">
+                    <g id="NavMenu-导航菜单" transform="translate(98.000000, 33.000000)">
+                        <g id="编组"></g>
+                        <g id="编组-3" transform="translate(25.000000, 36.000000)">
+                            <rect id="矩形备份-6" fill="url(#linearGradient-1)" opacity="0.204287574" x="4" y="10" width="68" height="43" rx="4"></rect>
+                            <path d="M16,28 L61,28 C62.6568542,28 64,29.3431458 64,31 C64,32.6568542 62.6568542,34 61,34 L16,34 C14.3431458,34 13,32.6568542 13,31 C13,29.3431458 14.3431458,28 16,28 Z" id="形状结合备份" fill="url(#linearGradient-2)" opacity="0.604724702"></path>
+                            <path d="M16,41 L34,41 C35.6568542,41 37,42.3431458 37,44 C37,45.6568542 35.6568542,47 34,47 L16,47 C14.3431458,47 13,45.6568542 13,44 C13,42.3431458 14.3431458,41 16,41 Z" id="形状结合备份-17" fill="url(#linearGradient-3)" opacity="0.604724702"></path>
+                            <g id="形状结合备份">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                                <use fill="#5073E5" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            </g>
+                            <path d="M13,5 C15.7614237,5 18,7.23857625 18,10 C18,12.7614237 15.7614237,15 13,15 C10.2385763,15 8,12.7614237 8,10 C8,7.23857625 10.2385763,5 13,5 Z" id="矩形" fill="#FFFFFF"></path>
+                            <path d="M26,6 L38,6 C39.1045695,6 40,6.8954305 40,8 L40,12 C40,13.1045695 39.1045695,14 38,14 L26,14 C24.8954305,14 24,13.1045695 24,12 L24,8 C24,6.8954305 24.8954305,6 26,6 Z" id="矩形备份-27" fill="#FFFFFF" opacity="0.801619757"></path>
+                            <path d="M48,6 L60,6 C61.1045695,6 62,6.8954305 62,8 L62,12 C62,13.1045695 61.1045695,14 60,14 L48,14 C46.8954305,14 46,13.1045695 46,12 L46,8 C46,6.8954305 46.8954305,6 48,6 Z" id="矩形备份-28" fill="#FFFFFF" opacity="0.801619757"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

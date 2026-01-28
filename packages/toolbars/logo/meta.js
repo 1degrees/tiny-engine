@@ -1,10 +1,10 @@
 export default {
   id: 'engine.toolbars.logo',
   type: 'toolbars',
-  title: 'logo',
+  title: 'cloud-shell',
   options: {
     icon: {
-      default: 'logo'
+      default: 'cloud-shell'
     },
     renderType: 'slot'
   }

@@ -7,6 +7,7 @@
     text-field="name"
     :clearable="true"
     popper-class="page-tree-select-dropdown"
+    placeholder="请选择页面"
     @change="handleChange"
   >
   </tiny-select>
@@ -115,7 +116,7 @@ const handleChange = () => {
 
 <style lang="less">
 .tiny-select-dropdown.page-tree-select-dropdown {
-  padding: 8px 0;
+  padding: 8px 12px;
 
   .tiny-tree .tiny-tree-node__wrapper .tiny-tree-node {
     .tiny-tree-node__content {

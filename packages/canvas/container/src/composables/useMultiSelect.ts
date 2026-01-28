@@ -4,13 +4,14 @@ import { utils } from '@opentiny/tiny-engine-utils'
 import { getRect, querySelectById, POSITION, insertNode, selectNode, canvasState } from '../container'
 import type { Node } from '../../../types'
 
-interface SelectionState {
+export interface SelectionState {
   id: string
   top?: number
   left?: number
   width?: number
   height?: number
   schema?: any
+  type?: string
   parent?: {
     id: string
     children: Node[]

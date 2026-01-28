@@ -87,7 +87,15 @@ td {
 #tiny-engine * {
   box-sizing: border-box;
 }
-
+/* 隐藏帮助文档 */
+#tiny-engine  {
+  #leftBottom .list-item:nth-child(2) {
+    display: none;
+  }
+  .help-box{
+    display: none;
+  }
+}
 .tiny-svg,
 #tiny-engine .tiny-svg {
   outline: none;

@@ -9,6 +9,7 @@
  * A PARTICULAR PURPOSE. SEE THE APPLICABLE LICENSES FOR MORE DETAILS.
  *
  */
+export { DEFAULT_UTIL_LIBS } from '@opentiny/tiny-engine-dsl-vue'
 
 export const COMPONENT_NAME = {
   Page: 'Page',

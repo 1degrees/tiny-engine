@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue'
+import { defineProps, defineExpose, computed, ref } from 'vue'
 import { getStyleValue, alignMap, justAlignMap } from './helper'
 
 const props = defineProps({
@@ -42,7 +42,7 @@ const props = defineProps({
     default: 'auto'
   }
 })
-
+const colRef = ref(null)
 const getFlex = (options: any) => {
   const { flexBasis, grow, shrink, widthType } = options
 
@@ -62,6 +62,10 @@ const styles = computed(() => {
     align: alignMap[props.align] || 'stretch',
     justAlign: justAlignMap[props.justAlign] || 'flex-start'
   }
+})
+
+defineExpose({
+  colRef
 })
 </script>
 

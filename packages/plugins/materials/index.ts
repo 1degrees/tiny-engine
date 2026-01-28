@@ -29,7 +29,7 @@ export default {
     defaultTabId: 'engine.plugins.materials.component',
     displayComponentIds: ['engine.plugins.materials.component', 'engine.plugins.materials.block'],
     basePropertyOptions,
-    useBaseStyle: true,
+    useBaseStyle: false,
     blockBaseStyle: {
       className: 'block-base-style',
       style: 'margin: 16px;'

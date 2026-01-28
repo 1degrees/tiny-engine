@@ -219,7 +219,6 @@ const addComponentSnippets = (componentSnippets: Snippet[] | undefined, snippets
 
 const getCanvasDeps = () => {
   const { scripts, styles } = useResource().appSchemaState.materialsDeps
-
   return {
     scripts: [...scripts].filter((item) => item.script),
     styles: [...styles]
@@ -252,7 +251,6 @@ const parseMaterialsDependencies = (materialBundle: Material) => {
     if (!pkg.css) {
       return
     }
-
     if (Array.isArray(pkg.css)) {
       pkg.css.forEach((item) => stylesDeps.add(item))
     } else {
@@ -506,10 +504,9 @@ const getComponentList = () => {
 
 const getComponentDetail = (name) => {
   const data = resource.get(name)
-  if (!data) return null
 
   const props = data.schema.properties
-    ?.map((item) => {
+    .map((item) => {
       return item.content.map((content) => {
         return {
           property: content.property,

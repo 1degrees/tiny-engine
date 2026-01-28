@@ -26,44 +26,44 @@
       </TinyPopover>
     </div>
     <!-- 绝对定位画布时调节元素大小 -->
-    <template v-else>
+    <template v-if="showResize">
       <div
-        :class="[showAction && 'drag-resize', 'resize-top']"
+        :class="['drag-resize', 'resize-top']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'center', 'start')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-bottom']"
+        :class="['drag-resize', 'resize-bottom']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'center', 'end')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-left']"
+        :class="['drag-resize', 'resize-left']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'start', 'center')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-right']"
+        :class="['drag-resize', 'resize-right']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'end', 'center')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-left']"
+        :class="['drag-resize', 'resize-left']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'start', 'start')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-top-right']"
+        :class="['drag-resize', 'resize-top-right']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'end', 'start')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-bottom-left']"
+        :class="['drag-resize', 'resize-bottom-left']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'start', 'end')"
       ></div>
       <div
-        :class="[showAction && 'drag-resize', 'resize-bottom-right']"
+        :class="['drag-resize', 'resize-bottom-right']"
         draggable="true"
         @mousedown.stop="onMousedown($event, 'end', 'end')"
       ></div>
@@ -110,8 +110,8 @@
     </div>
   </div>
 </template>
-<script>
-import { watchPostEffect, ref, watch, computed, nextTick } from 'vue'
+<script lang="ts">
+import { watchPostEffect, ref, watch, computed, nextTick, onMounted } from 'vue'
 import {
   IconDel,
   IconSetting,
@@ -124,6 +124,7 @@ import {
 import {
   canvasState,
   getCurrent,
+  getCanvasType,
   removeNodeById,
   selectNode,
   updateRect,
@@ -133,9 +134,8 @@ import {
   getCurrentElement,
   querySelectById
 } from '../container'
-import { useLayout, useMaterial, useCanvas, useMessage } from '@opentiny/tiny-engine-meta-register'
-import { Popover } from '@opentiny/vue'
 import shortCutPopover from './shortCutPopover.vue'
+import { useLayout, useMaterial, useCanvas, useMessage } from '@opentiny/tiny-engine-meta-register'
 
 // 工具操作条高度
 const OPTION_BAR_HEIGHT = 24
@@ -163,7 +163,6 @@ export default {
     IconCopy: IconCopy(),
     IconEyeclose: IconEyeclose(),
     shortCutPopover,
-    TinyPopover: Popover
   },
   props: {
     hoverState: {
@@ -269,8 +268,10 @@ export default {
       if (schema?.props?.['data-id'] === 'root-container') {
         return false
       }
-      return !props.resize && parent && parent?.type !== 'JSSlot' && isSingleNode.value
+      return parent && parent?.type !== 'JSSlot' && isSingleNode.value
     })
+
+    const showResize = computed(() => props.resize && showAction.value)  
 
     const showQuickAction = computed(() => {
       return !props.resize && isSingleNode.value
@@ -278,10 +279,13 @@ export default {
 
     const showToParent = computed(() => getCurrent().parent !== useCanvas().getSchema())
 
+    const isPosition = computed(() => getCanvasType() === 'absolute')
+
     const isModal = computed(() => {
       const config = useMaterial().getMaterial(props.selectState.componentName)
       return config?.configure?.isModal
     })
+
 
     const optionRef = ref(null)
     const fixStyle = ref('')
@@ -325,7 +329,7 @@ export default {
         height,
         width,
         horizontal,
-        vertical
+        vertical,
       })
     }
 
@@ -633,6 +637,17 @@ export default {
       fixStyle.value = optionStyleValue
     })
 
+    // onMounted(() => {
+    //   document.body.addEventListener('mouseup', (e) => {
+    //     console.log('--------mouseup--------', e)
+    //   })
+    //   document.body.addEventListener('drop', (e) => {
+    //     console.log('--------drop--------', e)
+    //   })
+      
+    //   console.log("onMounted-----")
+    // })
+
     return {
       remove,
       moveUp,
@@ -643,11 +658,13 @@ export default {
       optionRef,
       fixStyle,
       showAction,
+      showResize,
       showQuickAction,
       showPopover,
       showToParent,
       activeSetting,
       isModal,
+      isPosition,
       onMousedown,
       labelStyle,
       labelRef
@@ -805,6 +822,8 @@ export default {
     display: flex;
     align-items: center;
     position: absolute;
+    left: 4px;
+    bottom: -26px;
     height: 24px;
     padding: 0 4px;
     color: var(--te-canvas-container-text-color-white);
@@ -902,9 +921,11 @@ export default {
   bottom: -6px;
   left: -6px;
   right: -6px;
-  height: 6px;
-  width: 6px;
-  background-color: #409eff;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  border: 2px solid #409eff;
+  background-color: #ffffff;
   cursor: pointer;
   pointer-events: auto !important;
   &.resize-top {

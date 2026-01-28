@@ -111,7 +111,7 @@ export default {
       },
       loopItem: 'item',
       loopIndex: 'index',
-      isLoop: computed(() => state.loopData?.type === PROP_DATA_TYPE.JSEXPRESSION),
+      isLoop: computed(() => state.loopData?.type === PROP_DATA_TYPE.JSEXPRESSION && state.loopData?.value !== '[]' ),
       loopKey: '',
       shouldUpdate: false
     })
@@ -124,7 +124,8 @@ export default {
         state.loopItem = value?.loopArgs?.[0] || ''
         state.loopIndex = value?.loopArgs?.[1] || ''
         state.loopKey = value?.props?.key?.value || ''
-      }
+      },
+      { immediate: true }
     )
 
     const setLoopKey = (value = '') => {

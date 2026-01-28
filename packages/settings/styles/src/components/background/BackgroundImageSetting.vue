@@ -71,7 +71,7 @@ export default {
   setup(props, { emit }) {
     const state = reactive({
       style: {},
-      styleComponent: 'ColorOverlay',
+      styleComponent: 'ImageSetting',
       typeLists: [
         {
           content: '颜色叠加',

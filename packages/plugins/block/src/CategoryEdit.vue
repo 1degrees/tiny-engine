@@ -49,7 +49,7 @@ import {
 } from '@opentiny/vue'
 import { useBlock } from '@opentiny/tiny-engine-meta-register'
 import { REGEXP_GROUP_NAME } from '@opentiny/tiny-engine-common/js/verification'
-import { extend } from '@opentiny/vue-renderless/common/object'
+import { extend } from '@opentiny/utils'
 import { createOrUpdateCategory } from './js/blockSetting'
 
 const { getGroupList, shouldReplaceCategoryWithGroup } = useBlock()

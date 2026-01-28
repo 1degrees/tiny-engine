@@ -1,6 +1,6 @@
 {
   "component": {
-    "icon": "RowColContainer",
+    "icon": "row-col",
     "name": {
       "zh_CN": "行列容器"
     },
@@ -64,7 +64,7 @@
     },
     "screenshot": "",
     "snippetName": "CanvasRowColContainer",
-    "icon": "RowColContainer",
+    "icon": "row-col",
     "schema": {
       "componentName": "CanvasRowColContainer",
       "props": {

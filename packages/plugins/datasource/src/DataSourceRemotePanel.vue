@@ -6,8 +6,14 @@
       :isSecond="true"
       :align="align"
       @cancel="closePanel"
-      @save="saveRemote"
+      @save="() => saveRemote()"
     >
+      <template #header>
+        <button-group class="remote-btns">
+          <tiny-button type="primary" @click="() => saveRemote()">保存</tiny-button>
+          <svg-button name="close" @click="closePanel"></svg-button>
+        </button-group>
+      </template>
       <template #content>
         <div class="create-config">
           <div>
@@ -41,7 +47,7 @@
                 <template #title>请求结果</template>
                 <data-srouce-remote-data-result
                   v-model="state.remoteData.result"
-                  @check="saveRemote"
+                  @check="() => saveRemote(true)"
                 ></data-srouce-remote-data-result>
               </tiny-collapse-item>
             </tiny-collapse>
@@ -55,8 +61,8 @@
 <script lang="ts">
 /* metaService: engine.plugins.collections.DataSourceRemotePanel */
 import { reactive, watch, ref, computed } from 'vue'
-import { Collapse, CollapseItem, Tabs, TabItem, Button } from '@opentiny/vue'
-import { PluginSetting } from '@opentiny/tiny-engine-common'
+import { PluginSetting, SvgButton } from '@opentiny/tiny-engine-common'
+import { Collapse, CollapseItem, Tabs, TabItem, Button, ButtonGroup } from '@opentiny/vue'
 import DataSourceRemoteForm, { getServiceForm } from './DataSourceRemoteForm.vue'
 import DataSourceRemoteParameter from './DataSourceRemoteParameter.vue'
 import DataSourceRemoteAutoload from './DataSourceRemoteAutoload.vue'
@@ -64,7 +70,7 @@ import DataSourceRemoteAdapter from './DataSourceRemoteDataAdapter.vue'
 import DataSrouceRemoteDataResult, { getResponseData } from './DataSourceRemoteDataResult.vue'
 import { open as openRemoteMapping } from './DataSourceRemoteMapping.vue'
 import { useLayout, useDataSource, useNotify } from '@opentiny/tiny-engine-meta-register'
-import { isEmptyObject } from '@opentiny/vue-renderless/common/type'
+import { isEmptyObject } from '@opentiny/utils'
 import { utils } from '@opentiny/tiny-engine-utils'
 import { getRequest } from './js/datasource'
 
@@ -92,7 +98,9 @@ export default {
     DataSourceRemoteParameter,
     DataSourceRemoteAutoload,
     DataSourceRemoteAdapter,
-    DataSrouceRemoteDataResult
+    DataSrouceRemoteDataResult,
+    ButtonGroup,
+    SvgButton
   },
   props: {
     editable: {
@@ -148,31 +156,22 @@ export default {
       { immediate: true }
     )
 
-    const saveRemote = () => {
+    const saveRemote = (openMap) => {
       // 远程表单校验
       getServiceForm().validate((valid) => {
         if (valid) {
-          state.remoteData.result = string2Obj(getResponseData())
-
-          const save = () => {
-            let params = state.remoteData.options?.params
-
-            if (params) {
-              params = string2Obj(params)
-            }
-
-            dataSourceState.remoteConfig = {
-              options: { ...state.remoteData.options, params },
-              ...dataSourceRemoteAdapteRef.value.getEditorValue()
-            }
-
-            state.remoteData.result = string2Obj(getResponseData())
-            emit('confirm', state.remoteData.result)
-            close()
+          let params = state.remoteData.options?.params
+          if (params) {
+            params = string2Obj(params)
           }
-
-          save()
-          if (!isEmptyObject(state.remoteData.result)) {
+          state.remoteData.result = string2Obj(getResponseData())
+          dataSourceState.remoteConfig = {
+            options: { ...state.remoteData.options, params },
+            ...dataSourceRemoteAdapteRef.value.getEditorValue(),
+          }
+          close()
+          emit('confirm', { data: state.remoteData.result, openMap })
+          if (!isEmptyObject(state.remoteData.result) && openMap) {
             openRemoteMapping()
           }
         }
@@ -203,8 +202,9 @@ export default {
       request
         .load()
         .then((res) => {
-          state.remoteData.result = Array.isArray(res?.data?.items) ? res.data.items[0] : res?.data || res
-
+          const resultType =  props.modelValue.type;
+          state.remoteData.result = resultType === 'array' && Array.isArray(res.data?.items) ?
+            res.data?.items[0] : res
           useNotify({
             type: 'success',
             title: '请求成功',
@@ -224,7 +224,7 @@ export default {
           })
         })
     }
-
+    
     return {
       align,
       state,
@@ -245,6 +245,15 @@ export default {
       display: none;
     }
   }
+  .remote-btns {
+    :deep(.tiny-button) {
+      min-width: 40px;
+    }
+    :deep(.svg-button) {
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+  }
   :deep(.plugin-setting-content) {
     padding: 0;
   }
@@ -258,7 +267,10 @@ export default {
       border-top: 1px solid var(--te-datasource-tabs-border-color);
       color: var(--te-datasource-toolbar-breadcrumb-text-color);
     }
-    .send {
+    .flex {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
     }
     .tip-dot {
       padding-left: 4px;

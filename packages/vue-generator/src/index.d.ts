@@ -6,6 +6,7 @@ declare module '@opentiny/tiny-engine-dsl-vue' {
     | 'dataSource'
     | 'dependencies'
     | 'globalState'
+    | 'globalStyle'
     | 'i18n'
     | 'router'
     | 'utils'

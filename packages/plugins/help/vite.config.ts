@@ -23,10 +23,10 @@ export default defineConfig({
   resolve: {},
   build: {
     lib: {
-      entry: path.resolve(__dirname, './index.ts'),
       name: 'plugin-help',
+      entry: path.resolve(__dirname, './index.ts'),
       fileName: (_format, entryName) => `${entryName}.js`,
-      formats: ['es']
+      formats: ['es'],
     },
     rollupOptions: {
       output: {

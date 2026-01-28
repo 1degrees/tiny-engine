@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { reactive, watch } from 'vue'
 import { usePage } from '@opentiny/tiny-engine-meta-register'
 

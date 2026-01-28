@@ -15,3 +15,5 @@ import './index.d.ts'
 export { generateApp, CodeGenerator, genSFCWithDefaultPlugin, generateSFCFile } from './generator'
 
 export { parseRequiredBlocks } from './utils/parseRequiredBlocks'
+
+export { DEFAULT_UTIL_LIBS } from './constant'

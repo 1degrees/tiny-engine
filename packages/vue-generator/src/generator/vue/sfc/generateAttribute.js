@@ -18,9 +18,10 @@ import {
   hasAccessor,
   thisRegexp,
   isGetter,
-  isSetter
+  isSetter,
+  toPascalCase
 } from '@/utils'
-import { recursiveGenTemplateByHook } from './generateTemplate'
+import { recursiveGenTemplateByHook, handleMergeIcon } from './generateTemplate'
 import { getImportMap } from './parseImport'
 
 const handleEventBinding = (key, item, isJSX) => {
@@ -203,7 +204,7 @@ export const handleEventAttrHook = (schemaData, globalHooks, config) => {
   const { attributes, schema: { props = {} } = {} } = schemaData || {}
   const isJSX = config.isJSX
 
-  const eventBindArr = Object.entries(props)
+  const eventBindArr = Object.entries(props || {})
     .filter(([key]) => isOn(key))
     .map(([key, value]) => handleEventBinding(key, value, isJSX))
 
@@ -349,7 +350,7 @@ export const handleExpressionAttrHook = (schemaData, globalHooks, config) => {
   const { attributes, schema: { props = {} } = {} } = schemaData || {}
   const isJSX = config.isJSX
 
-  Object.entries(props).forEach(([key, value]) => {
+  Object.entries(props || {}).forEach(([key, value]) => {
     if (value?.type === JS_EXPRESSION && !isOn(key)) {
       specialTypeHandler[JS_RESOURCE](value, globalHooks, config)
       attributes.push(handleJSExpressionBinding(key, value, isJSX))
@@ -395,7 +396,7 @@ export const handleI18nAttrHook = (schemaData, globalHooks, config) => {
   const { attributes, schema: { props = {} } = {} } = schemaData || {}
   const isJSX = config.isJSX
 
-  Object.entries(props).forEach(([key, value]) => {
+  Object.entries(props || {}).forEach(([key, value]) => {
     if (value?.type === JS_I18N) {
       attributes.push(handleBindI18n(key, value, isJSX))
     }
@@ -406,29 +407,12 @@ export const handleTinyIconPropsHook = (schemaData, globalHooks, config) => {
   const { attributes, schema: { props = {} } = {} } = schemaData || {}
   const isJSX = config.isJSX
 
-  Object.entries(props).forEach(([key, value]) => {
+  Object.entries(props || {}).forEach(([key, value]) => {
     if (value?.componentName === 'Icon' && value?.props?.name) {
       const name = value.props.name
-      const iconName = name.startsWith(TINY_ICON) ? name : `Tiny${name}`
-      const exportName = name.replace(TINY_ICON, 'icon')
-      const success = globalHooks.addImport('@opentiny/vue-icon', {
-        componentName: exportName,
-        exportName: exportName,
-        package: '@opentiny/vue-icon',
-        version: '^3.10.0',
-        destructuring: true
-      })
-
-      if (success) {
-        globalHooks.addStatement({
-          position: INSERT_POSITION.BEFORE_PROPS,
-          value: `const ${iconName} = ${exportName}()`,
-          key: iconName
-        })
-      }
-
+      const size = value.props.size
+      const { iconName } = handleMergeIcon({ name, size }, globalHooks)
       attributes.push(isJSX ? `${key}={${iconName}}` : `:${key}="${iconName}"`)
-
       delete props[key]
     }
   })
@@ -561,7 +545,7 @@ export const handleObjBindAttrHook = (schemaData, globalHooks, config) => {
 
   const isJSX = config.isJSX
 
-  Object.entries(props).forEach(([key, value]) => {
+  Object.entries(props || {}).forEach(([key, value]) => {
     if (!value || typeof value !== 'object') {
       return
     }
@@ -617,7 +601,7 @@ export const handlePrimitiveAttributeHook = (schemaData, globalHooks, config) =>
 export const handleBindUtilsHooks = (schemaData, globalHooks, config) => {
   const { schema: { props = {} } = {} } = schemaData || {}
 
-  Object.entries(props).forEach(([key, value]) => {
+  Object.entries(props || {}).forEach(([key, value]) => {
     if (value?.type === JS_EXPRESSION && !isOn(key)) {
       specialTypeHandler[JS_RESOURCE](value, globalHooks, config)
     }

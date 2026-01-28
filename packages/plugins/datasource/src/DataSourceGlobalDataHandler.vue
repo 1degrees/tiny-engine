@@ -10,6 +10,12 @@
   >
     <template #content>
       <tiny-collapse v-model="activeNames">
+        <tiny-collapse-item title="跨域配置（proxy）" name="proxy">
+          <data-handler-editor
+            v-model="state.proxy" 
+            :options="{language: 'json', minimap: { enabled: true }}" 
+          ></data-handler-editor>
+        </tiny-collapse-item>
         <tiny-collapse-item title="请求参数处理函数（willFetch）" name="willFetch">
           <data-handler-editor v-model="state.willFetchValue"></data-handler-editor>
         </tiny-collapse-item>
@@ -35,6 +41,7 @@ import { Collapse, CollapseItem } from '@opentiny/vue'
 import { constants } from '@opentiny/tiny-engine-utils'
 
 const { DEFAULT_INTERCEPTOR } = constants
+
 const isOpen = ref(false)
 
 export const open = () => {
@@ -54,29 +61,31 @@ export default {
   },
   setup() {
     const { confirm } = useModal()
-
     const { PLUGIN_NAME, getPluginByLayout } = useLayout()
     const align = computed(() => getPluginByLayout(PLUGIN_NAME.Collections))
-
+    const { appSchemaState: { proxy, willFetch, dataHandler, errorHandler } } = useResource();
     const state = reactive({
-      dataHandlerValue: useResource().appSchemaState?.dataHandler?.value,
-      willFetchValue: useResource().appSchemaState.willFetch?.value,
-      errorHandlerValue: useResource().appSchemaState?.errorHandler?.value
+      proxy: JSON.stringify(proxy, null, 2),
+      willFetchValue: willFetch?.value,
+      dataHandlerValue: dataHandler?.value,
+      errorHandlerValue: errorHandler?.value
     })
 
     const saveGlobalDataHandle = () => {
       const id = getMetaApi(META_SERVICE.GlobalService).getBaseInfo().id
 
       const handler = {
-        dataHandler: { type: 'JSFunction', value: state.dataHandlerValue || DEFAULT_INTERCEPTOR.dataHandler.value },
+        proxy: JSON.parse(state.proxy || '{}'),
         willFetch: { type: 'JSFunction', value: state.willFetchValue || DEFAULT_INTERCEPTOR.willFetch.value },
-        errorHandler: { type: 'JSFunction', value: state.errorHandlerValue || DEFAULT_INTERCEPTOR.errorHandler.value }
+        dataHandler: { type: 'JSFunction', value: state.dataHandlerValue || DEFAULT_INTERCEPTOR.globalDataHandler.value },
+        errorHandler: { type: 'JSFunction', value: state.errorHandlerValue || DEFAULT_INTERCEPTOR.errorHandler.value },
       }
 
       requestGlobalDataHandler(id, { data_source_global: handler }).then((data) => {
         if (data) {
-          useResource().appSchemaState.dataHandler = { type: 'JSFunction', value: state.dataHandlerValue }
+          useResource().appSchemaState.proxy = JSON.parse(state.proxy || '{}')
           useResource().appSchemaState.willFetch = { type: 'JSFunction', value: state.willFetchValue }
+          useResource().appSchemaState.dataHandler = { type: 'JSFunction', value: state.dataHandlerValue }
           useResource().appSchemaState.errorHandler = { type: 'JSFunction', value: state.errorHandlerValue }
           confirm({
             title: '提示',

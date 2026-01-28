@@ -18,13 +18,13 @@
           {{ helpTitle }}
         </div>
         <div class="help-plugin-box-body">
+          <div class="help-plugin-box-item" @click="toShowStep">
+            <span><svg-icon class="svg-icon" name="beginner-guide"></svg-icon>新手引导</span>
+          </div>
           <a :href="courseUrl" target="_blank" class="help-plugin-box-item">
             <span><svg-icon class="svg-icon" name="user-guide"></svg-icon>使用手册</span
             ><icon-fillet-external-link class="icon-fillet-external-link" />
           </a>
-          <div class="help-plugin-box-item" @click="toShowStep">
-            <span><svg-icon class="svg-icon" name="beginner-guide"></svg-icon>新手引导</span>
-          </div>
         </div>
         <div class="help-plugin-box-ques">
           <div class="help-plugin-box-title help-plugin-box-ques-title">{{ questionTitle }}</div>
@@ -75,21 +75,21 @@ export default {
     const tinyGuideRef = ref()
     const helpTitle = '帮助与指引'
     const questionTitle = '常见问题'
-    const courseUrl = 'https://opentiny.design/tiny-engine#/help-center/course/engine'
+    const courseUrl = 'https://git.kxdigit.com/ued/public-doc/low-code-doc/blob/main/README.md'
     const imgUrl = 'https://tinyengine-assets.obs.myhuaweicloud.com/files/designer/drag-drop-action-guide.svg'
     const questionList = [
       {
         label: '如何引入第三方组件库',
-        url: 'https://opentiny.design/tiny-engine#/help-center/course/dev/third-party-library-in-designer'
+        url: 'https://git.kxdigit.com/ued/public-product/tiny-engine/blob/develop/docs/ecosystem-center/how-to-import-library.md'
       },
       {
         label: '如何使用AI功能创建页面',
-        url: 'https://opentiny.design/tiny-engine#/help-center/course/engine/integrating-chatgpt-for-simple-pages'
+        url: 'https://git.kxdigit.com/ued/public-product/tiny-engine/blob/develop/docs/api/backend-api/ai-function-api.md'
       },
-      {
-        label: '答疑视频回放',
-        url: 'https://opentiny.design/tiny-engine#/help-center/course/engine/issue-1-2023.10.27'
-      }
+      // {
+      //   label: '答疑视频回放',
+      //   url: 'https://opentiny.design/tiny-engine#/help-center/course/video/38'
+      // }
     ]
 
     const state = reactive({

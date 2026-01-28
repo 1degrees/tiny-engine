@@ -70,10 +70,8 @@
         <monaco-editor
           ref="editorRef"
           class="life-cycle-editor"
-          :options="{
-            language: 'javascript'
-          }"
           :value="state.editorValue"
+          :options="{language: 'javascript'}"
           @change="handleEditorChange"
           @editorDidMount="editorDidMount"
         />

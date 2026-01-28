@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 9</title>
+    <defs>
+        <linearGradient x1="47.8755687%" y1="86.8386574%" x2="78.3654462%" y2="-43.8247111%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.7012518%" y1="87.0192388%" x2="53.9888909%" y2="-44.2846353%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.7012518%" y1="86.8386553%" x2="53.9888909%" y2="-43.8247102%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1" transform="translate(-134, -391)" fill-rule="nonzero">
+            <g id="编组-4" transform="translate(122, 381)">
+                <g id="编组-9" transform="translate(12, 10)">
+                    <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.204287574" x="6" y="0" width="12" height="20" rx="1"></rect>
+                    <rect id="矩形" fill="url(#linearGradient-2)" opacity="0.604724702" x="0" y="0" width="4.5" height="20" rx="1"></rect>
+                    <rect id="矩形" fill="url(#linearGradient-3)" x="19.5" y="0" width="4.5" height="20" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

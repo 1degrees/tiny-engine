@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /**
  * Copyright (c) 2023 - present TinyEngine Authors.
  * Copyright (c) 2023 - present Huawei Cloud Computing Technologies Co., Ltd.
@@ -83,6 +84,7 @@ export function validateByCompile(filename, code) {
       const { line, column } = scriptError.loc
 
       // compileScript 内部抛错误时，可能已定位编译报错信息，但报错所在的行可能有大量字符，此处精简一下
+      // eslint-disable-next-line no-use-before-define
       return [locateErrorMessage(code, { message, loc: { start: { line, column } } })]
     }
 

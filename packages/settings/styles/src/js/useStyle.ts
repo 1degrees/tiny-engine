@@ -12,7 +12,7 @@
 
 /* metaService: engine.setting.styles.useStyle */
 import { computed, reactive, watch } from 'vue'
-import { useCanvas, useHistory, useProperties as useProps, getOptions } from '@opentiny/tiny-engine-meta-register'
+import { useResource, useCanvas, useHistory, useProperties as useProps, getOptions } from '@opentiny/tiny-engine-meta-register'
 import { formatString } from '@opentiny/tiny-engine-common/js/ast'
 import { constants, utils } from '@opentiny/tiny-engine-utils'
 import { parser, stringify, getSelectorArr } from './parser'
@@ -37,6 +37,7 @@ const state = reactive({
   cssParseList: [],
   selectors: [],
   styleObject: {},
+  globalSelectors: [],
   currentClassNameList: [],
   currentIdList: [],
   selectorOptionLists: [],
@@ -173,7 +174,7 @@ export const initStylePanelWatch = () => {
     }
   )
 
-  // 监听全局样式的变化，重新解析
+  // 监听页面样式的变化，重新解析
   watch(
     () => useCanvas().getPageSchema?.()?.css,
     (value) => {
@@ -185,6 +186,16 @@ export const initStylePanelWatch = () => {
       state.cssParseList = parseList
       state.selectors = selectors
       state.styleObject = styleObject
+    }
+  )
+  
+  // 监听全局样式的变化，重新解析
+  watch(
+    () => useResource().appSchemaState?.globalStyle,
+    (value) => {
+      // 解析css
+      const { parseList, selectors, styleObject } = parser(value)
+      state.globalSelectors = selectors
     }
   )
 

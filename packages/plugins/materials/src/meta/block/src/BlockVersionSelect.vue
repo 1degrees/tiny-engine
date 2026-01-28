@@ -28,7 +28,7 @@
 /* metaService: engine.plugins.materials.block.BlockVersionSelect */
 import { reactive, watch, ref } from 'vue'
 import { Grid, GridColumn, Button } from '@opentiny/vue'
-import { format } from '@opentiny/vue-renderless/common/date'
+import { formatDateByPattern as format } from '@opentiny/utils'
 import { PluginSetting, SearchEmpty, ButtonGroup, SvgButton } from '@opentiny/tiny-engine-common'
 import { useBlock, useModal, useMaterial, useCanvas } from '@opentiny/tiny-engine-meta-register'
 import { fetchBlockById, requestGroupBlockVersion } from './http'
@@ -79,7 +79,7 @@ export default {
           exec: () => {
             const params = {
               groupId: selectedBlock.value.groupId,
-              blockId: selectedRow.block_id,
+              blockId: selectedBlock.value.id,
               blockVersion: selectedRow.version
             }
 
@@ -104,6 +104,7 @@ export default {
     }
 
     const handleConfirm = () => {
+    debugger;
       const selectVersion = versionGrid.value?.getRadioRow()
       if (!selectVersion) {
         message({

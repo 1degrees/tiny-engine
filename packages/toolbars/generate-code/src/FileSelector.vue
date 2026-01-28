@@ -14,12 +14,11 @@
         :data="tableData"
         ref="gridRef"
         size="mini"
-        :max-height="500"
         :tree-config="{ children: 'children' }"
         :expand-config="{ expandAll: true }"
         :auto-resize="true"
       >
-        <tiny-grid-column width="40" tree-node></tiny-grid-column>
+        <tiny-grid-column width="60" tree-node></tiny-grid-column>
         <tiny-grid-column type="selection" width="60"></tiny-grid-column>
         <tiny-grid-column field="fileType" title="文件类型" width="100"></tiny-grid-column>
         <tiny-grid-column field="filePath" title="文件路径" width="250"></tiny-grid-column>

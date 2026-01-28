@@ -1,4 +1,77 @@
-<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40.000000" height="40.000000" fill="none">
-	<rect id="弹出编辑" width="40.000000" height="40.000000" x="0.000000" y="0.000000" fill="rgb(255,255,255)" fill-opacity="0" />
-	<path id="矢量 575" d="M35.6247 5.49976L24.6926 19.165C24.4127 19.5148 23.918 19.5698 23.5681 19.2899C23.2183 19.01 23.1633 18.5153 23.4432 18.1655L34.3754 4.50024C34.6553 4.15041 35.15 4.09544 35.4997 4.37531C35.8496 4.65517 35.9047 5.14993 35.6247 5.49976ZM35.7999 16.2492L35.7999 31.5C35.7999 32.0829 35.6872 32.6409 35.4617 33.174C35.244 33.6885 34.937 34.1441 34.5405 34.5406C34.144 34.9371 33.6885 35.2441 33.1739 35.4618C32.6409 35.6872 32.0828 35.8 31.5 35.8L8.5 35.8C7.91711 35.8 7.35913 35.6872 6.82593 35.4618C6.3114 35.2441 5.85583 34.9371 5.45935 34.5406C5.06287 34.1441 4.75586 33.6885 4.53821 33.174C4.31274 32.6409 4.19995 32.0829 4.19995 31.5L4.19995 8.5C4.19995 8.18311 4.23328 7.87358 4.29993 7.5714C4.35583 7.31775 4.4353 7.06928 4.53821 6.826C4.6416 6.58165 4.76501 6.35061 4.90881 6.13288C5.06763 5.89212 5.25122 5.66764 5.45935 5.45943C5.6676 5.25123 5.89209 5.06767 6.13281 4.90879C6.35059 4.76511 6.58166 4.64159 6.82593 4.53824C7.06921 4.43534 7.31775 4.35592 7.57129 4.29997L7.57417 4.29934L7.5743 4.29931Q8.02624 4.2 8.5 4.2L26.2454 4.2C26.6934 4.2 27.0454 4.55199 27.0454 5C27.0454 5.448 26.6934 5.8 26.2454 5.8L8.5 5.8C8.29114 5.8 8.08765 5.82291 7.88953 5.86872C7.73975 5.90334 7.59302 5.95106 7.44922 6.01185C7.30066 6.07468 7.15991 6.14944 7.02698 6.23615C6.87085 6.33792 6.72546 6.45614 6.59082 6.59081C6.45605 6.72547 6.33789 6.87086 6.23608 7.02696C6.14941 7.15995 6.07458 7.30073 6.01184 7.44928C5.95105 7.59302 5.90332 7.73978 5.86865 7.88956C5.82288 8.08775 5.79993 8.29122 5.79993 8.5L5.79993 31.5C5.79993 31.7088 5.82288 31.9123 5.86865 32.1105C5.90332 32.2602 5.95105 32.407 6.01184 32.5507C6.07458 32.6993 6.14941 32.8401 6.23608 32.9731C6.33789 33.1292 6.45605 33.2745 6.59082 33.4092C6.84021 33.6586 7.12634 33.8516 7.44922 33.9881C7.59302 34.0489 7.73975 34.0967 7.88953 34.1313C8.08777 34.1771 8.29114 34.2 8.5 34.2L31.5 34.2C31.8664 34.2 32.2168 34.1294 32.5507 33.9881C32.8735 33.8516 33.1598 33.6586 33.4092 33.4092C33.6586 33.1598 33.8516 32.8736 33.9882 32.5507C34.0489 32.407 34.0965 32.2602 34.1312 32.1104C34.177 31.9122 34.1999 31.7088 34.1999 31.5L34.1999 16.2492C34.1999 15.8012 34.552 15.4492 35 15.4492C35.448 15.4492 35.7999 15.8012 35.7999 16.2492ZM10 14.55L17.5 14.55C17.948 14.55 18.2999 14.198 18.2999 13.75C18.2999 13.302 17.948 12.95 17.5 12.95L10 12.95C9.552 12.95 9.19995 13.302 9.19995 13.75C9.19995 14.198 9.552 14.55 10 14.55ZM17.5 20.8L10 20.8C9.552 20.8 9.19995 20.448 9.19995 20C9.19995 19.552 9.552 19.2 10 19.2L17.5 19.2C17.948 19.2 18.2999 19.552 18.2999 20C18.2999 20.448 17.948 20.8 17.5 20.8ZM10 25.45L30 25.45C30.448 25.45 30.7999 25.802 30.7999 26.25C30.7999 26.698 30.448 27.05 30 27.05L10 27.05C9.552 27.05 9.19995 26.698 9.19995 26.25C9.19995 25.802 9.552 25.45 10 25.45Z" fill="currentColor" fill-rule="evenodd" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PopEditor 弹出编辑</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="64.0535016%" x2="128.792906%" y2="14.2070089%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="55.413236%" x2="128.792906%" y2="36.2129799%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#FFCC00" offset="0%"></stop>
+            <stop stop-color="#FF9D00" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-4" cx="8" cy="8" r="8"></circle>
+        <filter x="-43.8%" y="-31.2%" width="187.5%" height="187.5%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feMorphology radius="4" operator="erode" in="SourceAlpha" result="shadowInner"></feMorphology>
+            <feOffset dx="0" dy="2" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.661752894   0 0 0 0 0.324547702   0 0 0 0 0.00489962574  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-46.9%" y="-34.4%" width="193.8%" height="193.8%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="-4" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.841553619   0 0 0 0 0.341832308   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-7" points="7.71298757 6.80228137 6.27540338 20.814413 10.9449685 18.9202277 13.4194729 25.8022814 15.8096817 24.7804537 13.2116343 17.9762941 17.8108161 16.4874666"></polygon>
+        <filter x="-47.7%" y="-18.4%" width="195.4%" height="157.9%" filterUnits="objectBoundingBox" id="filter-8">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="44.0988019%" y1="62.9020556%" x2="128.792906%" y2="17.1396372%" id="linearGradient-9">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Tiny-Vue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览1" transform="translate(-696.000000, -1760.000000)">
+            <g id="组件" transform="translate(596.000000, 311.000000)">
+                <g id="编组-14备份-2" transform="translate(2.000000, 1416.000000)">
+                    <g id="PopEditor-弹出编辑" transform="translate(98.000000, 33.000000)">
+                        <g id="编组"></g>
+                        <g id="编组-13" transform="translate(25.000000, 34.000000)">
+                            <g id="编组-22" transform="translate(0.000000, 14.000000)" opacity="0.204287574">
+                                <path d="M4,0 L14.6408785,0 L14.6408785,0 L64,0 C66.209139,-4.05812251e-16 68,1.790861 68,4 L68,38 C68,40.209139 66.209139,42 64,42 L4,42 C1.790861,42 2.705415e-16,40.209139 0,38 L0,4 C-7.1463071e-16,1.790861 1.790861,-3.82769592e-17 4,0 Z" id="矩形" fill="url(#linearGradient-1)"></path>
+                                <path d="M25.6875,30 L62.6875,30 C64.3443542,30 65.6875,31.3431458 65.6875,33 C65.6875,34.6568542 64.3443542,36 62.6875,36 L25.6875,36 C24.0306458,36 22.6875,34.6568542 22.6875,33 C22.6875,31.3431458 24.0306458,30 25.6875,30 Z M8.6875,13 L42.6875,13 C44.3443542,13 45.6875,14.3431458 45.6875,16 C45.6875,17.6568542 44.3443542,19 42.6875,19 L8.6875,19 C7.03064575,19 5.6875,17.6568542 5.6875,16 C5.6875,14.3431458 7.03064575,13 8.6875,13 Z" id="形状结合备份-41" fill="url(#linearGradient-2)"></path>
+                            </g>
+                            <g id="编组-23" transform="translate(45.687500, 40.000000)">
+                                <g id="椭圆形">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-4"></use>
+                                    <circle stroke="url(#linearGradient-3)" stroke-width="4" stroke-linejoin="square" cx="8" cy="8" r="6"></circle>
+                                </g>
+                                <g id="路径-2">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-7"></use>
+                                    <use fill="#000000" fill-rule="evenodd" xlink:href="#path-7"></use>
+                                </g>
+                            </g>
+                            <g id="编组-21" transform="translate(7.687500, 0.000000)">
+                                <path d="M64,0 C66.209139,-4.05812251e-16 68,1.790861 68,4 L68,33 C68,35.209139 66.209139,37 64,37 L37.242,37 L34,40.2426407 L30.757,37 L4,37 C1.790861,37 2.705415e-16,35.209139 0,33 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 L64,0 Z" id="形状结合" fill="url(#linearGradient-9)"></path>
+                                <path d="M12,6 L42,6 C43.1045695,6 44,6.8954305 44,8 C44,9.1045695 43.1045695,10 42,10 L12,10 C10.8954305,10 10,9.1045695 10,8 C10,6.8954305 10.8954305,6 12,6 Z" id="形状结合备份-44" fill="#FFFFFF" fill-rule="nonzero"></path>
+                                <path d="M26,19 L56,19 C57.1045695,19 58,19.8954305 58,21 L58,25 C58,26.1045695 57.1045695,27 56,27 L26,27 C24.8954305,27 24,26.1045695 24,25 L24,21 C24,19.8954305 24.8954305,19 26,19 Z" id="形状结合备份-6" fill="#FFFFFF" fill-rule="nonzero" opacity="0.699016753"></path>
+                                <path d="M11.4545455,19 L16.5454545,19 C17.3487778,19 18,19.6512222 18,20.4545455 L18,25.5454545 C18,26.3487778 17.3487778,27 16.5454545,27 L11.4545455,27 C10.6512222,27 10,26.3487778 10,25.5454545 L10,20.4545455 C10,19.6512222 10.6512222,19 11.4545455,19 Z" id="形状结合备份-28" fill="#FFFFFF" fill-rule="nonzero" opacity="0.699016753"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

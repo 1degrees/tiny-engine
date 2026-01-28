@@ -2299,3 +2299,43 @@ export const [JS_EXPRESSION, JS_FUNCTION, JS_I18N, JS_RESOURCE, JS_SLOT] = [
 ]
 
 export { DEFAULT_COMPONENTS_MAP, BUILTIN_COMPONENT_NAME, TINY_ICON, UNWRAP_QUOTES }
+
+// TODO 默认的 utils 库
+export const DEFAULT_UTIL_LIBS = [
+  {
+    "name": "TinyLoading",
+    "type": "npm",
+    "content": {
+      "package": "@opentiny/vue",
+      "version": "",
+      "exportName": "Loading",
+      "subName": "",
+      "destructuring": true,
+      "main": ""
+    }
+  },
+  {
+    "name": "TinyModal",
+    "type": "npm",
+    "content": {
+      "package": "@opentiny/vue",
+      "version": "",
+      "exportName": "Modal",
+      "subName": "",
+      "destructuring": true,
+      "main": ""
+    }
+  },
+  {
+    "name": "TinyNotify",
+    "type": "npm",
+    "content": {
+      "package": "@opentiny/vue",
+      "version": "",
+      "exportName": "Notify",
+      "subName": "",
+      "destructuring": true,
+      "main": ""
+    }
+  }
+]

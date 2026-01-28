@@ -17,7 +17,7 @@ import {
   Fullscreen,
   Lang,
   ViewSetting,
-  // Logo,
+  Logo,
   Lock,
   Media,
   Redoundo,
@@ -41,22 +41,23 @@ import {
   Datasource,
   Robot,
   Resource,
-  ModelManager,
+  // ModelManager,
   Props,
   Events,
   Styles,
+  Styled,
   Layout,
   Canvas,
   GenerateCodeService,
   GlobalService,
   ThemeSwitchService,
   HttpService,
-  McpService,
-  ApplicationCenter,
-  TemplateCenter
+  McpService
+  // ApplicationCenter,
+  // TemplateCenter
 } from './re-export'
 
-window.__TINY_ENGINE_REMOVED_REGISTRY = {}
+const __TINY_ENGINE_REMOVED_REGISTRY = window.__TINY_ENGINE_REMOVED_REGISTRY || {}
 
 export default {
   root: {
@@ -138,7 +139,7 @@ export default {
   layout: __TINY_ENGINE_REMOVED_REGISTRY['engine.layout'] === false ? null : Layout,
   toolbars: [
     __TINY_ENGINE_REMOVED_REGISTRY['engine.toolbars.themeSwitch'] === false ? null : ThemeSwitch,
-    //__TINY_ENGINE_REMOVED_REGISTRY['engine.toolbars.logo'] === false ? null : Logo,
+    __TINY_ENGINE_REMOVED_REGISTRY['engine.toolbars.logo'] === false ? null : Logo,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.toolbars.breadcrumb'] === false ? null : Breadcrumb,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.toolbars.lock'] === false ? null : Lock,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.toolbars.media'] === false ? null : Media,
@@ -161,13 +162,14 @@ export default {
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.collections'] === false ? null : Datasource,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.bridge'] === false ? null : Bridge,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.i18n'] === false ? null : I18n,
+    __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.globalcsscontroller'] === false ? null : Styled,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.pagecontroller'] === false ? null : Script,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.state'] === false ? null : State,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.schema'] === false ? null : Schema,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.editorhelp'] === false ? null : Help,
     __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.robot'] === false ? null : Robot,
-    __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.resource'] === false ? null : Resource,
-    __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.modelmanager'] === false ? null : ModelManager
+    __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.resource'] === false ? null : Resource
+    // __TINY_ENGINE_REMOVED_REGISTRY['engine.plugins.modelmanager'] === false ? null : ModelManager
   ],
   settings: [
     __TINY_ENGINE_REMOVED_REGISTRY['engine.setting.props'] === false ? null : Props,
@@ -175,8 +177,8 @@ export default {
     __TINY_ENGINE_REMOVED_REGISTRY['engine.setting.event'] === false ? null : Events
   ],
   workspace: [
-    __TINY_ENGINE_REMOVED_REGISTRY['engine.workspace.application-center'] === false ? null : ApplicationCenter,
-    __TINY_ENGINE_REMOVED_REGISTRY['engine.workspace.template-center'] === false ? null : TemplateCenter
+    // __TINY_ENGINE_REMOVED_REGISTRY['engine.workspace.application-center'] === false ? null : ApplicationCenter,
+    // __TINY_ENGINE_REMOVED_REGISTRY['engine.workspace.template-center'] === false ? null : TemplateCenter
   ],
   canvas: Canvas
 }

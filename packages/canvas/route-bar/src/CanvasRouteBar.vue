@@ -103,6 +103,7 @@ watch(
 
     routes.value = ancestors
       .map((id) => pageSettingState.treeDataMapping[id])
+      .filter(pageData => !!pageData)
       .map((pageData, index) => {
         const { id, route, isPage } = pageData
         return {

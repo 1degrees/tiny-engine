@@ -14,20 +14,29 @@ export default (schema, options = {}) => {
     main: 'dist/index.js',
     module: 'dist/index.js',
     dependencies: {
-      '@opentiny/tiny-engine-i18n-host': '^2.8.0',
-      '@opentiny/vue': '^3.20.0',
-      '@opentiny/vue-icon': '^3.20.0',
-      axios: '^0.30.1',
-      'axios-mock-adapter': '^1.19.0',
-      vue: '^3.3.9',
+      "vue": '^3.3.9',
       'vue-i18n': '^9.2.0-beta.3',
       'vue-router': '^4.2.5',
-      pinia: '^2.1.7'
+      'vue-i18n': '^9.2.0-beta.3',
+      'pinia': '^2.1.7',
+      'axios': '^0.21.1',
+      'axios-mock-adapter': '^1.19.0',
+      'qs': '6.14.0',
+      'mitt': '3.0.1',
+      'moment': '2.30.1',
+      '@opentiny/vue': 'latest',
+      '@opentiny/vue-icon': 'latest',
+      '@opentiny/vue-locale': 'latest',
+      "@opentiny/vue-common-kx": "latest",
+      '@opentiny/tiny-engine-i18n-host': 'latest',
+      '@opentiny/tiny-engine-builtin-component': 'latest'
     },
     devDependencies: {
       '@vitejs/plugin-vue': '^5.1.2',
       '@vitejs/plugin-vue-jsx': '^4.0.1',
-      vite: '^5.4.2'
+      'less': '^4.2.2',
+      'less-loader': '^12.2.0',
+      'vite': '^5.4.2'
     }
   }
 

@@ -13,3 +13,4 @@
 export * as utils from './utils'
 export * as constants from './constants'
 export * as fs from './fs'
+export { replaceUrl } from './utils'

@@ -512,10 +512,12 @@ onMounted(() => {
 
 const exposedData = {
   tableData: () => tableData.value,
+  formRef,
+  gridRef,
   insertApi,
   updateApi,
   queryApi,
-  deleteApi
+  deleteApi,
 }
 
 defineExpose({

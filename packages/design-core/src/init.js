@@ -10,13 +10,16 @@
  *
  */
 
+import App from './App.vue'
 import { createApp } from 'vue'
+import defaultRegistry from '../registry.js'
 import initSvgs from '@opentiny/tiny-engine-svgs'
+import { utils } from '@opentiny/tiny-engine-utils'
 import i18n from '@opentiny/tiny-engine-common/js/i18n'
-import { initMonitor } from '@opentiny/tiny-engine-common/js/monitor'
-import { injectGlobalComponents, setGlobalMonacoEditorTheme, Modal, Notify } from '@opentiny/tiny-engine-common'
 import TinyThemeTool from '@opentiny/vue-theme/theme-tool'
+import { registerConfigurators } from './registerConfigurators'
 import { defaultThemeList } from '@opentiny/tiny-engine-theme-base'
+import { initMonitor } from '@opentiny/tiny-engine-common/js/monitor'
 import {
   mergeRegistry,
   getMergeMeta,
@@ -27,10 +30,12 @@ import {
   HOOK_NAME,
   useMessage
 } from '@opentiny/tiny-engine-meta-register'
-import { utils } from '@opentiny/tiny-engine-utils'
-import App from './App.vue'
-import defaultRegistry from '../registry.js'
-import { registerConfigurators } from './registerConfigurators'
+import {
+  Modal,
+  Notify,
+  injectGlobalComponents,
+  setGlobalMonacoEditorTheme,
+} from '@opentiny/tiny-engine-common'
 
 const { guid } = utils
 

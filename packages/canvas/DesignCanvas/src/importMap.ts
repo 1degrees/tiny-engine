@@ -1,56 +1,19 @@
+import { replaceUrl } from '@opentiny/tiny-engine-utils'
 import { useEnv, getMergeMeta } from '@opentiny/tiny-engine-meta-register'
 import { importMapConfig } from '@opentiny/tiny-engine-common/js/importMap'
 
 const getImportUrl = (pkgName: string) => {
   // 自定义的 importMap
   const customImportMap = getMergeMeta('engine.config')?.importMap
-  const {
-    VITE_CDN_TYPE,
-    VITE_CDN_DOMAIN,
-    VITE_LOCAL_IMPORT_PATH = 'local-cdn-static',
-    BASE_URL,
-    VITE_LOCAL_IMPORT_MAPS
-  } = useEnv()
-  const isLocalBundle = VITE_LOCAL_IMPORT_MAPS === 'true'
-  const versionDelimiter = VITE_CDN_TYPE === 'npmmirror' && !isLocalBundle ? '/' : '@'
-  const fileDelimiter = VITE_CDN_TYPE === 'npmmirror' && !isLocalBundle ? '/files' : ''
-  const cdnDomain = isLocalBundle ? BASE_URL + VITE_LOCAL_IMPORT_PATH : VITE_CDN_DOMAIN
-
-  if (customImportMap?.imports?.[pkgName]) {
-    return customImportMap.imports[pkgName]
-      .replace('${VITE_CDN_DOMAIN}', cdnDomain)
-      .replace('${versionDelimiter}', versionDelimiter)
-      .replace('${fileDelimiter}', fileDelimiter)
-  }
-
-  if (importMapConfig.imports[pkgName]) {
-    return importMapConfig.imports[pkgName]
-      .replace('${VITE_CDN_DOMAIN}', cdnDomain)
-      .replace('${versionDelimiter}', versionDelimiter)
-      .replace('${fileDelimiter}', fileDelimiter)
-  }
-}
-
-// 获取样式文件的URL，后续去除物料内置逻辑之后，需要用户自行引入，相关逻辑也需要同步删除
-const getImportStyleUrl = (pkgName: string) => {
-  const {
-    VITE_CDN_TYPE,
-    VITE_CDN_DOMAIN,
-    VITE_LOCAL_IMPORT_PATH = 'local-cdn-static',
-    BASE_URL,
-    VITE_LOCAL_IMPORT_MAPS
-  } = useEnv()
-  const isLocalBundle = VITE_LOCAL_IMPORT_MAPS === 'true'
-  const versionDelimiter = VITE_CDN_TYPE === 'npmmirror' && !isLocalBundle ? '/' : '@'
-  const fileDelimiter = VITE_CDN_TYPE === 'npmmirror' && !isLocalBundle ? '/files' : ''
-  const cdnDomain = isLocalBundle ? BASE_URL + VITE_LOCAL_IMPORT_PATH : VITE_CDN_DOMAIN
-
-  if (importMapConfig.importStyles[pkgName]) {
-    return importMapConfig.importStyles[pkgName]
-      .replace('${VITE_CDN_DOMAIN}', cdnDomain)
-      .replace('${versionDelimiter}', versionDelimiter)
-      .replace('${fileDelimiter}', fileDelimiter)
-  }
+  // 全局配置的map
+  const importsMap: any = importMapConfig?.imports
+  const stylesMap: any = importMapConfig?.importStyles
+  const scriptsMap: any = importMapConfig?.importScripts
+  const url = customImportMap?.imports?.[pkgName] ||
+    importsMap?.[pkgName] ||
+    scriptsMap?.[pkgName] ||
+    stylesMap?.[pkgName] 
+  return replaceUrl(url, false)
 }
 
 export function getImportMapData(canvasDeps = { scripts: [], styles: [] }) {
@@ -61,8 +24,8 @@ export function getImportMapData(canvasDeps = { scripts: [], styles: [] }) {
       '@opentiny/vue': getImportUrl('@opentiny/vue'),
       '@opentiny/vue-icon': getImportUrl('@opentiny/vue-icon'),
       '@opentiny/tiny-engine-builtin-component': getImportUrl('@opentiny/tiny-engine-builtin-component')
-    },
-    importStyles: [getImportStyleUrl('@opentiny/vue-theme')]
+   },
+    importStyles: [getImportUrl('@opentiny/vue-theme')]
   }
 
   // 以下内容由于物料协议不支持声明子依赖而@opentiny/vue需要依赖所以需要补充
@@ -71,15 +34,14 @@ export function getImportMapData(canvasDeps = { scripts: [], styles: [] }) {
     imports: {
       '@opentiny/vue-common': getImportUrl('@opentiny/vue-common'),
       '@opentiny/vue-locale': getImportUrl('@opentiny/vue-locale'),
-      echarts: getImportUrl('echarts')
+      'echarts': getImportUrl('echarts')
     }
   }
 
   const materialsAndUtilsRequire = canvasDeps.scripts.reduce((imports, { package: pkg, script }) => {
     if (pkg && script) {
-      imports[pkg] = script
+      imports[pkg] = replaceUrl(script) as never
     }
-
     return imports
   }, {})
 

@@ -66,6 +66,24 @@
             <life-cycles :isPage="false" :bindLifeCycles="state.bindLifeCycles" @bind="bindLifeCycles"></life-cycles>
           </div>
         </tiny-collapse-item>
+        <tiny-collapse-item title="区块缩略图" name="screenshot">
+          <tiny-file-upload
+            drag
+            paste-upload
+            action="/aip/assistant/api/v1/sketch/resource/upload"
+            list-type="picture-card"
+            accept=".png,.jpeg,.jpg,.webp"
+            :data="{appId: 0, bucket: 'tiny-engine'}"
+            :class="[fileList.length && 'is-hidden']"
+            @change="fileChange"
+            @remove="fileRemove"
+            :limit="1"
+            :file-list="fileList"
+            :auto-upload="false"
+          >
+            <tiny-icon-picture class="tiny-svg-size icon-fileupload"></tiny-icon-picture>
+          </tiny-file-upload>
+        </tiny-collapse-item>
         <tiny-collapse-item title="版本列表" name="history">
           <block-history-list
             :is-block-manage="true"
@@ -87,8 +105,14 @@
 <script lang="tsx">
 /* metaService: engine.plugins.blockmanage.BlockSetting */
 import { reactive, ref, watch, watchEffect, computed } from 'vue'
-import { Button as TinyButton, Collapse as TinyCollapse, CollapseItem as TinyCollapseItem } from '@opentiny/vue'
-import { useLayout, useModal, getMergeMeta, useBlock } from '@opentiny/tiny-engine-meta-register'
+import { iconPicture } from '@opentiny/vue-icon'
+import { Button as TinyButton, TinyFileUpload, Collapse as TinyCollapse, CollapseItem as TinyCollapseItem } from '@opentiny/vue'
+import {
+  useLayout,
+  useModal,
+  getMergeMeta,
+  useBlock,
+} from '@opentiny/tiny-engine-meta-register'
 import { BlockHistoryList, PluginSetting, CloseIcon, SvgButton, ButtonGroup } from '@opentiny/tiny-engine-common'
 import { previewPage } from '@opentiny/tiny-engine-common/js/preview'
 import { LifeCycles } from '@opentiny/tiny-engine-common'
@@ -99,12 +123,13 @@ import {
   getEditBlock,
   delBlock,
   saveBlock,
+  uploadImg,
   getBlockBase64,
   setConfigItemVisible,
   saveArrayConfig
 } from './js/blockSetting'
 import { BlockDeployDialog } from '@opentiny/tiny-engine-common'
-
+const TinyIconPicture = iconPicture()
 const isOpen = ref(false)
 
 export const openPanel = () => {
@@ -119,7 +144,9 @@ const removeBlock = delBlock(closePanel)
 
 export default {
   components: {
+    TinyIconPicture,
     TinyButton,
+    TinyFileUpload,
     TinyCollapse,
     TinyCollapseItem,
     BlockEvent,
@@ -153,12 +180,10 @@ export default {
       return currentEditBlock
     })
     const blockConfigForm = ref(null)
-
     const { PLUGIN_NAME, getPluginByLayout } = useLayout()
     const align = computed(() => getPluginByLayout(PLUGIN_NAME.BlockManage))
-
     const state = reactive({
-      activeName: ['base', 'attribute', 'event', 'lifeCycle', 'history'],
+      activeName: ['base', 'attribute', 'event', 'lifeCycle', 'screenshot','history'],
       backupList: [],
       lastVersion: {},
       showDeployBlock: false,
@@ -166,25 +191,18 @@ export default {
       showAttributeGuide: false,
       showEventGuide: false
     })
+    const fileList = ref([])
 
-    watchEffect(() => {
-      state.bindLifeCycles = getEditBlock()?.content?.lifeCycles || {}
-    })
 
-    watch(
-      () => {
-        const block = getEditBlock()
-        return [block?.id, block?.histories?.length]
-      },
-      () => {
-        const block = getEditBlock()
+    const fileChange = async (file, list) => {
+      fileList.value = list
+      const url = await uploadImg(file.raw)
+      list[0].response.url = url
+    }
 
-        if (block?.id) {
-          state.backupList = block.histories
-          state.lastVersion = block.last_build_info
-        }
-      }
-    )
+    const fileRemove = () => {
+      fileList.value = []
+    }
 
     const deleteBlock = () => {
       const title = '删除区块'
@@ -197,7 +215,6 @@ export default {
       saveArrayConfig()
       blockConfigForm.value.validateForm().then(() => {
         const block = getEditBlock()
-
         if (block.content?.schema?.properties?.[0]?.content.length > 1) {
           const contentList = block.content.schema.properties[0].content
           const propertyList = contentList.map((e) => e.property)
@@ -217,7 +234,9 @@ export default {
           message,
           exec: async () => {
             const currentId = useBlock().getCurrentBlock()?.id
-            if (block.id === currentId) {
+            if (fileList.value?.[0]?.response?.url) {
+              block.screenshot = fileList.value?.[0]?.response?.url
+            } else if (block.id === currentId) {
               // 获取区块截图
               block.screenshot = await getBlockBase64()
             }
@@ -278,8 +297,51 @@ export default {
       }
     }
 
+    watchEffect(() => {
+      state.bindLifeCycles = getEditBlock()?.content?.lifeCycles || {}
+      fileList.value = [
+        {
+          name: '缩略图',
+          status:'success',
+          url: getEditBlock()?.screenshot || '',
+          response: {
+            url: getEditBlock()?.screenshot || ''
+          }
+        }
+      ]
+    })
+
+    watchEffect(
+      () => getEditBlock()?.screenshot,
+      (url) => {
+      fileList.value = [
+        {
+          name: '缩略图',
+          status: 'success',
+          url: url || ''
+        }
+      ]
+    })
+
+    watch(
+      () => {
+        const block = getEditBlock()
+        return [block?.id, block?.histories?.length]
+      },
+      () => {
+        const block = getEditBlock()
+
+        if (block?.id) {
+          state.backupList = block.histories
+          state.lastVersion = block.last_build_info
+        }
+      }
+    )
     return {
       align,
+      fileList,
+      fileRemove,
+      fileChange,
       PLUGIN_NAME,
       state,
       isOpen,
@@ -319,6 +381,14 @@ export default {
       vertical-align: top;
       font-size: 14px;
     }
+  }
+  :deep(.is-hidden .tiny-upload--picture-card) {
+    display: none;
+  }
+  :deep(.tiny-upload-btn),
+  :deep(.tiny-upload-dragger) {
+    width: 100%;
+    height: 100%;
   }
   :deep(.plugin-setting-content) {
     padding: 0 0 16px 0;

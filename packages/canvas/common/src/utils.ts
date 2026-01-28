@@ -1,3 +1,4 @@
+import { replaceUrl } from '@opentiny/tiny-engine-utils'
 // 定义全局类型声明
 declare global {
   interface Window {
@@ -100,7 +101,8 @@ const dynamicImportComponentLib = async ({ pkg, script }: DynamicImportParams): 
   const scriptUrl = script.startsWith('.') ? new URL(script, href).href : script
 
   if (!window.TinyComponentLibs[pkg]) {
-    const modules = await import(/* @vite-ignore */ scriptUrl)
+    const url = replaceUrl(scriptUrl, true)
+    const modules = await import(/* @vite-ignore */ url)
 
     window.TinyComponentLibs[pkg] = modules
   }

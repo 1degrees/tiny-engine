@@ -13,9 +13,9 @@
 /* metaService: engine.service.block.useBlock */
 import { ref, reactive, readonly, type DeepReadonly, toRaw } from 'vue'
 import { hyphenate } from '@vue/shared'
-import { extend, copyArray } from '@opentiny/vue-renderless/common/object'
-import { format } from '@opentiny/vue-renderless/common/date'
-import { remove } from '@opentiny/vue-renderless/common/array'
+import { extend, copyArray } from '@opentiny/utils'
+import { formatDateByPattern as format } from '@opentiny/utils'
+import { remove } from '@opentiny/utils'
 import { constants } from '@opentiny/tiny-engine-utils'
 import { getCanvasStatus } from '@opentiny/tiny-engine-common/js/canvas'
 import { ast2String, parseExpression } from '@opentiny/tiny-engine-common/js/ast'
@@ -554,7 +554,7 @@ const DEFAULT_GROUPS = [
   },
   {
     groupId: 'default',
-    groupName: '设计器默认区块分组'
+    groupName: '默认分组'
   }
 ]
 

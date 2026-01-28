@@ -4,6 +4,7 @@
       <tiny-tab-item title="远程配置" name="remote" v-if="showRemote">
         <div>
           <data-source-setting-remote
+            ref="remoteRef"
             v-model="state.dataSource.data"
             :editable="editable"
             @renderRemoteData="renderRemoteData"
@@ -75,17 +76,17 @@ export default {
   setup(props, { emit }) {
     const { dataSourceState } = useDataSource()
     const recordRef = ref(null)
-
+    const remoteRef= ref(null)
     const state = reactive({
       dataSource: {},
       activeTabName: props.activeTabName,
       currentData: { name: '', columns: [], data: [] }
     })
 
-    const showRemote = computed(() => !state.dataSource.data || state.dataSource.data.type === 'remote')
+    const showRemote = computed(() => !state.dataSource.data || ['remote', 'object', 'array'].includes(state.dataSource.data.type))
 
     const saveRecord = () => {
-      return recordRef.value.saveRecordList()
+     return Promise.all([recordRef.value.saveRecordList(), remoteRef.value.getRemoteConfig()])
     }
 
     const changeRecord = () => {
@@ -145,6 +146,7 @@ export default {
     return {
       state,
       recordRef,
+      remoteRef,
       showRemote,
       tabClick,
       renderRemoteData,

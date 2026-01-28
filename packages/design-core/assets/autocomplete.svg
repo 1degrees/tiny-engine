@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Autocomplete 自动补全</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="52.3024161%" x2="128.792906%" y2="44.1359555%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="58.7051225%" x2="128.792906%" y2="27.8288442%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="50.1533347%" x2="128.792906%" y2="49.6094705%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="47.3372781%" x2="6.58643108%" y2="52.6627219%" id="linearGradient-4">
+            <stop stop-color="#FFCC00" offset="0%"></stop>
+            <stop stop-color="#FF9D00" offset="100%"></stop>
+        </linearGradient>
+        <path d="M49.5,44 L59.5,44 C60.3284271,44 61,44.6715729 61,45.5 C61,46.3284271 60.3284271,47 59.5,47 L49.5,47 C48.6715729,47 48,46.3284271 48,45.5 C48,44.6715729 48.6715729,44 49.5,44 Z" id="path-5"></path>
+        <filter x="-26.9%" y="-83.3%" width="153.8%" height="333.3%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.661752894   0 0 0 0 0.324547702   0 0 0 0 0.00489962574  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M1,10 L24,10 C24.5522847,10 25,10.4477153 25,11 L25,14 C25,14.5522847 24.5522847,15 24,15 L1,15 C0.44771525,15 6.76353751e-17,14.5522847 0,14 L0,11 C-6.76353751e-17,10.4477153 0.44771525,10 1,10 Z" id="path-7"></path>
+        <filter x="-16.0%" y="-40.0%" width="132.0%" height="260.0%" filterUnits="objectBoundingBox" id="filter-8">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.368627451   0 0 0 0 0.48627451   0 0 0 0 0.878431373  0 0 0 0.349865467 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M1,0 L24,0 C24.5522847,-1.01453063e-16 25,0.44771525 25,1 L25,4 C25,4.55228475 24.5522847,5 24,5 L1,5 C0.44771525,5 6.76353751e-17,4.55228475 0,4 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z" id="path-9"></path>
+        <filter x="-16.0%" y="-40.0%" width="132.0%" height="260.0%" filterUnits="objectBoundingBox" id="filter-10">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.368627451   0 0 0 0 0.48627451   0 0 0 0 0.878431373  0 0 0 0.349865467 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="组件总览" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Ng-组件总览-1" transform="translate(-1481.000000, -1350.000000)">
+            <g id="Autocomplete-自动补全" transform="translate(1481.000000, 1350.000000)">
+                <g id="编组"></g>
+                <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.303770519" x="26" y="37" width="72" height="18" rx="4"></rect>
+                <rect id="矩形备份-6" fill="url(#linearGradient-2)" opacity="0.303770519" x="26" y="59" width="72" height="35" rx="4"></rect>
+                <path d="M33,66 L60,66 C61.1045695,66 62,66.8954305 62,68 C62,69.1045695 61.1045695,70 60,70 L33,70 C31.8954305,70 31,69.1045695 31,68 C31,66.8954305 31.8954305,66 33,66 Z" id="形状结合备份" fill="#5073E5"></path>
+                <path d="M33,75 L47,75 C48.1045695,75 49,75.8954305 49,77 C49,78.1045695 48.1045695,79 47,79 L33,79 C31.8954305,79 31,78.1045695 31,77 C31,75.8954305 31.8954305,75 33,75 Z" id="形状结合备份-17" fill="#5073E5"></path>
+                <path d="M33,84 L91,84 C92.1045695,84 93,84.8954305 93,86 C93,87.1045695 92.1045695,88 91,88 L33,88 C31.8954305,88 31,87.1045695 31,86 C31,84.8954305 31.8954305,84 33,84 Z" id="形状结合备份-18" fill="url(#linearGradient-3)" opacity="0.303770519"></path>
+                <g id="形状结合备份-19" transform="translate(54.500000, 45.500000) rotate(-90.000000) translate(-54.500000, -45.500000) ">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                    <use fill="url(#linearGradient-4)" fill-rule="evenodd" xlink:href="#path-5"></use>
+                </g>
+                <g id="编组-12" transform="translate(26.000000, 27.000000)">
+                    <g id="形状结合备份-16" transform="translate(12.500000, 12.500000) rotate(-90.000000) translate(-12.500000, -12.500000) ">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-7"></use>
+                        <use fill="#5073E5" fill-rule="evenodd" xlink:href="#path-7"></use>
+                    </g>
+                    <g id="形状结合备份-2">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-10)" xlink:href="#path-9"></use>
+                        <use fill="#5073E5" fill-rule="evenodd" xlink:href="#path-9"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

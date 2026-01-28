@@ -68,7 +68,6 @@ export interface ILayoutState {
   settings: ISettings
   toolbars: {
     visiblePopover: boolean
-    render: string
   }
   pageStatus: any
 }
@@ -134,8 +133,7 @@ const layoutState = reactive<ILayoutState>({
     showDesignSettings: true
   },
   toolbars: {
-    visiblePopover: false,
-    render: ''
+    visiblePopover: false
   },
   pageStatus: {
     state: '',
@@ -166,20 +164,30 @@ const changeMenuShown = (menuName: 'left' | 'right'): void => {
     }
   }
 }
-
 const leftFixedPanelsStorage = useStorage<string[]>(STORAGE_KEY_LEFT_FIXED_PANELS, layoutState.plugins.fixedPanels)
 const rightFixedPanelsStorage = useStorage<string[]>(STORAGE_KEY_RIGHT_FIXED_PANELS, layoutState.settings.fixedPanels)
 
-const changeLeftFixedPanels = (pluginName: string): void => {
-  leftFixedPanelsStorage.value = leftFixedPanelsStorage.value?.includes(pluginName)
-    ? leftFixedPanelsStorage.value?.filter((item) => item !== pluginName)
-    : [...leftFixedPanelsStorage.value, pluginName]
+const changeLeftFixedPanels = (pluginName) => {
+  const { Materials, AppManage, OutlineTree, BlockManage, Collections, Bridge, I18n, Page, Styled, State, Schema } =  PLUGIN_NAME
+  pluginName = [ Materials, AppManage, OutlineTree, BlockManage, Collections, Bridge, I18n, Page, Styled, State, Schema ]
+  // 根据
+  if (Array.isArray(pluginName)) {
+    leftFixedPanelsStorage.value = leftFixedPanelsStorage.value?.length ? [] : pluginName
+  }
+  // leftFixedPanelsStorage.value = leftFixedPanelsStorage.value?.includes(name)
+  // ? leftFixedPanelsStorage.value?.filter((item) => item !== name)
+  // : [...leftFixedPanelsStorage.value, name]
 }
-
-const changeRightFixedPanels = (pluginName: string): void => {
-  rightFixedPanelsStorage.value = rightFixedPanelsStorage.value?.includes(pluginName)
-    ? rightFixedPanelsStorage.value?.filter((item) => item !== pluginName)
-    : [...rightFixedPanelsStorage.value, pluginName]
+const changeRightFixedPanels = (pluginName) => {
+  const { Props, Styles, Event } =  PLUGIN_NAME
+  pluginName = [ Props, Styles, Event ]
+  // 根据
+  if (Array.isArray(pluginName)) {
+    rightFixedPanelsStorage.value = rightFixedPanelsStorage.value?.length ? [] : pluginName
+  }
+  // rightFixedPanelsStorage.value = rightFixedPanelsStorage.value?.includes(pluginName)
+  //   ? rightFixedPanelsStorage.value?.filter((item) => item !== pluginName)
+  //   : [...rightFixedPanelsStorage.value, pluginName]
 }
 
 const getScale = (): number => layoutState.dimension.scale
@@ -499,7 +507,6 @@ export default () => {
 
     const relativeLayoutConfig = getMergeMeta('engine.layout')?.options?.relativeLayoutConfig || {}
     finalLayoutConfig = computeFinalLayoutConfig(deepClone(defaultLayout), relativeLayoutConfig)
-
     return finalLayoutConfig
   }
 

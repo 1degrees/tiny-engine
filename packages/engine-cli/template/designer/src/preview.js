@@ -10,7 +10,6 @@
  *
  */
 import { defineEntry } from '@opentiny/tiny-engine-meta-register'
-import engineConfig from '../engine.config'
 import 'virtual:svg-icons-register'
 
 async function startApp() {
@@ -24,7 +23,9 @@ async function startApp() {
   const registry = {
     [META_SERVICE.Http]: HttpService,
     'engine.config': {
-      ...engineConfig
+      id: 'engine.config',
+      theme: 'light',
+      material: ['/mock/bundle.json']
     }
   }
 

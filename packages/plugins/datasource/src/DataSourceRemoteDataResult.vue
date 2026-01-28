@@ -7,7 +7,7 @@
     </div>
     <div id="remote-data-editor" class="tor">
       <div class="operate">
-        <tiny-button plain @click="check">查看已获取的字段</tiny-button>
+        <tiny-button plain @click="check">填充数据源字段</tiny-button>
         <tiny-button plain @click="copyData">复制代码</tiny-button>
       </div>
       <monaco-editor ref="editor" :value="state.value" class="editor" :options="state.options" @change="handleChange" />
@@ -18,8 +18,9 @@
 <script lang="ts">
 /* metaService: engine.plugins.collections.DataSourceRemoteDataResult */
 import { reactive, watchEffect, ref } from 'vue'
-import { VueMonaco as MonacoEditor } from '@opentiny/tiny-engine-common'
 import { Button as TinyButton } from '@opentiny/vue'
+import { VueMonaco as MonacoEditor } from '@opentiny/tiny-engine-common'
+import { useNotify } from '@opentiny/tiny-engine-meta-register'
 
 import useClipboard from 'vue-clipboard3'
 
@@ -58,11 +59,12 @@ export default {
         await toClipboard(state.value)
       } catch (e) {
         throw new Error(e)
-        // do nothing
+        useNotify({ type: 'error', message: '复制失败！' })
       }
-
       emit('copy', state.value)
+      useNotify({ type: 'info', message: '复制成功！' })
     }
+
     const check = () => {
       emit('change', state.value)
     }

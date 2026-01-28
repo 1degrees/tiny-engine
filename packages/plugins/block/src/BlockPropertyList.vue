@@ -22,7 +22,7 @@
 /* metaService: engine.plugins.blockmanage.BlockPropertyList */
 import { computed } from 'vue'
 import { Button as TinyButton } from '@opentiny/vue'
-import { remove } from '@opentiny/vue-renderless/common/array'
+import { remove } from '@opentiny/utils'
 import { MetaListItems, SvgButton } from '@opentiny/tiny-engine-common'
 import {
   getEditBlockPropertyList,

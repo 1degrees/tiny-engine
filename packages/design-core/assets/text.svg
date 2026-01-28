@@ -1,4 +1,33 @@
-<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40.000000" height="40.000000" fill="none">
-	<rect id="文本" width="40.000000" height="40.000000" x="0.000000" y="0.000000" fill="rgb(255,255,255)" fill-opacity="0" />
-	<path id="矢量 509" d="M30.8 6L3.30005 6C2.79602 6 2.40002 6.396 2.40002 6.89999C2.40002 7.40399 2.79602 7.79999 3.30005 7.79999L16.15 7.79999L16.15 33.9001C16.15 34.4041 16.546 34.8 17.05 34.8C17.5541 34.8 17.9501 34.4041 17.9501 33.9001L17.9501 7.79999L30.8 7.79999C31.3041 7.79999 31.7001 7.40399 31.7001 6.89999C31.7001 6.396 31.3041 6 30.8 6ZM30.55 18.5L36.8 18.5C37.3041 18.5 37.7001 18.896 37.7001 19.4C37.7001 19.904 37.3041 20.3 36.8 20.3L31.4501 20.3L31.4501 33.4C31.4501 33.904 31.0541 34.3 30.55 34.3C30.046 34.3 29.65 33.904 29.65 33.4L29.65 20.3L24.3 20.3C23.796 20.3 23.4 19.904 23.4 19.4C23.4 18.896 23.796 18.5 24.3 18.5L30.55 18.5Z" fill="currentColor" fill-rule="evenodd" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>6文本</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="86.8386574%" x2="128.792906%" y2="-43.8247111%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="45.6644259%" y1="86.8386572%" x2="107.888666%" y2="-43.8247116%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="51.8191929%" x2="128.792906%" y2="45.3666809%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="50.4570276%" x2="128.792906%" y2="48.8359922%" id="linearGradient-4">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="6文本" fill-rule="nonzero">
+            <g id="5文本" transform="translate(31, 31)">
+                <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.204287574" x="0" y="0" width="63" height="63" rx="2"></rect>
+                <path d="M27.1249999,13.78125 L9.62500001,13.78125 C9.10000001,13.78125 8.74999999,13.95625 8.4,14.30625 C8.05000001,14.65625 7.875,15.00625 7.875,15.53125 L7.875,19.03125 C7.875,20.08125 8.57500001,20.78125 9.62500001,20.78125 C10.675,20.78125 11.375,19.90625 11.375,19.03125 L11.375,17.28125 L16.625,17.28125 L16.625,34.78125 L14.875,34.78125 C14,34.78125 13.125,35.4812501 13.125,36.5312501 C13.125,37.5812501 13.825,38.28125 14.875,38.28125 L21.875,38.28125 C22.75,38.28125 23.625,37.5812501 23.625,36.5312501 C23.625,35.4812501 22.925,34.78125 21.875,34.78125 L20.125,34.78125 L20.125,17.28125 L25.375,17.28125 L25.375,19.03125 C25.375,20.08125 26.075,20.78125 27.1249999,20.78125 C28.1749999,20.78125 28.875,19.90625 28.875,19.03125 L28.875,15.53125 C28.875,15.00625 28.6999999,14.65625 28.35,14.30625 C28.0000001,13.95625 27.6499999,13.78125 27.1249999,13.78125 Z" id="路径" fill="url(#linearGradient-2)"></path>
+                <rect id="矩形" fill="url(#linearGradient-3)" opacity="0.303770519" x="31.5" y="15.75" width="23.625" height="5.25" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-3)" opacity="0.303770519" x="31.5" y="28.875" width="23.625" height="5.25" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-4)" opacity="0.604724702" x="7.875" y="44.625" width="47.25" height="5.25" rx="1"></rect>
+            </g>
+        </g>
+    </g>
 </svg>

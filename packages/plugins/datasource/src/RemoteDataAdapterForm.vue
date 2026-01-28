@@ -20,9 +20,17 @@ export default {
       default: ''
     },
     modelValue: {
-      type: Object,
+      type: [Object, String],
       default: () => ({})
-    }
+    },
+    options: {
+      type: Object,
+      default: () => ({
+        language: 'javascript',
+        mouseStyle: 'default',
+        minimap: { enabled: false }
+      })
+    },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
@@ -38,11 +46,6 @@ export default {
 
     return {
       editor,
-      options: {
-        language: 'javascript',
-        mouseStyle: 'default',
-        minimap: { enabled: false }
-      },
       getEditorValue,
       change
     }

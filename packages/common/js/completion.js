@@ -10,7 +10,14 @@
  *
  */
 import { ref } from 'vue'
-import { useCanvas, useResource, getMergeMeta, getMetaApi, META_SERVICE } from '@opentiny/tiny-engine-meta-register'
+import {
+  useCanvas,
+  useResource,
+  useRobot,
+  getMergeMeta,
+  getMetaApi,
+  META_SERVICE
+} from '@opentiny/tiny-engine-meta-register'
 import completion from './completion-files/context.md?raw'
 
 const keyWords = [
@@ -19,6 +26,7 @@ const keyWords = [
   'props',
   'emit',
   'setState',
+  'router',
   'route',
   'i18n',
   'getLocale',
@@ -26,7 +34,8 @@ const keyWords = [
   'history',
   'utils',
   'bridge',
-  'dataSourceMap'
+  'dataSourceMap',
+  '$' 
 ]
 
 const snippets = [
@@ -47,7 +56,6 @@ const TYPES = {
   Value: 'Value',
   Variable: 'Variable'
 }
-
 const getApiSuggestions = (monaco, range, wordContent) =>
   keyWords
     .map((item) => ({
@@ -96,7 +104,8 @@ const getUserWords = () => {
       getInsertText: (value) => `this.stores.${value}()`,
       data: globalState
         .filter((item) => item.id)
-        .map((item) => Object.keys(item.actions).map((name) => `${item.id}.${name}`))
+        .map((item) => Object.keys(item.actions)
+        .map((name) => `${item.id}.${name}`))
         .flat()
     },
     utils: {
@@ -112,10 +121,31 @@ const getUserWords = () => {
     bridge: {
       type: TYPES.Variable,
       getInsertText: (value) => `this.bridge.${value}`,
-      data: bridge.map((item) => item.name)
+      data: []
+    },
+    methods: {
+      type: TYPES.Method,
+      getInsertText: (value) => `this.${value}()`,
+      data: Object.keys(useCanvas().getPageSchema().methods || {})
+    },
+    route: {
+      type: TYPES.Variable,
+      getInsertText: (value) => `this.route.${value}`,
+      data: ['name', 'path', 'query', 'params']
+    },
+    router: {
+      type: TYPES.Method,
+      getInsertText: (value) => `this.router.${value}()`,
+      data: ['push', 'replace', 'back', 'forward', 'go']
+    },
+    vue: {
+      type: TYPES.Method,
+      getInsertText: (value) => `vue.${value}()`,
+      data: ['nextTick', 'toValue' ]
     }
   }
 }
+
 
 const getUserSuggestions = (monaco, range, wordContent) => {
   const userWords = getUserWords()
@@ -188,7 +218,7 @@ const generateBaseReference = () => {
 }
 
 const fetchAiInlineCompletion = (codeBeforeCursor, codeAfterCursor) => {
-  const { completeModel, apiKey, baseUrl } = getMetaApi(META_SERVICE.Robot).getSelectedQuickModelInfo() || {}
+  const { completeModel, apiKey, baseUrl } = useRobot().robotSettingState?.selectedModel || {}
   if (!completeModel || !apiKey || !baseUrl) {
     return
   }
@@ -211,7 +241,7 @@ const fetchAiInlineCompletion = (codeBeforeCursor, codeAfterCursor) => {
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey || ''}`
+        Authorization: `Bearer ${apiKey}`
       }
     }
   )
@@ -311,8 +341,8 @@ export const initCompletion = (monacoInstance, editorModel, conditionFn) => {
         }
       }
       const words = getWords(model, position)
-      const wordContent = words.map((item) => item.word).join('')
       const range = getRange(position, words)
+      const wordContent = words.map((item) => item.word).join('')
 
       // 内置 API 提示 e.g. this.state/props/utils/...
       const apiSuggestions = getApiSuggestions(monacoInstance, range, wordContent)

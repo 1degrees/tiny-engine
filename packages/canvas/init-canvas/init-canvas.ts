@@ -13,9 +13,11 @@ export function initCanvas(importMap = {}, importStyleUrls = [], importScripts =
       .replace('<!--%MAIN_SCRIPT%-->', () => {
         if (import.meta.env.MODE === 'development') {
           return `<script type="module" src="${canvasScript}"></script>`
+        } else if(import.meta.env.VITE_SWITCH_CHUNK === 'true') {
+          return `<script type="module" src="${canvasScript}"></script>`
+        } else {
+          return `<script type="module">${canvasScript}</script>`
         }
-
-        return `<script type="module">${canvasScript}</script>`
       })
   }
 }

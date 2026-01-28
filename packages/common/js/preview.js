@@ -30,6 +30,8 @@ const { deepClone } = utils
 // 保存预览窗口引用
 let previewWindow = null
 
+let previewAppWindow = null
+
 const getScriptAndStyleDeps = () => {
   const { scripts, styles } = useMaterial().getCanvasDeps()
   const utilsDeps = useResource().getUtilsDeps()
@@ -266,7 +268,6 @@ const open = (params = {}, isHistory = false) => {
   const query = getQueryParams(params, isHistory)
 
   let openUrl = ''
-
   // 从预览组件配置获取自定义URL
   const customPreviewUrl = getMergeMeta('engine.toolbars.preview')?.options?.previewUrl
   const defaultPreviewUrl = isDevelopEnv ? `./preview.html` : `${href.endsWith('/') ? href : `${href}/`}preview`
@@ -287,17 +288,28 @@ const open = (params = {}, isHistory = false) => {
     return
   }
 
-  if (previewWindow && !previewWindow.closed) {
-    // 如果预览窗口存在，则聚焦预览窗口
-    previewWindow.focus()
-    return
+  if (params.previewType === 'app') {
+    if (previewAppWindow && !previewAppWindow.closed) {
+      // 如果预览窗口存在，则聚焦预览窗口
+      previewAppWindow.location.replace(openUrl)
+      previewAppWindow.focus()
+    } else {
+      // 打开新窗口并保存引用
+      previewAppWindow = window.open(openUrl, '_blank')
+    }
+  } else  {
+    if (previewWindow && !previewWindow.closed) {
+      // 如果预览窗口存在，则聚焦预览窗口
+      previewWindow.focus()
+      return
+    }
+
+    // 打开新窗口并保存引用
+    previewWindow = window.open(openUrl, '_blank')
+
+    // 设置 schemaChange 事件监听
+    setupSchemaChangeListener()
   }
-
-  // 打开新窗口并保存引用
-  previewWindow = window.open(openUrl, '_blank')
-
-  // 设置 schemaChange 事件监听
-  setupSchemaChangeListener()
 }
 
 export const previewPage = (params = {}, isHistory = false) => {

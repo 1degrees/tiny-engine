@@ -15,7 +15,7 @@ const parseSchema = (schema) => {
   return globalState
 }
 
-function genDependenciesPlugin(options = {}) {
+function genGlobalStatePlugin(options = {}) {
   const realOptions = mergeOptions(defaultOption, options)
 
   const { path } = realOptions
@@ -95,4 +95,4 @@ function genDependenciesPlugin(options = {}) {
   }
 }
 
-export default genDependenciesPlugin
+export default genGlobalStatePlugin

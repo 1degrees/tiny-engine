@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>2容器盒子</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="54.5348567%" x2="128.792906%" y2="38.4501322%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="45.6644259%" y1="86.8386553%" x2="107.888666%" y2="-43.8247102%" id="linearGradient-2">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="54.5127355%" x2="128.792906%" y2="38.5064729%" id="linearGradient-3">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="45.6644259%" y1="87.0192388%" x2="107.888666%" y2="-44.2846353%" id="linearGradient-4">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2容器盒子" fill-rule="nonzero">
+            <g id="2行列容器" transform="translate(31, 31)">
+                <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.604724702" x="18" y="0" width="45" height="15.75" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-2)" x="0" y="0" width="13.5" height="15.75" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-3)" opacity="0.204287574" x="18" y="23.625" width="45" height="15.75" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-2)" x="0" y="23.625" width="13.5" height="15.75" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-3)" opacity="0.204287574" x="18" y="47.2500001" width="45" height="15.75" rx="1"></rect>
+                <rect id="矩形" fill="url(#linearGradient-4)" opacity="0.604724702" x="0" y="47.2500001" width="13.5" height="15.75" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

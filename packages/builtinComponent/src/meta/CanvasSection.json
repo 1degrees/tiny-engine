@@ -1,6 +1,6 @@
 {
   "component": {
-    "icon": "FullWidthCenter",
+    "icon": "fill-box",
     "name": {
       "zh_CN": "全宽居中布局"
     },
@@ -62,7 +62,7 @@
     },
     "screenshot": "",
     "snippetName": "CanvasSection",
-    "icon": "FullWidthCenter",
+    "icon": "fill-box",
     "schema": {
       "componentName": "CanvasSection",
       "props": {}

@@ -204,10 +204,10 @@ const actions = {
     // 获取租户 id
     const getTenant = () => new URLSearchParams(location.search).get('tenant')
     const tenantId = getTenant() || ''
-    const href = window.location.href.split('?')[0] || './'
+    const href = window.location.origin || './'
     const openUrl = isDevelopEnv
       ? `./previewApp.html?appid=${appId}&tenant=${tenantId}`
-      : `${href}/previewApp?appid=${appId}&tenant=${tenantId}`
+      : `${href}/previewApp.html?appid=${appId}&tenant=${tenantId}`
     window.open(openUrl)
   }
 }

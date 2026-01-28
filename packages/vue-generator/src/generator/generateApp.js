@@ -1,3 +1,9 @@
+/*
+ * @Description: 
+ * @Date: 2025-03-10 11:01:46
+ * @LastEditors: xiaopang
+ * @LastEditTime: 2025-04-02 10:17:03
+ */
 import {
   genBlockPlugin,
   genDataSourcePlugin,
@@ -10,7 +16,9 @@ import {
   formatCodePlugin,
   parseSchemaPlugin,
   genGlobalState,
-  appendElePlusStylePlugin
+  genGlobalStyle,
+  appendElePlusStylePlugin,
+  appendAssetsResourcesPlugin
 } from '../plugins'
 import CodeGenerator from './codeGenerator'
 
@@ -25,9 +33,11 @@ export function generateApp(config = {}) {
     template: genTemplatePlugin(config.pluginConfig?.template || {}),
     block: genBlockPlugin(config.pluginConfig?.block || {}),
     page: genPagePlugin(config.pluginConfig?.page || {}),
+    assets: appendAssetsResourcesPlugin(config.pluginConfig?.page || {}),
     dataSource: genDataSourcePlugin(config.pluginConfig?.dataSource || {}),
     dependencies: genDependenciesPlugin(config.pluginConfig?.dependencies || {}),
     globalState: genGlobalState(config.pluginConfig?.globalState || {}),
+    globalStyle: genGlobalStyle(config.pluginConfig?.globalStyle || {}),
     i18n: genI18nPlugin(config.pluginConfig?.i18n || {}),
     router: genRouterPlugin(config.pluginConfig?.router || {}),
     utils: genUtilsPlugin(config.pluginConfig?.utils || {}),
@@ -40,6 +50,7 @@ export function generateApp(config = {}) {
     template,
     block,
     page,
+    assets,
     dataSource,
     dependencies,
     i18n,
@@ -48,6 +59,7 @@ export function generateApp(config = {}) {
     formatCode,
     parseSchema,
     globalState,
+    globalStyle,
     transformStart = [],
     transform = [],
     transformEnd = []
@@ -56,14 +68,15 @@ export function generateApp(config = {}) {
     template: template || defaultPlugins.template,
     block: block || defaultPlugins.block,
     page: page || defaultPlugins.page,
+    assets: assets || defaultPlugins.assets,
     dataSource: dataSource || defaultPlugins.dataSource,
     dependencies: dependencies || defaultPlugins.dependencies,
     i18n: i18n || defaultPlugins.i18n,
     router: router || defaultPlugins.router,
     utils: utils || defaultPlugins.utils,
-    globalState: globalState || defaultPlugins.globalState
+    globalState: globalState || defaultPlugins.globalState,
+    globalStyle: globalStyle || defaultPlugins.globalStyle
   }
-
   // 默认支持 element-plus 注入样式
   if (config?.customContext?.injectElementPlusStyle !== false) {
     transformEnd.push(appendElePlusStylePlugin(config?.customContext?.injectElementPlusStyle || {}))

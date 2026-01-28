@@ -1,6 +1,6 @@
 <template>
   <!-- TODO 后续抽取公共逻辑，迁移至公共组件 -->
-  <div class="draggable-tree" @dragleave="handleDragLeaveContainer">
+  <div class="draggable-tree outline-tree" @dragleave="handleDragLeaveContainer">
     <div
       v-for="row in rows"
       :key="row.id"

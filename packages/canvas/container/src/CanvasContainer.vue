@@ -1,18 +1,19 @@
 <template>
   <div v-for="state in multiSelectedStates" :key="state.id">
     <canvas-action
-      :hoverState="hoverState"
-      :inactiveHoverState="inactiveHoverState"
+      :resize="isResize"
       :selectState="state"
       :lineState="lineState"
-      :windowGetClickEventTarget="target"
-      :resize="canvasState.type === 'absolute'"
-      :multiStateLength="multiStateLength"
+      :hoverState="hoverState"
       :isMultiDragging="isMultiDragging"
+      :multiStateLength="multiStateLength"
+      :inactiveHoverState="inactiveHoverState"
+      :windowGetClickEventTarget="target"
       @select-slot="selectSlot"
       @setting="settingModel"
     ></canvas-action>
   </div>
+  <canvas-guide-line></canvas-guide-line>
   <canvas-multi-drag-indicator
     :lineState="lineState"
     :multiDragState="multiDragState"
@@ -57,7 +58,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { onMounted, ref, computed, onUnmounted, watch, watchEffect } from 'vue'
 import { iframeMonitoring } from '@opentiny/tiny-engine-common/js/monitor'
 import { useTranslate, useCanvas, useMessage, useResource } from '@opentiny/tiny-engine-meta-register'
@@ -73,6 +74,7 @@ import CanvasResizeBorder from './components/CanvasResizeBorder.vue'
 import CanvasMultiDragIndicator from './components/CanvasMultiDragIndicator.vue'
 import { useMultiSelect } from './composables/useMultiSelect'
 import { useMultiDrag } from './composables/useMultiDrag'
+import CanvasGuideLine from './components/CanvasGuideLine.vue'
 import {
   canvasState,
   onMouseUp,
@@ -100,6 +102,7 @@ export default {
     CanvasResize,
     CanvasMenu,
     CanvasDivider,
+    CanvasGuideLine,
     CanvasResizeBorder,
     CanvasRouterJumper,
     CanvasViewerSwitcher,
@@ -120,7 +123,7 @@ export default {
     const showSettingModel = ref(false)
     const target = ref(null)
     const srcAttrName = computed(() => (props.canvasSrc ? 'src' : 'srcdoc'))
-
+    const isResize = computed(() => canvasState.type === 'absolute')
     const containerPanel = ref(null)
     const insertContainer = ref(false)
 
@@ -390,7 +393,7 @@ export default {
         })
 
         // 阻止浏览器默认的右键菜单功能
-        win.oncontextmenu = (e) => {
+        win.oncontextmenu = (e: { preventDefault: () => void }) => {
           e.preventDefault()
         }
 
@@ -464,6 +467,7 @@ export default {
       multiStateLength,
       removeNodeById,
       selectSlot,
+      isResize,
       canvasState,
       insertComponent,
       insertPanel,

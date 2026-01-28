@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>5栅格布局</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="84.9498139%" x2="128.792906%" y2="-39.0139995%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="5栅格布局" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <g id="栅格布局" transform="translate(31, 31)">
+                <rect id="矩形" opacity="0.303770519" x="0" y="0" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.6" x="0" y="22.9090909" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.303770519" x="0" y="45.8181819" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.303770519" x="22.68" y="0" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.6" x="22.68" y="22.9090909" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.303770519" x="22.68" y="45.8181819" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.303770519" x="45.36" y="0" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.6" x="45.36" y="22.9090909" width="17.64" height="17.1818182" rx="1"></rect>
+                <rect id="矩形" opacity="0.303770519" x="45.36" y="45.8181819" width="17.64" height="17.1818182" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -286,16 +286,15 @@ export default {
     const openBackgroundImageModal = (event, { isAdd, index }) => {
       if (isAdd) {
         const styleObj = {
-          [BACKGROUND_PROPERTY.BackgroundImage]: 'linear-gradient(#000, #000)',
+          [BACKGROUND_PROPERTY.BackgroundImage]: '',
           [BACKGROUND_PROPERTY.BackgroundPosition]: null,
           [BACKGROUND_PROPERTY.BackgroundSize]: null,
           [BACKGROUND_PROPERTY.BackgroundRepeat]: null,
           [BACKGROUND_PROPERTY.BackgroundAttachment]: null
         }
-
         state.backgroundImageList.unshift({
-          type: 'ColorOverlay',
-          text: '#000',
+          type: 'ImageSetting',
+          text: TYPE_TEXT['ImageSetting'],
           styleObj
         })
       }

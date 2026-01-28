@@ -1,5 +1,5 @@
 <template>
-  <span class="toolbar-item-wrap" @click="click($event)">
+  <span class="toolbar-item-wrap" @click="click">
     <component :is="getRender()" v-bind="state">
       <template #default>
         <slot name="button"></slot>
@@ -47,9 +47,8 @@ export default {
       trigger: computed(() => props.trigger)
     })
 
-    const click = (e: any) => {
+    const click = () => {
       emit('click-api')
-      e.stopPropagation()
     }
 
     const getRender = () => {

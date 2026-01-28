@@ -16,7 +16,14 @@ export default defineConfig((configEnv) => {
     envDir: './env',
     publicDir: path.resolve(__dirname, './public'),
     server: {
-      port: 8090
+      port: 8090,
+      proxy: {
+        '/tiny-engine': {
+          target: 'http://172.31.243.45:8007/',  // 目标服务器地址
+          changeOrigin: true,
+          // rewrite: (path) => path.replace(/^\/tiny-engine/, '')  // 如果需要去掉前缀，取消注释这行
+        }
+      }
     }
   }
 

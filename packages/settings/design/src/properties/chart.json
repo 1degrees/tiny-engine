@@ -23,7 +23,7 @@
       "height": {
         "title": "设置图表容器的高度",
         "type": "string",
-        "default": "400px"
+        "default": "100%"
       },
       "init-options": {
         "title": "init 附加参数",

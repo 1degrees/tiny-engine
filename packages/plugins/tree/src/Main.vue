@@ -64,7 +64,7 @@ import {
   useHistory,
   getMergeMeta
 } from '@opentiny/tiny-engine-meta-register'
-import { extend } from '@opentiny/vue-renderless/common/object'
+import { extend } from '@opentiny/utils'
 import DraggableTree from './DraggableTree.vue'
 
 const { PAGE_STATUS } = constants
@@ -104,7 +104,6 @@ export default {
             translateChild(item.children)
           }
         })
-
         return data
       }
 

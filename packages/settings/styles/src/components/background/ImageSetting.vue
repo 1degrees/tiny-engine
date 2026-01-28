@@ -1,7 +1,8 @@
 <template>
   <div class="background-row line">
     <label class="image-label">背景图</label>
-    <tiny-input v-model="state.imgUrl" placeholder="请输入图片URL" @change="handleChangeImg"></tiny-input>
+    <SelectImgConfigurator v-model="state.imgUrl" @change="handleChangeImg" />
+    <!-- <tiny-input v-model="state.imgUrl" placeholder="请输入图片URL" @change="handleChangeImg"></tiny-input> -->
   </div>
   <div class="background-row line">
     <label class="size-label">大小</label>
@@ -62,6 +63,7 @@
 import { reactive, defineProps, defineEmits, onMounted } from 'vue'
 import { Input as TinyInput } from '@opentiny/vue'
 import { TabsGroupConfigurator } from '@opentiny/tiny-engine-configurator'
+import { SelectImgConfigurator } from '@opentiny/tiny-engine-configurator'
 import PositionOrigin from './PositionOrigin.vue'
 import InputSelect from '../inputs/InputSelect.vue'
 import {
@@ -214,6 +216,10 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+.meta-select-image {
+  width: 202px;
+}
+
 .image-content {
   display: grid;
   grid-template-columns: auto 1fr;

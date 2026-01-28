@@ -47,7 +47,7 @@
 import { reactive, ref, watchEffect, provide } from 'vue'
 import { useCanvas, usePage, useHelp, useModal, useNotify, useLayout } from '@opentiny/tiny-engine-meta-register'
 import { PluginPanel, SvgButton } from '@opentiny/tiny-engine-common'
-import { extend } from '@opentiny/vue-renderless/common/object'
+import { extend } from '@opentiny/utils'
 import PageSetting, { openPageSettingPanel, closePageSettingPanel } from './PageSetting.vue'
 import PageFolderSetting, { openFolderSettingPanel, closeFolderSettingPanel } from './PageFolderSetting.vue'
 import PageTree from './PageTree.vue'

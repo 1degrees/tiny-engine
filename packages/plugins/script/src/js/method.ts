@@ -12,11 +12,11 @@
 
 /* metaService: engine.plugins.pagecontroller.js-method */
 import { ref, reactive, onActivated, nextTick, watch } from 'vue'
-import { useCanvas, useModal, useNotify } from '@opentiny/tiny-engine-meta-register'
+import { useCanvas, useModal, useNotify, getMetaApi, META_APP } from '@opentiny/tiny-engine-meta-register'
 import { string2Ast, ast2String, insertName, formatString } from '@opentiny/tiny-engine-common/js/ast'
 import { constants } from '@opentiny/tiny-engine-utils'
 import { lint } from '@opentiny/tiny-engine-common/js/linter'
-import { isFunction } from '@opentiny/vue-renderless/grid/static'
+import { isFunction } from '@opentiny/utils'
 
 const { SCHEMA_DATA_TYPE } = constants
 
@@ -137,6 +137,7 @@ const saveMethods = async () => {
 
   useCanvas().updateSchema({ methods: newMethods })
   useCanvas().setSaved(false)
+  getMetaApi(META_APP.Save).openCommon()
 
   // 这里需要先置空，再设置回来真正的值, 目的是让 monaco 感知到变化, 更新内容。
   const newScript = getScriptString()
@@ -144,11 +145,6 @@ const saveMethods = async () => {
   await nextTick()
   state.script = newScript
   state.isChanged = false
-
-  useNotify({
-    type: 'success',
-    message: '保存成功！'
-  })
 
   return true
 }

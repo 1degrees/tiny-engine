@@ -1,3 +1,11 @@
+/*
+ * @Author: zhang·xiao
+ * @Date: 2025-02-11 18:00:58
+ * @LastEditors: zhang·xiao
+ * @LastEditTime: 2025-02-12 10:28:46
+ * @Description: 描述文件功能
+ */
+/* eslint-disable no-console */
 export const logDiffResult = (result) => {
   console.log(
     'Statistics - equal entries: %s, distinct entries: %s, left only entries: %s, right only entries: %s, differences: %s',

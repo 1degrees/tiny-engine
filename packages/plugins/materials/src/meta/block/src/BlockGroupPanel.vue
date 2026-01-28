@@ -150,12 +150,12 @@ export default {
           const resData =
             data?.map((item) => ({
               id: item.id,
-              version: item.current_version
+              version: item.current_version || item.version
             })) || []
           const selectedBlocks =
             selectedBlockArray?.value?.map((item) => ({
               id: item.id,
-              version: item.latestVersion
+              version: item.latestVersion || item.current_version || item.version
             })) || []
 
           if (selectedBlocks.length === 0) {

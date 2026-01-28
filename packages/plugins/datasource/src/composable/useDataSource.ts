@@ -13,8 +13,8 @@
 /* metaService: engine.service.dataSource.useDataSource */
 import { reactive } from 'vue'
 import { utils } from '@opentiny/tiny-engine-utils'
-import { isEqual } from '@opentiny/vue-renderless/common/object'
-import { isEmptyObject } from '@opentiny/vue-renderless/common/type'
+import { isEqual } from '@opentiny/utils'
+import { isEmptyObject } from '@opentiny/utils'
 import { useModal } from '@opentiny/tiny-engine-meta-register'
 
 const dataSourceState = reactive({
@@ -95,7 +95,7 @@ const handleConfirmSave = (
 
   if (!isDataSourceSame) {
     // 数据源名称，类型，字段改变，数据源修改
-    columns = dataSourceState.dataSourceColumn?.columns
+    columns = dataSourceState.dataSourceColumn?.columns || []
     name = dataSourceState.dataSourceColumn?.name
   }
 
@@ -104,7 +104,7 @@ const handleConfirmSave = (
     data: { type }
   } = dataSourceState.dataSource
 
-  const requestData = { name, data: { columns, data, type } }
+  const requestData = { name, id, data: { columns, data, type } }
 
   callback(id, requestData).then((data: any) => {
     if (data) {

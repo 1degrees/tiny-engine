@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="125px" viewBox="0 0 125 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>FilterPanel 过滤器面板</title>
+    <defs>
+        <linearGradient x1="44.0988019%" y1="52.3024161%" x2="128.792906%" y2="44.1359555%" id="linearGradient-1">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#FFCC00" offset="0%"></stop>
+            <stop stop-color="#FF9D00" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-3" cx="8" cy="8" r="8"></circle>
+        <filter x="-43.8%" y="-31.2%" width="187.5%" height="187.5%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feMorphology radius="4" operator="erode" in="SourceAlpha" result="shadowInner"></feMorphology>
+            <feOffset dx="0" dy="2" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.661752894   0 0 0 0 0.324547702   0 0 0 0 0.00489962574  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-46.9%" y="-34.4%" width="193.8%" height="193.8%" filterUnits="objectBoundingBox" id="filter-5">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="-4" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.841553619   0 0 0 0 0.341832308   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-6" points="7.71298757 6.80228137 6.27540338 20.814413 10.9449685 18.9202277 13.4194729 25.8022814 15.8096817 24.7804537 13.2116343 17.9762941 17.8108161 16.4874666"></polygon>
+        <filter x="-47.7%" y="-18.4%" width="195.4%" height="157.9%" filterUnits="objectBoundingBox" id="filter-7">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="44.0988019%" y1="62.3125297%" x2="128.792906%" y2="18.641106%" id="linearGradient-8">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="44.0988019%" y1="81.7639443%" x2="128.792906%" y2="-30.8998787%" id="linearGradient-9">
+            <stop stop-color="#5073E5" offset="0%"></stop>
+            <stop stop-color="#5E7CE0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="组件总览" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-TinyUI-Vue-组件总览2" transform="translate(-1478.000000, -1434.000000)">
+            <g id="编组-17备份-4" transform="translate(1380.000000, 1401.000000)">
+                <g id="FilterPanel-过滤器面板" transform="translate(98.000000, 33.000000)">
+                    <g id="编组"></g>
+                    <path d="M50.3275862,71 L89.3275862,71 C92.9174371,71 95.8275862,73.9101491 95.8275862,77.5 C95.8275862,81.0898509 92.9174371,84 89.3275862,84 L50.3275862,84 C46.7377353,84 43.8275862,81.0898509 43.8275862,77.5 C43.8275862,73.9101491 46.7377353,71 50.3275862,71 Z" id="路径" fill="url(#linearGradient-1)" opacity="0.303770519"></path>
+                    <g id="编组-23" transform="translate(70.000000, 74.000000)">
+                        <g id="椭圆形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-3"></use>
+                            <circle stroke="url(#linearGradient-2)" stroke-width="4" stroke-linejoin="square" cx="8" cy="8" r="6"></circle>
+                        </g>
+                        <g id="路径-2">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-7)" xlink:href="#path-6"></use>
+                            <use fill="#000000" fill-rule="evenodd" xlink:href="#path-6"></use>
+                        </g>
+                    </g>
+                    <rect id="矩形" fill="url(#linearGradient-8)" x="31" y="37" width="64" height="37" rx="4"></rect>
+                    <path d="M70,49 L87,49 C88.1045695,49 89,49.8954305 89,51 C89,52.1045695 88.1045695,53 87,53 L70,53 C68.8954305,53 68,52.1045695 68,51 C68,49.8954305 68.8954305,49 70,49 Z" id="矩形" fill="#FFFFFF"></path>
+                    <path d="M70,58 L83,58 C84.1045695,58 85,58.8954305 85,60 C85,61.1045695 84.1045695,62 83,62 L70,62 C68.8954305,62 68,61.1045695 68,60 C68,58.8954305 68.8954305,58 70,58 Z" id="矩形" fill="#FFFFFF" opacity="0.6"></path>
+                    <g id="编组-3" transform="translate(39.000000, 44.000000)">
+                        <circle id="椭圆形" stroke="#FFFFFF" fill="#FFFFFF" fill-rule="nonzero" cx="11" cy="11" r="11"></circle>
+                        <path d="M17.9294501,6.49964294 L12.2250734,13.2675337 L12.2250734,17.2041145 C12.2250734,17.2949587 12.1791937,17.3858028 12.1180207,17.4463656 L10.2828325,18.9301538 C10.0840204,19.0967014 9.77815575,18.9452945 9.77815575,18.6879026 L9.77815575,13.2675337 L4.07377904,6.49964294 C3.90555346,6.30281391 4.04319257,6 4.30317757,6 L17.6847583,6 C17.9447433,6 18.0976757,6.30281391 17.9294501,6.49964294 Z" id="路径" fill="url(#linearGradient-9)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

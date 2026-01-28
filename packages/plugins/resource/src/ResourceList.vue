@@ -427,7 +427,6 @@ export default {
         const params = addSourceData.value.map((item) => {
           return {
             name: item.name,
-            description: item.description || '',
             resourceGroupId: state.group.id,
             resourceData: item?.resourceData || '',
             resourceUrl: item?.resourceUrl || '',

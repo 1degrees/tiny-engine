@@ -12,63 +12,75 @@
     @fullScreenChange="fullScreenChange"
   >
     <template #content>
-      <div class="actions">
-        <tiny-button plain :disabled="!allowCreate" @click.stop="insertNewData"
-          ><svg-icon name="add" class="btn-icon"></svg-icon>新增静态数据</tiny-button
-        >
-        <tiny-button plain :disabled="state.isBatchDeleteDisable" @click.stop="batchDelete"
-          ><svg-icon class="btn-icon" name="delete"></svg-icon>删除</tiny-button
-        >
-        <tiny-button plain :disabled="!allowCreate" @click.stop="showImportModal(true)"
-          ><icon-upload class="btn-icon"></icon-upload>批量导入</tiny-button
-        >
-        <tiny-link type="primary" class="download" :underline="false" @click="download"
-          ><icon-download class="tiny-svg-size icon-download"></icon-download>下载导入模板</tiny-link
-        >
-      </div>
-      <div class="record-list-data">
-        <tiny-grid
-          ref="grid"
-          highlight-current-row
-          show-overflow
-          :show-icon="false"
-          :auto-resize="true"
-          :edit-config="{ trigger: 'click', mode: 'row', showStatus: false }"
-          :edit-rules="state.validRules"
-          :data="state.tableData"
-          :columns="state.columns"
-          column-min-width="150px"
-          @edit-closed="editClosed"
-          @select-change="handleSelectChange"
-          @select-all="handleSelectChange"
-        >
-          <template #empty>
-            <div class="empty-container">
-              <svg-icon class="empty-icon" name="empty"></svg-icon>
-              <p>
-                <span>暂无数据</span>
-                <span v-if="isEmptyColumn">
-                  <span>，请先</span>
-                  <span class="add-column" @click="$emit('edit')">新增字段</span>
-                </span>
-              </p>
-            </div>
-          </template>
-        </tiny-grid>
-        <tiny-pager
-          v-if="state.totalData.length > state.pagerConfig.pageSize"
-          class="data-source-list-pager"
-          layout="prev, pager, next"
-          is-before-page-change
-          :current-page="state.pagerConfig.currentPage"
-          :page-size="state.pagerConfig.pageSize"
-          :total="state.pagerConfig.total"
-          @before-page-change="handleBeforeChange"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-        >
-        </tiny-pager>
-      </div>
+      <template v-if="data?.data?.type === 'object'">
+        <p class="title-text">输入JSON数据，主要用途：接口数据的mock返回，用于页面预览。</p>
+        <monaco-editor
+          ref="editor"
+          class="monaco-editor"
+          :value="state.jsonValue"
+          :options="state.options"
+          @change="handleChange"
+        />
+      </template>
+      <template v-if="data?.data?.type !== 'object'">
+        <div class="actions">
+          <tiny-button plain :disabled="!allowCreate" @click.stop="insertNewData"
+            ><svg-icon name="add" class="btn-icon"></svg-icon>新增静态数据</tiny-button
+          >
+          <tiny-button plain :disabled="state.isBatchDeleteDisable" @click.stop="batchDelete"
+            ><svg-icon class="btn-icon" name="delete"></svg-icon>删除</tiny-button
+          >
+          <tiny-button plain :disabled="!allowCreate" @click.stop="showImportModal(true)"
+            ><icon-upload class="btn-icon"></icon-upload>批量导入</tiny-button
+          >
+          <tiny-link type="primary" class="download" :underline="false" @click="download">
+            <icon-download class="tiny-svg-size icon-download" />下载导入模板
+          </tiny-link>
+        </div>
+        <div class="record-list-data">
+          <tiny-grid
+            ref="grid"
+            highlight-current-row
+            show-overflow
+            :show-icon="false"
+            :auto-resize="true"
+            :edit-config="{ trigger: 'click', mode: 'row', showStatus: false }"
+            :edit-rules="state.validRules"
+            :data="state.tableData"
+            :columns="state.columns"
+            column-min-width="150px"
+            @edit-closed="editClosed"
+            @select-change="handleSelectChange"
+            @select-all="handleSelectChange"
+          >
+            <template #empty>
+              <div class="empty-container">
+                <svg-icon class="empty-icon" name="empty"></svg-icon>
+                <p>
+                  <span>暂无数据</span>
+                  <span v-if="isEmptyColumn">
+                    <span>，请先</span>
+                    <span class="add-column" @click="$emit('edit')">新增字段</span>
+                  </span>
+                </p>
+              </div>
+            </template>
+          </tiny-grid>
+          <tiny-pager
+            v-if="state.totalData.length > state.pagerConfig.pageSize"
+            class="data-source-list-pager"
+            layout="prev, pager, next"
+            is-before-page-change
+            :current-page="state.pagerConfig.currentPage"
+            :page-size="state.pagerConfig.pageSize"
+            :total="state.pagerConfig.total"
+            @before-page-change="handleBeforeChange"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
+          >
+          </tiny-pager>
+        </div>
+      </template>
     </template>
   </plugin-setting>
   <data-source-record-upload
@@ -83,15 +95,16 @@
 /* metaService: engine.plugins.collections.DataSourceRecordList */
 import { reactive, ref, watchEffect, watch, computed } from 'vue'
 import { camelize, capitalize } from '@vue/shared'
-import { Grid, Pager, Input, Numeric, DatePicker, Switch, Slider, Link, Button } from '@opentiny/vue'
-import { iconUpload } from '@opentiny/vue-icon'
+import useClipboard from 'vue-clipboard3'
+import { iconUpload, iconDownload } from '@opentiny/vue-icon'
 import { PluginSetting } from '@opentiny/tiny-engine-common'
 import { utils } from '@opentiny/tiny-engine-utils'
-import { useModal, useLayout, useNotify, useCanvas } from '@opentiny/tiny-engine-meta-register'
-import useClipboard from 'vue-clipboard3'
-import { fetchDataSourceDetail, requestUpdateDataSource } from './js/http'
-import { downloadFn, handleImportedData, overrideOrMergeData, getDataAfterPage } from './js/datasource'
 import DataSourceRecordUpload from './DataSourceRecordUpload.vue'
+import { VueMonaco as MonacoEditor } from '@opentiny/tiny-engine-common'
+import { fetchDataSourceDetail, requestUpdateDataSource } from './js/http'
+import { useModal, useLayout, useNotify, useCanvas } from '@opentiny/tiny-engine-meta-register'
+import { Grid, Pager, Input, Numeric, DatePicker, Switch, Slider, Link, Button } from '@opentiny/vue'
+import { downloadFn, handleImportedData, overrideOrMergeData, getDataAfterPage } from './js/datasource'
 
 const isOpen = ref(false)
 
@@ -111,7 +124,9 @@ export default {
     DataSourceRecordUpload,
     TinyLink: Link,
     TinyButton: Button,
-    IconUpload: iconUpload()
+    IconUpload: iconUpload(),
+    IconDownload: iconDownload(),
+    MonacoEditor
   },
   props: {
     // 数据源对象
@@ -123,6 +138,7 @@ export default {
   emits: ['edit'],
   setup(props, { emit }) {
     const grid = ref(null)
+    const edit = ref(null)
     const { confirm } = useModal()
     const { toClipboard } = useClipboard()
     const { layoutState, PLUGIN_NAME, getPluginByLayout } = useLayout()
@@ -145,7 +161,12 @@ export default {
         total: 0
       },
       showImportModal: false,
-      validRules: {}
+      validRules: {},
+      jsonValue: '',
+      options: {
+        language: 'json',
+        minimap: { enabled: true }
+      },
     })
 
     const allowCreate = computed(() => state.columns?.length > 0)
@@ -235,24 +256,23 @@ export default {
       if (Array.isArray(columns) && columns.length > 0) {
         state.validRules = genValidateRules(columns || [])
       }
-
+      if (res.data.type === 'object') {
+        return res.data?.data;
+      } else {
       // 兼容旧版本 唯一key 为 id 的场景
-      const result = res.data.data.map((item) => {
-        if (item._id) {
-          return item
-        }
-
-        return {
-          ...item,
-          _id: item.id
-        }
-      })
-
-      state.totalData = result
-
-      const data = result.slice(offset, offset + pageSize)
-
-      return data
+        const result = res.data?.data?.map?.((item) => {
+          if (item._id) {
+            return item
+          }
+          return {
+            ...item,
+            _id: item.id
+          }
+        })
+        state.totalData = result;
+        const data = result.slice(offset, offset + pageSize)
+        return data
+      }
     }
 
     const getGridData = ({ page, forceUseRemoteData }) => {
@@ -262,40 +282,44 @@ export default {
       return new Promise((resolve, reject) => {
         if (!forceUseRemoteData) {
           let newOffset = offset
-
           while (newOffset >= state.totalData.length && newOffset > 0) {
             newOffset -= pageSize
           }
-
           resolve({
             result: state.totalData.slice(newOffset, newOffset + pageSize),
+            json: props.data.data.type === 'object' ? state.jsonValue : '',
             page: {
               total: state.totalData.length
             }
           })
-          return
-        }
-
-        getMockPageData(offset, pageSize)
+        } else {
+          getMockPageData(offset, pageSize)
           .then((data) => {
             resolve({
               result: data,
+              json: props.data.data.type === 'object' ? data : '',
               page: { total: state.totalData.length }
             })
           })
           .catch((err) => {
             reject(err)
           })
+        }
       })
     }
 
     const fetchData = (forceUseRemoteData = false) => {
-      return getGridData({ page: state.pagerConfig, forceUseRemoteData }).then(({ result, page }) => {
+      return getGridData({ page: state.pagerConfig, forceUseRemoteData }).then(({ result, json, page }) => {
+        state.jsonValue = JSON.stringify(json, null, 2)
         state.tableData = result
         state.pagerConfig.total = page.total
         // 通知刷新mock数据到 appSchemaState
         emit('refresh')
       })
+    }
+
+    const handleChange = (val) => {
+      state.jsonValue = val
     }
 
     const handleCopy = (rowData) => {
@@ -395,9 +419,11 @@ export default {
         state.totalData = []
         state.pagerConfig.currentPage = 1
         fetchData(true).then(() => {
-          grid.value?.clearAll?.()
-          grid.value?.resetAll?.()
-          grid.value?.validate?.()
+          if (props.data.data.type !== 'object') {
+            grid.value?.clearAll?.()
+            grid.value?.resetAll?.()
+            grid.value?.validate?.()
+          }
         })
       }
     )
@@ -442,19 +468,28 @@ export default {
     }
 
     const saveRecordList = () => {
-      grid.value.validate((valid) => {
-        if (!valid) {
-          return
+      if ( props.data.data.type === 'object') {
+        try {
+          const data = JSON.parse(state.jsonValue);
+          saveRecordFormData(data)
+        } catch(err){
+          useNotify({ type: 'warning', message: '录入数据格式异常，数据非完整JSON格式' })
         }
+        state.jsonValue
+      } else {
+        grid.value.validate((valid) => {
+          if (!valid) {
+            return
+          }
 
-        const totalData = state.totalData
-        const columnsKeys = state.columns.map(({ name }) => name)
-        const data = totalData.map((item) =>
-          Object.fromEntries(Object.entries(item).filter(([key]) => columnsKeys.includes(key) || key === '_id'))
-        )
-
-        saveRecordFormData(data)
-      })
+          const totalData = state.totalData
+          const columnsKeys = state.columns.map(({ name }) => name)
+          const data = totalData.map((item) =>
+            Object.fromEntries(Object.entries(item).filter(([key]) => columnsKeys.includes(key) || key === '_id'))
+          )
+          saveRecordFormData(data)
+        })
+      }
     }
 
     const fullScreenChange = (value) => {
@@ -569,6 +604,7 @@ export default {
       isOpen,
       state,
       grid,
+      edit,
       closeRecordList,
       insertNewData,
       saveRecordFormData,
@@ -581,6 +617,7 @@ export default {
       editClosed,
       allowCreate,
       isEmptyColumn,
+      handleChange,
       handleSelectChange,
       handleCurrentChange,
       handleSizeChange,
@@ -593,15 +630,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.actions {
-  display: flex;
-  justify-content: left;
-  margin: 16px 0;
-  .box-all-delete {
-    margin: 1px 5px 0 5px;
-    .all-delete {
-      font-size: 14px;
-    }
+  .title-text {
+    font-size: var(--te-base-font-size-base);
+    color: var(--te-datasource-common-tip-text-color);
+    padding: 0 20px;
+  }
+  .monaco-editor {
+    height: calc(100vh - 200px);
   }
   .download {
     text-decoration: none;
@@ -620,65 +655,88 @@ export default {
       font-size: 16px;
     }
   }
-}
-
-.empty-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--te-datasource-common-text-color-weaken);
-  .empty-icon {
-    width: 50px;
-    height: 50px;
-  }
-  .add-column {
-    color: var(--te-datasource-json-border-color);
-    cursor: pointer;
-  }
-}
-
-.datasource-record-list {
-  width: 642px;
-  :deep(.option-container) {
+  .actions {
     display: flex;
+    justify-content: left;
+    margin: 16px 0;
+    .box-all-delete {
+      margin: 1px 5px 0 5px;
+      .all-delete {
+        font-size: 14px;
+      }
+    }
+    .download {
+      text-decoration: none;
+      display: inline-block;
+      font-size: 12px;
+      text-align: left;
+      padding: 0;
+      margin-left: 8px;
+      &:hover {
+        text-decoration: underline;
+      }
+      color: var(--te-datasource-common-text-color-primary);
+      .icon-download {
+        margin: 0 1px 4px 0;
+        font-size: 16px;
+      }
+    }
+  }
+  .empty-container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    .svg-icon {
-      margin-right: 10px;
-      color: var(--te-datasource-list-item-icon-color);
+    color: var(--te-datasource-common-text-color-weaken);
+    .empty-icon {
+      width: 50px;
+      height: 50px;
+    }
+    .add-column {
+      color: var(--te-datasource-json-border-color);
+      cursor: pointer;
     }
   }
-}
-
-.record-list-data {
-  :deep(.tiny-grid.tiny-grid-editable .tiny-grid-body__column.col__ellipsis) {
-    padding-left: 8px;
-  }
-  :deep(.data-source-list-pager) {
-    padding-right: 8px;
-    .tiny-pager__pages {
-      li.is-active {
-        background-color: var(--te-datasource-list-pager-bg-color);
+  .datasource-record-list {
+    width: 642px;
+    :deep(.option-container) {
+      display: flex;
+      align-items: center;
+      .svg-icon {
+        margin-right: 10px;
+        color: var(--te-datasource-list-item-icon-color);
       }
-      li {
-        &:not(.dot):not(.is-active):hover {
-          background-color: var(--te-datasource-common-bg-color-hover);
-          color: var(--te-datasource-common-text-color-primary);
+    }
+  }
+  .record-list-data {
+    :deep(.tiny-grid.tiny-grid-editable .tiny-grid-body__column.col__ellipsis) {
+      padding-left: 8px;
+    }
+    :deep(.data-source-list-pager) {
+      padding-right: 8px;
+      .tiny-pager__pages {
+        li.is-active {
+          background-color: var(--te-datasource-list-pager-bg-color);
+        }
+        li {
+          &:not(.dot):not(.is-active):hover {
+            background-color: var(--te-datasource-common-bg-color-hover);
+            color: var(--te-datasource-common-text-color-primary);
+          }
+        }
+      }
+      .tiny-pager__pull-left {
+        color: var(--te-datasource-toolbar-breadcrumb-text-color);
+      }
+      .tiny-pager__btn-next,
+      .tiny-pager__btn-prev {
+        &:not([disabled]):hover {
+          background-color: var(--te-datasource-icon-bg-color-hover);
+
+          svg {
+            color: var(--te-datasource-toolbar-icon-color);
+          }
         }
       }
     }
-    .tiny-pager__pull-left {
-      color: var(--te-datasource-toolbar-breadcrumb-text-color);
-    }
-    .tiny-pager__btn-next,
-    .tiny-pager__btn-prev {
-      &:not([disabled]):hover {
-        background-color: var(--te-datasource-icon-bg-color-hover);
-
-        svg {
-          color: var(--te-datasource-toolbar-icon-color);
-        }
-      }
-    }
   }
-}
 </style>

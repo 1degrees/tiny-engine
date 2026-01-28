@@ -6,7 +6,7 @@
   ></div>
 </template>
 
-<script>
+<script lang="ts">
 import { reactive, watch } from 'vue'
 import { useLayout, useCanvas } from '@opentiny/tiny-engine-meta-register'
 import { getCurrent, updateRect, querySelectById } from '../container'

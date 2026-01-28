@@ -1,6 +1,7 @@
-import { h, defineAsyncComponent } from 'vue'
+import { h, defineAsyncComponent, defineComponent } from 'vue'
 import { isHTMLTag } from '@vue/shared'
-import * as TinyVueIcon from '@opentiny/vue-icon'
+import { getSvgicon } from '@opentiny/vue'
+import * as TinyVueIcons from '@opentiny/vue-icon'
 
 import {
   CanvasRow,
@@ -27,7 +28,7 @@ import {
 import { getController } from '../canvas-function/controller'
 import BlockLoadError from '../BlockLoadError.vue'
 
-export const Mapper = {
+export const Mapper: Record<string, any> = {
   Icon: CanvasIcon,
   Text: CanvasText,
   Collection: CanvasCollection,
@@ -49,11 +50,11 @@ export const Mapper = {
   RouterLink: CanvasRouterLink,
   CanvasNavigation
 }
-const getNative = (name) => {
+const getNative = (name: string) => {
   return window.TinyLowcodeComponent?.[name]
 }
 
-const getBlock = (name) => {
+const getBlock = (name: string) => {
   return window.blocks?.[name]
 }
 
@@ -97,7 +98,7 @@ const loadBlockComponent = async (name: string) => {
 
 window.loadBlockComponent = loadBlockComponent
 
-const getBlockComponent = (name) => {
+const getBlockComponent = (name: string) => {
   return defineAsyncComponent(() => loadBlockComponent(name))
 }
 
@@ -111,8 +112,16 @@ export const removeBlockCompsCache = () => {
   blockComponentsBlobUrlMap.clear()
 }
 
-export const getIcon = (name) => TinyVueIcon?.[name]?.() || ''
-
-export const getComponent = (name) => {
+// 获取图标组件
+export const getIcon = (name: string) => {
+  return defineComponent({
+    name: 'Icon',
+    render() {
+      const { props } = this as any
+      return h(CanvasIcon, { name,...props })
+    }
+  })
+}
+export const getComponent = (name: string) => {
   return Mapper[name] || getNative(name) || getBlock(name) || (isHTMLTag(name) ? name : getBlockComponent(name))
 }

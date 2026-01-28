@@ -1,3 +1,9 @@
+/*
+ * @Description: 
+ * @Date: 2025-03-10 11:01:46
+ * @LastEditors: xiaopang
+ * @LastEditTime: 2025-03-13 10:43:14
+ */
 import { mergeOptions } from '../utils/mergeOptions'
 import { parseImport } from '@/generator/vue/sfc/parseImport'
 
@@ -28,10 +34,11 @@ const parseSchema = (schema) => {
 
   for (const { package: packageName, version, componentName } of componentsMap) {
     if (packageName && !resDeps[packageName] && componentsSet.has(componentName)) {
-      resDeps[packageName] = version || 'latest'
+      // todo 这个地方需要根据同步数据库里面的物料，根据物料的实际版本来
+      resDeps[packageName] = 'latest'
     }
   }
-
+  
   packages.forEach((item) => {
     const { package: packageName, version } = item
 
@@ -50,10 +57,12 @@ const parseSchema = (schema) => {
 
     resDeps[packageName] = version || 'latest'
   }
-
   // 处理内置 Icon，如果使用了 tinyvue 组件，则默认添加 @opentiny/vue-icon 依赖，且依赖与 @opentiny/vue 依赖版本一致
   if (resDeps['@opentiny/vue']) {
-    resDeps['@opentiny/vue-icon'] = resDeps['@opentiny/vue']
+    // todo 这个地方需要根据同步数据库里面的物料，根据物料的实际版本来
+    // resDeps['@opentiny/vue-icon'] = resDeps['@opentiny/vue']
+    resDeps['@opentiny/vue-icon'] = 'latest'
+
   }
 
   return resDeps
